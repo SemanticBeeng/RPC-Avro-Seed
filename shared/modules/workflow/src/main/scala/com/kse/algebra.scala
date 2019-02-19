@@ -17,22 +17,22 @@
 package com.kse
 
 import freestyle.free._
-import scala.concurrent.Future
+//import scala.concurrent.Future
 
-object algebra {
+//object algebra {
 
-  @free trait Interact {
-    def ask(prompt: String): FS[String]
+@free trait Interact {
+  def ask(prompt: String): FS[String]
 
-    def tell(msg: String): FS[Unit]
-  }
-
-  trait Implicits {
-    implicit val handler: Interact.Handler[Future] = new Interact.Handler[Future] {
-      def ask(prompt: String): Future[String] = ???
-      def tell(msg: String): Future[Unit]     = ???
-    }
-  }
-
-  object implicits extends Implicits
+  def tell(msg: String): FS[Unit]
 }
+
+//  trait Implicits {
+//    implicit val handler: Interact.Handler[Future] = new Interact.Handler[Future] {
+//      def ask(prompt: String): Future[String] = ???
+//      def tell(msg: String): Future[Unit]     = ???
+//    }
+//  }
+//
+//  object implicits extends Implicits
+//}

@@ -20,7 +20,8 @@ object ProjectPlugin extends AutoPlugin {
       val pureconfig     = "0.9.1"
       val shapeless      = "2.3.3"
       val kindProjector  = "0.9.9"
-      val paradise       = "2.1.1"
+      val scalameta_paradise   = "3.0.0-M11"
+      val scalamacros_paradise = "2.1.1"
     }
   }
 
@@ -102,7 +103,8 @@ object ProjectPlugin extends AutoPlugin {
       ),
       //scalafmtCheck := true,
       //scalafmtOnCompile := true,
-      addCompilerPlugin("org.scalamacros" % "paradise" % V.paradise cross CrossVersion.full),
+      addCompilerPlugin("org.scalameta" % "paradise" % V.scalameta_paradise cross CrossVersion.full),
+      addCompilerPlugin("org.scalamacros" % "paradise" % V.scalamacros_paradise cross CrossVersion.full),
       addCompilerPlugin("org.spire-math" %% "kind-projector" % V.kindProjector cross CrossVersion.binary)
     ) ++ resolvers
     //.settings(scalaMetaSettings)
