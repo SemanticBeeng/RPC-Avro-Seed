@@ -27,12 +27,12 @@ object algebra {
     def tell(msg: String): FS[Unit]
   }
 
-//  trait Implicits {
-//    implicit val handler: Interact.Handler[Future] = new Interact.Handler[Future] {
-//      def ask(prompt: String): Future[String] = ???
-//      def tell(msg: String): Future[Unit]     = ???
-//    }
-//  }
-//
-//  object implicits extends Implicits
+  trait Implicits {
+    implicit val handler: Interact.Handler[Future] = new Interact.Handler[Future] {
+      def ask(prompt: String): Future[String] = ???
+      def tell(msg: String): Future[Unit]     = ???
+    }
+  }
+
+  object implicits extends Implicits
 }
