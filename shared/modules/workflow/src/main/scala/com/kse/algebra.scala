@@ -45,12 +45,14 @@ object algebra {
 }
 
 object doIt extends App {
-  import algebra.Interact._
+  import algebra._
   import algebra.implicits._
 
   //Op[Interact]
-  val ask  = AskOp("prompt 1")
-  val tell = TellOp("message 1")
+  val ask = Interact.AskOp("prompt 1")
 
-  Await.result(handler(ask), 10 seconds)
+  val r: String = Await.result(handler(ask), 10 seconds)
+
+  val tell = Interact.TellOp(s"message = $r")
+  Await.result(handler(tell), 10 seconds)
 }
