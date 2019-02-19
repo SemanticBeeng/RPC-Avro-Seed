@@ -16,11 +16,10 @@
 
 package com.kse
 
-import com.kse.algebra.implicits
-import com.kse.algebra.implicits.handler
 import freestyle.free._
 
-import scala.concurrent.Future
+import scala.concurrent.{Await, Future}
+import scala.concurrent.duration._
 
 object algebra {
 
@@ -47,11 +46,11 @@ object algebra {
 
 object doIt extends App {
   import algebra.Interact._
-  import implicits._
+  import algebra.implicits._
 
   //Op[Interact]
   val ask  = AskOp("prompt 1")
   val tell = TellOp("message 1")
 
-  handler(ask)
+  Await.result(handler(ask), 10 seconds)
 }
