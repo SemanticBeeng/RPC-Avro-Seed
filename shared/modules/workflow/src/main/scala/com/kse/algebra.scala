@@ -16,7 +16,10 @@
 
 package com.kse
 
+import com.kse.algebra.implicits
+import com.kse.algebra.implicits.handler
 import freestyle.free._
+
 import scala.concurrent.Future
 
 object algebra {
@@ -29,16 +32,26 @@ object algebra {
 
   trait Implicits {
     implicit val handler: Interact.Handler[Future] = new Interact.Handler[Future] {
-      def ask(prompt: String): Future[String] = ???
-      def tell(msg: String): Future[Unit]     = ???
+
+      def ask(prompt: String): Future[String] = Future.successful {
+        println(prompt)
+        "koko"
+      }
+
+      def tell(msg: String): Future[Unit] = Future.successful(println(msg))
     }
   }
 
   object implicits extends Implicits
+}
 
-  {
-    import algebra.Interact._
-    AskOp("prompt 1")
-    TellOp("message 1")
-  }
+object doIt extends App {
+  import algebra.Interact._
+  import implicits._
+
+  //Op[Interact]
+  val ask  = AskOp("prompt 1")
+  val tell = TellOp("message 1")
+
+  handler(ask)
 }
