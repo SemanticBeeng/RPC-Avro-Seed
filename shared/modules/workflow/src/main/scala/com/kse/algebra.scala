@@ -14,28 +14,25 @@
  * limitations under the License.
  */
 
-package com.adrianrafo.seed
-package config
+package com.kse
 
-import cats.effect.Effect
-import cats.syntax.either._
-import pureconfig.{ConfigReader, Derivation}
+import freestyle.free._
+import scala.concurrent.Future
 
-trait ConfigService[F[_]] {
+object algebra {
 
-  def serviceConfig[Config](implicit reader: Derivation[ConfigReader[Config]]): F[Config]
+  @free trait Interact {
+    def ask(prompt: String): FS[String]
 
-}
-
-object ConfigService {
-  def apply[F[_]: Effect]: ConfigService[F] = new ConfigService[F] {
-
-    override def serviceConfig[Config](
-        implicit reader: Derivation[ConfigReader[Config]]): F[Config] =
-      Effect[F].fromEither(
-        pureconfig
-          .loadConfig[Config]
-          .leftMap(e => new IllegalStateException(s"Error loading configuration: $e")))
-
+    def tell(msg: String): FS[Unit]
   }
+
+  trait Implicits {
+    implicit val handler: Interact.Handler[Future] = new Interact.Handler[Future] {
+      def ask(prompt: String): Future[String] = ???
+      def tell(msg: String): Future[Unit]     = ???
+    }
+  }
+
+  object implicits extends Implicits
 }
