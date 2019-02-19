@@ -104,7 +104,7 @@ object ProjectPlugin extends AutoPlugin {
       //scalafmtCheck := true,
       //scalafmtOnCompile := true,
       addCompilerPlugin("org.scalameta" % "paradise" % V.scalameta_paradise cross CrossVersion.full),
-      addCompilerPlugin("org.scalamacros" % "paradise" % V.scalamacros_paradise cross CrossVersion.full),
+      //addCompilerPlugin("org.scalamacros" % "paradise" % V.scalamacros_paradise cross CrossVersion.full),
       addCompilerPlugin("org.spire-math" %% "kind-projector" % V.kindProjector cross CrossVersion.binary)
     ) ++ resolvers
     //.settings(scalaMetaSettings)
