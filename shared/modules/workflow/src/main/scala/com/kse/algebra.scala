@@ -35,4 +35,10 @@ object algebra {
   }
 
   object implicits extends Implicits
+
+  {
+    import algebra.Interact._
+    AskOp("prompt 1")
+    TellOp("message 1")
+  }
 }
