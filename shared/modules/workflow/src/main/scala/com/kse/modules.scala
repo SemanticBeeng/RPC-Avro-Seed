@@ -16,39 +16,36 @@
 
 package com.kse
 
-import freestyle.free._
+import algebras._
+import algebras.implicits._
 
-import scala.concurrent.{Await, Future}
+import scala.concurrent.Await
 import scala.concurrent.duration._
+import scala.language.postfixOps
 
-object algebra {
+object modules {
 
-  @free trait Interact {
-    def ask(prompt: String): FS[String]
+  import freestyle.free._
+  import freestyle.free.effects.error._
+  import freestyle.free.effects.error.implicits._
 
-    def tell(msg: String): FS[Unit]
+  import freestyle.free.effects.state
+
+  val st = state[List[String]]
+  import st.implicits._
+
+  @module trait App {
+
+    val persistence: st.StateM
+    val validation: Validation.StackSafe
+
+    val interact: Interact
+    val errorM: ErrorM
   }
-
-  trait Implicits {
-    implicit val handler: Interact.Handler[Future] = new Interact.Handler[Future] {
-
-      def ask(prompt: String): Future[String] = Future.successful {
-        println(prompt)
-        "koko"
-      }
-
-      def tell(msg: String): Future[Unit] = Future.successful(println(msg))
-    }
-  }
-
-  object implicits extends Implicits
 }
 
 object doIt extends App {
-  import algebra._
-  import algebra.implicits._
 
-  //Op[Interact]
   val ask = Interact.AskOp("prompt 1")
 
   val r: String = Await.result(handler(ask), 10 seconds)
