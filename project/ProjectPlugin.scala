@@ -16,6 +16,7 @@ object ProjectPlugin extends AutoPlugin {
       val logbackClassic = "1.2.3"
       val muRPC          = "0.17.2"
       val frees          = "0.8.3-SNAPSHOT"
+      val monix          = "3.0.0-RC2"
       val scopt          = "3.7.0"
       val pureconfig     = "0.9.1"
       val shapeless      = "2.3.3"
@@ -65,8 +66,24 @@ object ProjectPlugin extends AutoPlugin {
         "io.frees" %% "frees-async-cats-effect" % V.frees,
         "io.frees" %% "frees-monix" % V.frees)
 
+   lazy val monixLibs = Seq(
+      "io.monix" %% "monix-eval" % V.monix,
+      "io.monix" %% "monix-execution" % V.monix,
+      "io.monix" %% "monix-reactive" % V.monix
+    )
+
+  lazy val catsLibs =
+    Seq("org.typelevel" %% "cats-kernel",
+        "org.typelevel" %% "cats-macros",
+        "org.typelevel" %% "cats-core",
+        "org.typelevel" %% "cats-laws",
+        "org.typelevel" %% "cats-free",
+        "org.typelevel" %% "cats-testkit").map(_ % V.cats) ++
+    Seq("org.typelevel" %% "cats-effect").map(_ % V.catsEffect)
+
+
   lazy val workflowSettings: Seq[Def.Setting[_]] = Seq(
-    libraryDependencies ++= freesLibs // commonDeps ++ freestyleCoreDeps()
+    libraryDependencies ++= catsLibs ++ freesLibs ++ monixLibs// commonDeps ++ freestyleCoreDeps()
   )
 
  lazy val clientAppSettings: Seq[Def.Setting[_]] = logSettings ++ Seq(

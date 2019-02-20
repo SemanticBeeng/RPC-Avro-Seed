@@ -43,7 +43,7 @@ object modules {
     val errorM: ErrorM
   }
 
-  import cats.syntax.cartesian._
+  import cats.syntax.semigroupal._
 
   def program[F[_]](
       implicit I: Interact[F],
@@ -64,8 +64,8 @@ object doIt extends App {
 
   val ask = Interact.AskOp("prompt 1")
 
-  val r: String = Await.result(handler(ask), 10 seconds)
+  val r: String = Await.result(handlerInteract(ask), 10 seconds)
 
   val tell = Interact.TellOp(s"message = $r")
-  Await.result(handler(tell), 10 seconds)
+  Await.result(handlerInteract(tell), 10 seconds)
 }

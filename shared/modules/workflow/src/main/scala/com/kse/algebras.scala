@@ -37,7 +37,9 @@ object algebras {
   }
 
   trait Implicits {
-    implicit val handler: Interact.Handler[Future] = new Interact.Handler[Future] {
+    //import algebras.Interact
+
+    implicit val handlerInteract: Interact.Handler[Future] = new Interact.Handler[Future] {
 
       def ask(prompt: String): Future[String] = Future.successful {
         println(prompt)
@@ -49,4 +51,16 @@ object algebras {
   }
 
   object implicits extends Implicits
+
+  trait Implicits2 {
+
+    //import algebras.Interact
+
+    import monix.eval.Task
+    import cats.data.StateT
+
+    type Target[A] = StateT[Task, List[String], A]
+
+    //implicit val handlerInteract: Interact.Handler[Target] = new Interact.Handler[Target] {}
+  }
 }
