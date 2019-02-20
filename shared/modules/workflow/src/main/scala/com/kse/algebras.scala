@@ -57,10 +57,19 @@ object algebras {
     //import algebras.Interact
 
     import monix.eval.Task
+    import monix.cats._
     import cats.data.StateT
+    import cats.syntax.flatMap._
 
     type Target[A] = StateT[Task, List[String], A]
 
-    //implicit val handlerInteract: Interact.Handler[Target] = new Interact.Handler[Target] {}
+    implicit val handlerInteract: Interact.Handler[Target] = new Interact.Handler[Target] {
+
+      def ask(prompt: String): Target[String] = tell(prompt) >> StateT.liftF(Task.now("Isidoro1"))
+
+      def tell(msg: String): Target[Unit] = StateT.liftF { Task { println(msg) } }
+    }
   }
+
+  object implicit2 extends Implicits2
 }

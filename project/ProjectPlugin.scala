@@ -17,12 +17,13 @@ object ProjectPlugin extends AutoPlugin {
       val muRPC          = "0.17.2"
       val frees          = "0.8.3-SNAPSHOT"
       val monix          = "3.0.0-RC2"
+      val monixCats      = "2.3.3"
       val scopt          = "3.7.0"
-      val pureconfig     = "0.9.1"
+      val pureconfig     = "0.9.1" // "0.10.2"
       val shapeless      = "2.3.3"
       val kindProjector  = "0.9.9"
       val scalameta_paradise   = "3.0.0-M11"
-      val scalamacros_paradise = "2.1.1"
+      //val scalamacros_paradise = "2.1.1"
     }
   }
 
@@ -69,7 +70,8 @@ object ProjectPlugin extends AutoPlugin {
    lazy val monixLibs = Seq(
       "io.monix" %% "monix-eval" % V.monix,
       "io.monix" %% "monix-execution" % V.monix,
-      "io.monix" %% "monix-reactive" % V.monix
+      "io.monix" %% "monix-reactive" % V.monix,
+      "io.monix" %% "monix-cats" % V.monixCats
     )
 
   lazy val catsLibs =
