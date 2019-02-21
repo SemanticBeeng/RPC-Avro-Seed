@@ -57,7 +57,7 @@ object algebras {
     //import algebras.Interact
 
     import monix.eval.Task
-    import monix.cats._
+    //import monix.cats._
     import cats.data.StateT
     import cats.syntax.flatMap._
 
