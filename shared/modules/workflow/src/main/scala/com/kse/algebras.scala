@@ -37,7 +37,6 @@ object algebras {
   }
 
   trait Implicits {
-    //import algebras.Interact
 
     implicit val handlerInteract: Interact.Handler[Future] = new Interact.Handler[Future] {
 
@@ -54,10 +53,7 @@ object algebras {
 
   trait Implicits2 {
 
-    //import algebras.Interact
-
     import monix.eval.Task
-    //import monix.cats._
     import cats.data.StateT
     import cats.syntax.flatMap._
 

@@ -1,5 +1,4 @@
 import higherkindness.mu.rpc.idlgen.IdlGenPlugin.autoImport._
-import org.scalafmt.sbt.ScalafmtPlugin.autoImport._
 import sbt.Keys._
 import sbt.{AutoPlugin, PluginTrigger, Resolver, _}
 
@@ -17,7 +16,6 @@ object ProjectPlugin extends AutoPlugin {
       val muRPC          = "0.17.2"
       val frees          = "0.8.3-SNAPSHOT"
       val monix          = "3.0.0-RC2"
-      //val monixCats      = "2.3.3"
       val scopt          = "3.7.0"
       val pureconfig     = "0.9.1" // "0.10.2"
       val shapeless      = "2.3.3"
@@ -70,9 +68,7 @@ object ProjectPlugin extends AutoPlugin {
    lazy val monixLibs = Seq(
       "io.monix" %% "monix-eval" % V.monix,
       "io.monix" %% "monix-execution" % V.monix,
-      "io.monix" %% "monix-reactive" % V.monix
-      //"io.monix" %% "monix-cats" % V.monixCats
-    )
+      "io.monix" %% "monix-reactive" % V.monix)
 
   lazy val catsLibs =
     Seq("org.typelevel" %% "cats-kernel",
@@ -85,7 +81,7 @@ object ProjectPlugin extends AutoPlugin {
 
 
   lazy val workflowSettings: Seq[Def.Setting[_]] = Seq(
-    libraryDependencies ++= catsLibs ++ freesLibs ++ monixLibs// commonDeps ++ freestyleCoreDeps()
+    libraryDependencies ++= catsLibs ++ freesLibs ++ monixLibs // commonDeps ++ freestyleCoreDeps()
   )
 
  lazy val clientAppSettings: Seq[Def.Setting[_]] = logSettings ++ Seq(
