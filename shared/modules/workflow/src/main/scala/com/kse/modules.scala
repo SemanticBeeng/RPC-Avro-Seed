@@ -19,8 +19,6 @@ package com.kse
 import algebras._
 import algebras.implicits._
 
-import scala.concurrent.Await
-import scala.concurrent.duration._
 import scala.language.postfixOps
 
 object modules {
@@ -34,7 +32,7 @@ object modules {
   val st = state[List[String]]
   import st.implicits._
 
-  @module trait App {
+  @module trait FreeApp {
 
     val persistence: st.StateM
     val validation: Validation.StackSafe
@@ -58,14 +56,4 @@ object modules {
       _       ← I.tell(cats.toString)
     } yield ()
   }
-}
-
-object doIt extends App {
-
-  val ask = Interact.AskOp("prompt 1")
-
-  val r: String = Await.result(handlerInteract(ask), 10 seconds)
-
-  val tell = Interact.TellOp(s"message = $r")
-  Await.result(handlerInteract(tell), 10 seconds)
 }

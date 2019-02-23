@@ -63,7 +63,15 @@ object algebras {
 
       def ask(prompt: String): Target[String] = tell(prompt) >> StateT.liftF(Task.now("Isidoro1"))
 
-      def tell(msg: String): Target[Unit] = StateT.liftF { Task { println(msg) } }
+      def tell(msg: String): Target[Unit] = StateT.liftF(Task { println(msg) })
+    }
+
+    implicit val validationHandler: Validation.Handler[Target] = new Validation.Handler[Target] {
+
+      def minSize(s: String, n: Int): Target[Boolean] = StateT.liftF(Task.now(s.length >= n))
+
+      def hasNumber(s: String): Target[Boolean] =
+        StateT.liftF(Task.now(s.exists(c ⇒ "0123456789".contains(c))))
     }
   }
 
