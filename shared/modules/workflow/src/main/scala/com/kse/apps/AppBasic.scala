@@ -16,18 +16,28 @@
 
 package com.kse.apps
 
-import com.kse.algebras.Interact
-import com.kse.algebras.implicits._
-//
 import scala.concurrent.Await
 import scala.concurrent.duration._
+//
+import monix.execution.Scheduler.Implicits.global
 
 object AppBasic extends scala.App {
 
+  import com.kse.algebras.Interact
+  import com.kse.algebras.implicits._
+
   val ask = Interact.AskOp("prompt 1")
 
-  val r: String = Await.result(handlerInteract(ask), 10 seconds)
+  val r: String = Await.result(handlerInteract(ask), 3 seconds)
 
   val tell = Interact.TellOp(s"message = $r")
-  Await.result(handlerInteract(tell), 10 seconds)
+  Await.result(handlerInteract(tell), 3 seconds)
+
+  import com.kse.algebras.Validation
+  import com.kse.algebras.implicit2._
+
+  val hasNumber = Validation.StackSafe.HasNumberOp("abc2")
+
+  val e = Await.result(validationHandler(hasNumber).runF.runToFuture, 3 seconds)
+  println(e)
 }
