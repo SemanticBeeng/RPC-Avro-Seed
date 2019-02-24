@@ -16,23 +16,23 @@
 
 package com.kse
 
-import algebras._
-import handlers.implicits._
-
-//import scala.language.postfixOps
+import freestyle.free.debug
 
 object modules {
 
+  import algebras._
+  //import handlers.implicits._
   import freestyle.free._
   import freestyle.free.effects.error._
   import freestyle.free.effects.error.implicits._
-
   import freestyle.free.effects.state
 
   val st = state[List[String]]
   import st.implicits._
 
-  @module trait FreeApp {
+  @debug
+  @module
+  trait FreeApp {
 
     val persistence: st.StateM
     val errorM: ErrorM

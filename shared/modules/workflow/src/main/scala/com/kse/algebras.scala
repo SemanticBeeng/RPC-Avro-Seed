@@ -22,13 +22,15 @@ import freestyle.tagless._
 object algebras {
 
   /* Handles user interaction */
-  @free trait Interact {
+  @free
+  trait Interact {
     def ask(prompt: String): FS[String]
     def tell(msg: String): FS[Unit]
   }
 
   /* Validates user input */
-  @tagless(stacksafe = true) trait Validation {
+  @tagless(stacksafe = true)
+  trait Validation {
     def minSize(s: String, n: Int): FS[Boolean]
     def hasNumber(s: String): FS[Boolean]
   }
