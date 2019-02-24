@@ -19,14 +19,11 @@ package com.kse
 import freestyle.free._
 import freestyle.tagless._
 
-import scala.concurrent.Future
-
 object algebras {
 
   /* Handles user interaction */
   @free trait Interact {
     def ask(prompt: String): FS[String]
-
     def tell(msg: String): FS[Unit]
   }
 
@@ -36,44 +33,4 @@ object algebras {
     def hasNumber(s: String): FS[Boolean]
   }
 
-  trait Implicits {
-
-    implicit val handlerInteract: Interact.Handler[Future] = new Interact.Handler[Future] {
-
-      def ask(prompt: String): Future[String] = Future.successful {
-        println(prompt)
-        "koko"
-      }
-
-      def tell(msg: String): Future[Unit] = Future.successful(println(msg))
-    }
-  }
-
-  object implicits extends Implicits
-
-  trait Implicits2 {
-
-    import monix.eval.Task
-    import cats.data.StateT
-    import cats.syntax.flatMap._
-
-    type Target[A] = StateT[Task, List[String], A]
-
-    implicit val handlerInteract: Interact.Handler[Target] = new Interact.Handler[Target] {
-
-      def ask(prompt: String): Target[String] = tell(prompt) >> StateT.liftF(Task.now("Isidoro1"))
-
-      def tell(msg: String): Target[Unit] = StateT.liftF(Task { println(msg) })
-    }
-
-    implicit val validationHandler: Validation.Handler[Target] = new Validation.Handler[Target] {
-
-      def minSize(s: String, n: Int): Target[Boolean] = StateT.liftF(Task.now(s.length >= n))
-
-      def hasNumber(s: String): Target[Boolean] =
-        StateT.liftF(Task.now(s.exists(c ⇒ "0123456789".contains(c))))
-    }
-  }
-
-  object implicit2 extends Implicits2
 }

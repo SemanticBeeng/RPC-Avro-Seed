@@ -17,9 +17,9 @@
 package com.kse
 
 import algebras._
-import algebras.implicits._
+import handlers.implicits._
 
-import scala.language.postfixOps
+//import scala.language.postfixOps
 
 object modules {
 
@@ -35,10 +35,10 @@ object modules {
   @module trait FreeApp {
 
     val persistence: st.StateM
-    val validation: Validation.StackSafe
+    val errorM: ErrorM
 
     val interact: Interact
-    val errorM: ErrorM
+    val validation: Validation.StackSafe
   }
 
   import cats.syntax.semigroupal._

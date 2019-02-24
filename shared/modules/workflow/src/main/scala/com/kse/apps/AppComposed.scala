@@ -18,6 +18,7 @@ package com.kse.apps
 
 import freestyle.free._
 import freestyle.free.implicits._
+
 //
 import cats.instances.list._
 //
@@ -25,12 +26,14 @@ import monix.execution.Scheduler.Implicits.global
 //
 import scala.concurrent.Await
 import scala.concurrent.duration._
+import scala.language.postfixOps
 
 object AppComposed extends scala.App {
 
+  import com.kse.algebras._
+  import com.kse.handlers.implicits2._
   import com.kse.modules.FreeApp
   import com.kse.modules._
-  import com.kse.algebras.implicit2._
 
   val concreteProgram = program[FreeApp.Op]
   val state           = concreteProgram.interpret[Target]

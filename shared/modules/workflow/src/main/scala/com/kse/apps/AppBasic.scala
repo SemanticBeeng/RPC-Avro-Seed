@@ -20,11 +20,13 @@ import scala.concurrent.Await
 import scala.concurrent.duration._
 //
 import monix.execution.Scheduler.Implicits.global
+//
+import scala.language.postfixOps
 
 object AppBasic extends scala.App {
 
-  import com.kse.algebras.Interact
-  import com.kse.algebras.implicits._
+  import com.kse.algebras._
+  import com.kse.handlers.implicits._
 
   val ask = Interact.AskOp("prompt 1")
 
@@ -34,7 +36,7 @@ object AppBasic extends scala.App {
   Await.result(handlerInteract(tell), 3 seconds)
 
   import com.kse.algebras.Validation
-  import com.kse.algebras.implicit2._
+  import com.kse.handlers.implicits2._
 
   val hasNumber = Validation.StackSafe.HasNumberOp("abc2")
 
