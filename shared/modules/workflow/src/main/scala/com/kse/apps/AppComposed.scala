@@ -35,7 +35,8 @@ object AppComposed extends scala.App {
   import com.kse.modules.FreeApp
   import com.kse.modules._
 
-  val concreteProgram = program[FreeApp.Op]
+  val app             = FreeApp[FreeApp.Op]
+  val concreteProgram = app.program[FreeApp.Op]
   val state           = concreteProgram.interpret[Target]
   val task            = state.runEmpty
 

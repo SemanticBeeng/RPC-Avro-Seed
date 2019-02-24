@@ -39,21 +39,22 @@ object modules {
 
     val interact: Interact
     val validation: Validation.StackSafe
-  }
 
-  import cats.syntax.semigroupal._
+    import cats.syntax.semigroupal._
 
-  def program[F[_]](
-      implicit I: Interact[F],
-      E: ErrorM[F],
-      R: st.StateM[F],
-      V: Validation.StackSafe[F]): FreeS[F, Unit] = {
-    for {
-      cat     ← I.ask("what is your kitty name?")
-      isValid ← (V.minSize(cat, 5) |@| V.hasNumber(cat)).map(_ && _)
-      _       ← if (isValid) R.modify(cat :: _) else E.error(new RuntimeException(s"Invalid name $cat!"))
-      cats    ← R.get
-      _       ← I.tell(cats.toString)
-    } yield ()
+    def program[F[_]](
+        implicit I: Interact[F],
+        E: ErrorM[F],
+        R: st.StateM[F],
+        V: Validation.StackSafe[F]): FreeS[F, Unit] = {
+      for {
+        cat     ← I.ask("what is your kitty name?")
+        isValid ← (V.minSize(cat, 5) |@| V.hasNumber(cat)).map(_ && _)
+        _ ← if (isValid) R.modify(cat :: _)
+        else E.error(new RuntimeException(s"Invalid name $cat!"))
+        cats ← R.get
+        _    ← I.tell(cats.toString)
+      } yield ()
+    }
   }
 }
