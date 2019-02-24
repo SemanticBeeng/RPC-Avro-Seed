@@ -54,14 +54,15 @@ object handlers {
         StateT.liftF(Task { println(msg) })
     }
 
-    implicit val validationHandler: Validation.Handler[Target] = new Validation.Handler[Target] {
+    implicit val validationHandler: Validation.Handler[Target] =
+      new Validation.Handler[Target] {
 
-      def minSize(s: String, n: Int): Target[Boolean] =
-        StateT.liftF(Task.now(s.length >= n))
+        def minSize(s: String, n: Int): Target[Boolean] =
+          StateT.liftF(Task.now(s.length >= n))
 
-      def hasNumber(s: String): Target[Boolean] =
-        StateT.liftF(Task.now(s.exists(c ⇒ "0123456789".contains(c))))
-    }
+        def hasNumber(s: String): Target[Boolean] =
+          StateT.liftF(Task.now(s.exists(c ⇒ "0123456789".contains(c))))
+      }
   }
 
   object implicits2 extends Implicits2

@@ -21,8 +21,8 @@ import freestyle.free.debug
 object modules {
 
   import algebras._
-  //import handlers.implicits._
   import freestyle.free._
+  import freestyle.free.implicits._
   import freestyle.free.effects.error._
   import freestyle.free.effects.error.implicits._
   import freestyle.free.effects.state
