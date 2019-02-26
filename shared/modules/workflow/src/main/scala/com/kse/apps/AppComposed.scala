@@ -18,8 +18,6 @@ package com.kse.apps
 
 import freestyle.free._
 import freestyle.free.implicits._
-import freestyle.free.effects.error._
-import freestyle.free.effects.error.implicits._
 
 import monix.execution.Scheduler.Implicits.global
 //
@@ -39,6 +37,9 @@ object AppComposed extends scala.App {
 
     import cats.arrow.FunctionK
 
+    import freestyle.free.effects.error._
+    import freestyle.free.effects.error.implicits._
+
     val errHandler: FunctionK[ErrorM.Op, Target]        = implicitly[FunctionK[ErrorM.Op, Target]]
     val stHandler: FunctionK[st.StateM.Op, Target]      = implicitly[FunctionK[st.StateM.Op, Target]]
     val interactHandler: FunctionK[Interact.Op, Target] = implicitly[FunctionK[Interact.Op, Target]]
@@ -52,26 +53,22 @@ object AppComposed extends scala.App {
     ()
   }
 
-  import com.kse.algebras._
-
-  import com.kse.handlers.implicits2._
-  import com.kse.modules.{st, FreeApp, _}
-  //import cats.data.State
   import cats.instances.list._
-  //import cats.mtl.instances.state._
-
-  //import cats.mtl.instances.all._
-  import st.implicits._
+  import cats.mtl.instances.state._ // essential for the interpret below to work
 
   import com.kse.algebras._
-  import com.kse.handlers.implicits2._
-  import cats.mtl.instances.state._ // critical
-  import com.kse.modules.st
+
+  import com.kse.modules.{st, _}
   import st.implicits._
+
+  import com.kse.handlers.implicits2._
 
 //  import iota._
 //  import iota.debug.options.ShowTrees
+  import freestyle.free.effects.error._
+  import freestyle.free.effects.error.implicits._
 
+  import com.kse.modules.FreeApp
   val app             = FreeApp[FreeApp.Op]
   val concreteProgram = app.program[FreeApp.Op]
   val state           = concreteProgram.interpret[Target]
