@@ -56,17 +56,17 @@ object AppComposed extends scala.App {
   import cats.instances.list._
   import cats.mtl.instances.state._ // essential for the interpret below to work
 
+  import freestyle.free.effects.error._
+  import freestyle.free.effects.error.implicits._
+
   import com.kse.algebras._
+  import com.kse.handlers.implicits2._
 
   import com.kse.modules.{st, _}
   import st.implicits._
 
-  import com.kse.handlers.implicits2._
-
 //  import iota._
 //  import iota.debug.options.ShowTrees
-  import freestyle.free.effects.error._
-  import freestyle.free.effects.error.implicits._
 
   import com.kse.modules.FreeApp
   val app             = FreeApp[FreeApp.Op]
