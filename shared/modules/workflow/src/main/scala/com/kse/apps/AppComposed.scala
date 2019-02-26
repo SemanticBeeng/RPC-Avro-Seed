@@ -18,10 +18,9 @@ package com.kse.apps
 
 import freestyle.free._
 import freestyle.free.implicits._
+import freestyle.free.effects.error._
+import freestyle.free.effects.error.implicits._
 
-//
-import cats.instances.list._
-//
 import monix.execution.Scheduler.Implicits.global
 //
 import scala.concurrent.Await
@@ -30,10 +29,48 @@ import scala.language.postfixOps
 
 object AppComposed extends scala.App {
 
+  def debugImplicits = {
+
+    import com.kse.algebras._
+    import com.kse.handlers.implicits2._
+    import cats.mtl.instances.state._ // critical
+    import com.kse.modules.st
+    import st.implicits._
+
+    import cats.arrow.FunctionK
+
+    val errHandler: FunctionK[ErrorM.Op, Target]        = implicitly[FunctionK[ErrorM.Op, Target]]
+    val stHandler: FunctionK[st.StateM.Op, Target]      = implicitly[FunctionK[st.StateM.Op, Target]]
+    val interactHandler: FunctionK[Interact.Op, Target] = implicitly[FunctionK[Interact.Op, Target]]
+    val validateHandler: FunctionK[Validation.StackSafe.Op, Target] =
+      implicitly[FunctionK[Validation.StackSafe.Op, Target]]
+
+    //val interpreter     = FreeS[FreeApp.Op, Target] //= CopK.FunctionK.summon
+    import com.kse.modules.FreeApp
+
+    val inter: FSHandler[FreeApp.Op, Target] = interpretIotaCopK[FreeApp.Op, Target]
+    ()
+  }
+
+  import com.kse.algebras._
+
+  import com.kse.handlers.implicits2._
+  import com.kse.modules.{st, FreeApp, _}
+  //import cats.data.State
+  import cats.instances.list._
+  //import cats.mtl.instances.state._
+
+  //import cats.mtl.instances.all._
+  import st.implicits._
+
   import com.kse.algebras._
   import com.kse.handlers.implicits2._
-  import com.kse.modules.FreeApp
-  import com.kse.modules._
+  import cats.mtl.instances.state._ // critical
+  import com.kse.modules.st
+  import st.implicits._
+
+//  import iota._
+//  import iota.debug.options.ShowTrees
 
   val app             = FreeApp[FreeApp.Op]
   val concreteProgram = app.program[FreeApp.Op]
