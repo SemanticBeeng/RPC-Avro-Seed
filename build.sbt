@@ -36,7 +36,7 @@ lazy val server_protocol = (project in file("server/modules/protocol"))
   .settings(serverProtocolSettings)
 
 lazy val server_process = (project in file("server/modules/process"))
-  .settings(serverSettings)
+  .settings(serverSettings ++ workflowSettings)
   .dependsOn(server_common, server_protocol)
 
 lazy val server_app = (project in file("server/modules/app"))
