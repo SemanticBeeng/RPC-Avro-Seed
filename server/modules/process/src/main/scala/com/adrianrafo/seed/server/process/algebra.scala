@@ -25,7 +25,9 @@ import freestyle.tagless._
 
 object algebra {
 
+  import com.adrianrafo.seed.server.protocol._
+
   @tagless(stacksafe = true)
-  abstract class PeopleServiceF[F[_]] extends com.adrianrafo.seed.server.protocol.PeopleService[F]
+  abstract class PeopleService[F[_]] extends com.adrianrafo.seed.server.protocol.PeopleService[F]
 
 }
