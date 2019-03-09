@@ -20,11 +20,12 @@ import com.kse.algebras._
 
 object handlers {
 
+  import freestyle.free._
   trait Implicits {
 
     import scala.concurrent.Future
 
-    implicit val handlerInteract: Interact.Handler[Future] = new Interact.Handler[Future] {
+    implicit val handlerInteract: FSHandler[Interact.Op, Future] = new Interact.Handler[Future] {
 
       def ask(prompt: String): Future[String] = Future.successful {
         println(prompt)
@@ -45,7 +46,7 @@ object handlers {
 
     type Target[A] = StateT[Task, List[String], A]
 
-    implicit val handlerInteract: Interact.Handler[Target] = new Interact.Handler[Target] {
+    implicit val handlerInteract: FSHandler[Interact.Op, Target] = new Interact.Handler[Target] {
 
       def ask(prompt: String): Target[String] =
         tell(prompt) >> StateT.liftF(Task.now("Isidoro1"))

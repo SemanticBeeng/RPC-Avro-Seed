@@ -23,7 +23,8 @@ import com.adrianrafo.seed.server.protocol._
 import io.chrisdavenport.log4cats.Logger
 import shapeless.{:+:, CNil, Coproduct}
 
-class PeopleServiceHandler[F[_]: Sync](implicit L: Logger[F]) extends algebra.PeopleService[F] {
+class PeopleServiceHandler[F[_]: Sync](implicit L: Logger[F])
+    extends /*algebra.*/ PeopleService[F] {
 
   val serviceName = "PeopleService"
 

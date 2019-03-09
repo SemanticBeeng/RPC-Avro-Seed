@@ -17,17 +17,19 @@
 package com.adrianrafo.seed.server.process
 
 import freestyle.free._
-import freestyle.tagless._
+import freestyle.free.implicits._
 
-//import higherkindness.mu.rpc.internal.encoders.avro.bigDecimalTagged._
-//import higherkindness.mu.rpc.internal.encoders.avro.javatime._
-//import higherkindness.mu.rpc.protocol._
-
+/**
+ * #todo this is wip (ignore)
+ */
 object algebra {
 
   import com.adrianrafo.seed.server.protocol._
 
-  @tagless(stacksafe = true)
-  abstract class PeopleService[F[_]] extends com.adrianrafo.seed.server.protocol.PeopleService[F]
+  @free
+  trait PeopleService[F[_]] extends com.adrianrafo.seed.server.protocol.PeopleService[F] {
+    def getPerson(request: com.adrianrafo.seed.server.protocol.PeopleRequest): FS[
+      com.adrianrafo.seed.server.protocol.PeopleResponse]
+  }
 
 }
