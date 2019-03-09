@@ -20,12 +20,11 @@ import higherkindness.mu.rpc.internal.encoders.avro.bigDecimalTagged._
 import higherkindness.mu.rpc.internal.encoders.avro.javatime._
 import higherkindness.mu.rpc.protocol.{service, _}
 
-trait api {
-  import com.kse.services.session._
+object api {
 
   @service(AvroWithSchema)
   trait AuthenticationService[F[_]] {
-    def authenticate(email: String): Session
+    def authenticate(email: String): F[com.kse.services.session.api.Session]
 
   }
 }

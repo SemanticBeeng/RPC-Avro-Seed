@@ -97,14 +97,54 @@ lazy val client = (project in file("client"))
 addCommandAlias("runClient", "client_app/runMain com.adrianrafo.seed.client.app.ClientApp")
 
 /////////////////////////
+////  Session ////
+/////////////////////////
+lazy val service_session_api = (project in file("services/session/api"))
+  .settings(serverProtocolSettings)
+
+lazy val service_session_shared = project in file("services/session/shared")
+
+lazy val service_session_server = (project in file("services/session/server"))
+  .settings(serverSettings ++ workflowSettings)
+  .dependsOn(service_session_api, service_session_shared)
+
+lazy val service_session_impl = (project in file("services/session/impl"))
+  .settings(serverSettings ++ workflowSettings)
+  .dependsOn(service_session_api, service_session_shared)
+
+lazy val service_session_client = (project in file("services/session/client"))
+  .settings(serverSettings ++ workflowSettings)
+  .dependsOn(service_session_api, service_session_shared)
+
+lazy val allModules_session: Seq[ProjectReference] = Seq(
+  service_session_api,
+  service_session_shared,
+  service_session_impl,
+  service_session_server,
+  service_session_client
+)
+
+lazy val allModulesDeps_session: Seq[ClasspathDependency] =
+  allModules_session.map(ClasspathDependency(_, None))
+
+lazy val server_session = (project in file("services/session"))
+  .aggregate(allModules_session: _*)
+  .dependsOn(allModulesDeps_session: _*)
+
+/////////////////////////
 ////  Authentication ////
 /////////////////////////
 lazy val service_authentication_api = (project in file("services/authentication/api"))
   .settings(serverProtocolSettings)
+  .dependsOn(service_session_api)
 
 lazy val service_authentication_shared = project in file("services/authentication/shared")
 
 lazy val service_authentication_server = (project in file("services/authentication/server"))
+  .settings(serverSettings ++ workflowSettings)
+  .dependsOn(service_authentication_api, service_authentication_shared, service_session_api)
+
+lazy val service_authentication_impl = (project in file("services/authentication/impl"))
   .settings(serverSettings ++ workflowSettings)
   .dependsOn(service_authentication_api, service_authentication_shared)
 
@@ -112,19 +152,20 @@ lazy val service_authentication_client = (project in file("services/authenticati
   .settings(serverSettings ++ workflowSettings)
   .dependsOn(service_authentication_api, service_authentication_shared)
 
-lazy val allModules_Authentication: Seq[ProjectReference] = Seq(
+lazy val allModules_authentication: Seq[ProjectReference] = Seq(
   service_authentication_api,
   service_authentication_shared,
+  service_authentication_impl,
   service_authentication_server,
   service_authentication_client
 )
 
-lazy val allModulesDeps_Authentication: Seq[ClasspathDependency] =
-  allModules_Authentication.map(ClasspathDependency(_, None))
+lazy val allModulesDeps_authentication: Seq[ClasspathDependency] =
+  allModules_authentication.map(ClasspathDependency(_, None))
 
 lazy val server_authentication = (project in file("services/authentication"))
-  .aggregate(allModules_Authentication: _*)
-  .dependsOn(allModulesDeps_Authentication: _*)
+  .aggregate(allModules_authentication: _*)
+  .dependsOn(allModulesDeps_authentication: _*)
 
 /////////////////////////
 ////       Root       ////
@@ -134,6 +175,7 @@ lazy val allRootModules: Seq[ProjectReference] = Seq(
   shared,
   client,
   server,
+  server_session,
   server_authentication,
 )
 
