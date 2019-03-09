@@ -97,6 +97,36 @@ lazy val client = (project in file("client"))
 addCommandAlias("runClient", "client_app/runMain com.adrianrafo.seed.client.app.ClientApp")
 
 /////////////////////////
+////  Authentication ////
+/////////////////////////
+lazy val service_authentication_api = (project in file("services/authentication/api"))
+  .settings(serverProtocolSettings)
+
+lazy val service_authentication_shared = project in file("services/authentication/shared")
+
+lazy val service_authentication_server = (project in file("services/authentication/server"))
+  .settings(serverSettings ++ workflowSettings)
+  .dependsOn(service_authentication_api, service_authentication_shared)
+
+lazy val service_authentication_client = (project in file("services/authentication/client"))
+  .settings(serverSettings ++ workflowSettings)
+  .dependsOn(service_authentication_api, service_authentication_shared)
+
+lazy val allModules_Authentication: Seq[ProjectReference] = Seq(
+  service_authentication_api,
+  service_authentication_shared,
+  service_authentication_server,
+  service_authentication_client
+)
+
+lazy val allModulesDeps_Authentication: Seq[ClasspathDependency] =
+  allModules_Authentication.map(ClasspathDependency(_, None))
+
+lazy val server_authentication = (project in file("services/authentication"))
+  .aggregate(allModules_Authentication: _*)
+  .dependsOn(allModulesDeps_Authentication: _*)
+
+/////////////////////////
 ////       Root       ////
 /////////////////////////
 
@@ -104,6 +134,7 @@ lazy val allRootModules: Seq[ProjectReference] = Seq(
   shared,
   client,
   server,
+  server_authentication,
 )
 
 lazy val allRootModulesDeps: Seq[ClasspathDependency] =

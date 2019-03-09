@@ -1,0 +1,7 @@
+@namespace("com.kse.service.authentication.api")
+protocol AuthenticationService{
+
+  import idl "com.kse.service.session.api";
+
+  com.kse.service.session.api.session authenticate(string  email);
+}
