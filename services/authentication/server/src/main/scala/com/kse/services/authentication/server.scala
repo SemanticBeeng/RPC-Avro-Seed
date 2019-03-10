@@ -16,17 +16,19 @@
 
 package com.kse.services.authentication
 
-import higherkindness.mu.rpc.protocol.{service, _}
+import cats.effect.Sync
+import cats.syntax.functor._
+import com.kse.services.authentication.api._
+import com.kse.services.session.api.Session
+import io.chrisdavenport.log4cats.Logger
 
-@outputName("AuthenticationService")
-@outputPackage("com.kse.services.authentication.api")
-@option("java_multiple_files", true)
-@option("java_outer_classname", "AuthenticationApiProto")
-object api {
+object server {
 
-  @service(Protobuf)
-  trait AuthenticationService[F[_]] {
-    def authenticate(email: String): F[com.kse.services.session.api.Session]
+  class AuthenticationServiceHandler[F[_]: Sync](implicit L: Logger[F])
+      extends AuthenticationService[F] {
 
+    def authenticate(email: String): F[com.kse.services.session.api.Session] =
+      //implicitly[_root_.io.grpc.MethodDescriptor.Marshaller[String]]
+      L.info(s"authenticate").as(Session("id", 1000L, 100L))
   }
 }

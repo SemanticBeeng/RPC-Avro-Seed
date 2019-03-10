@@ -14,21 +14,23 @@
  * limitations under the License.
  */
 
-package com.kse.services.authentication
+package com.kse.services.authentication.app
 
-import cats.effect.Sync
+import cats.effect._
+import cats.syntax.flatMap._
 import cats.syntax.functor._
 import io.chrisdavenport.log4cats.Logger
-import com.kse.services.authentication.api._
-import com.kse.services.session.api.Session
+import io.chrisdavenport.log4cats.slf4j.Slf4jLogger
 
-package object server {
+abstract class ServerBoot[F[_]: Effect] {
 
-  class AuthenticationServiceHandler[F[_]: Sync](implicit L: Logger[F])
-      extends AuthenticationService[F] {
+  def program(args: List[String])(implicit CE: ConcurrentEffect[F]): F[ExitCode] =
+    for {
+      //config   <- SessionService[F].serviceConfig[SeedServerConfig]
+      logger   <- Slf4jLogger.fromName[F]( /*config.server.name*/ "AuthenticationService")
+      exitCode <- serverProgram( /*config.server*/ )(logger, CE)
+    } yield exitCode
 
-    override def authenticate(email: String): F[com.kse.services.session.api.Session] =
-      //implicitly[_root_.io.grpc.MethodDescriptor.Marshaller[String]]
-      L.info(s"authenticate").as(Session("id", 1000L, 100L))
-  }
+  def serverProgram(
+  /*config: ServerConfig*/ )(implicit L: Logger[F], CE: ConcurrentEffect[F]): F[ExitCode]
 }
