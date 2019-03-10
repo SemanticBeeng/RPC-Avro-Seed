@@ -101,7 +101,7 @@ lazy val service_session_server = (project in file("services/session/server"))
 
 lazy val service_session_app = (project in file("services/session/app"))
   .settings(serverAppSettings ++ workflowSettings)
-  .dependsOn(service_session_server, service_session_shared)
+  .dependsOn(service_session_server, service_session_shared, config, server_common)
 
 lazy val service_session_impl = (project in file("services/session/impl"))
   .settings(serverSettings ++ workflowSettings)
@@ -139,7 +139,7 @@ lazy val service_authentication_server = (project in file("services/authenticati
 
 lazy val service_authentication_app = (project in file("services/authentication/app"))
   .settings(serverAppSettings ++ workflowSettings)
-  .dependsOn(service_authentication_server, service_authentication_shared)
+  .dependsOn(service_authentication_server, service_authentication_shared, config, server_common)
 
 lazy val service_authentication_impl = (project in file("services/authentication/impl"))
   .settings(serverSettings ++ workflowSettings)

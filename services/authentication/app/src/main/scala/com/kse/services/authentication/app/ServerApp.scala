@@ -20,6 +20,8 @@ import cats.effect._
 import cats.syntax.flatMap._
 import cats.syntax.functor._
 import com.kse.services.authentication.server.AuthenticationServiceHandler
+import com.adrianrafo.seed.server.common.models._
+
 //import com.kse.services.authentication.api_gen._
 import com.kse.services.authentication.api._
 import higherkindness.mu.rpc.server._
@@ -30,21 +32,18 @@ import scala.concurrent.ExecutionContext.Implicits.global
 class ServerProgram[F[_]: Effect] extends ServerBoot[F] {
 
   override def serverProgram(
-  /*config: ServerConfig*/ )(implicit L: Logger[F], CE: ConcurrentEffect[F]): F[ExitCode] = {
+      config: ServerConfig)(implicit L: Logger[F], CE: ConcurrentEffect[F]): F[ExitCode] = {
 
     val serverName = s"AuthService"
 
     implicit val PS: AuthenticationServiceHandler[F] = new AuthenticationServiceHandler[F]
 
     for {
-      service <- AuthenticationService.bindService[F]
-      configPort = 9001
-      configHost = "localhost"
-      server   <- GrpcServer.default[F](configPort, List(AddService(service)))
-      _        <- L.info(s"$serverName - Starting server at ${configHost}:${configPort}")
+      service  <- AuthenticationService.bindService[F]
+      server   <- GrpcServer.default[F](config.port, List(AddService(service)))
+      _        <- L.info(s"$serverName - Starting server at ${config.host}:${config.port}")
       exitCode <- GrpcServer.server(server).as(ExitCode.Success)
     } yield exitCode
-
   }
 }
 

@@ -19,6 +19,8 @@ package com.kse.services.authentication.app
 import cats.effect._
 import cats.syntax.flatMap._
 import cats.syntax.functor._
+import com.adrianrafo.seed.server.common.models._
+import com.adrianrafo.seed.config.ConfigService
 import io.chrisdavenport.log4cats.Logger
 import io.chrisdavenport.log4cats.slf4j.Slf4jLogger
 
@@ -26,11 +28,11 @@ abstract class ServerBoot[F[_]: Effect] {
 
   def program(args: List[String])(implicit CE: ConcurrentEffect[F]): F[ExitCode] =
     for {
-      //config   <- SessionService[F].serviceConfig[SeedServerConfig]
-      logger   <- Slf4jLogger.fromName[F]( /*config.server.name*/ "AuthenticationService")
-      exitCode <- serverProgram( /*config.server*/ )(logger, CE)
+      config   <- ConfigService[F].serviceConfig[SeedServerConfig]
+      logger   <- Slf4jLogger.fromName[F](config.server.name)
+      exitCode <- serverProgram(config.server)(logger, CE)
     } yield exitCode
 
   def serverProgram(
-  /*config: ServerConfig*/ )(implicit L: Logger[F], CE: ConcurrentEffect[F]): F[ExitCode]
+      config: ServerConfig)(implicit L: Logger[F], CE: ConcurrentEffect[F]): F[ExitCode]
 }

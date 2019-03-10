@@ -19,10 +19,10 @@ package com.kse.services.session
 import higherkindness.mu.rpc.protocol._
 //import io.grpc._
 
-@outputName("SessionService")
-@outputPackage("com.kse.services.session.api")
-@option("java_multiple_files", true)
-@option("java_outer_classname", "SessionApiProto")
+//@outputName("SessionService")
+//@outputPackage("com.kse.services.session.api")
+//@option("java_multiple_files", true)
+//@option("java_outer_classname", "SessionApiProto")
 object api {
 
   @message

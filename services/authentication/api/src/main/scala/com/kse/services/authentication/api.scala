@@ -18,10 +18,10 @@ package com.kse.services.authentication
 
 import higherkindness.mu.rpc.protocol.{service, _}
 
-@outputName("AuthenticationService")
-@outputPackage("com.kse.services.authentication.api")
-@option("java_multiple_files", true)
-@option("java_outer_classname", "AuthenticationApiProto")
+//@outputName("AuthenticationService")
+//@outputPackage("com.kse.services.authentication.api")
+//@option("java_multiple_files", true)
+//@option("java_outer_classname", "AuthenticationApiProto")
 object api {
 
   @service(Protobuf)
