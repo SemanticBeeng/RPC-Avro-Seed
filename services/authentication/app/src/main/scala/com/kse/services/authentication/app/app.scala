@@ -19,12 +19,42 @@ package com.kse.services.authentication.app
 import cats.effect._
 import cats.syntax.flatMap._
 import cats.syntax.functor._
-import com.adrianrafo.seed.server.common.models._
-import com.adrianrafo.seed.config.ConfigService
 import io.chrisdavenport.log4cats.Logger
 import io.chrisdavenport.log4cats.slf4j.Slf4jLogger
+import higherkindness.mu.rpc.server._
+import scala.concurrent.ExecutionContext.Implicits.global
+
+class ServerProgram[F[_]: Effect] extends ServerBoot[F] {
+
+  import com.adrianrafo.seed.server.common.models._
+  import com.kse.services.authentication.server.AuthenticationServiceHandler
+  //
+  import com.kse.services.authentication.api._
+
+  override def serverProgram(
+      config: ServerConfig)(implicit L: Logger[F], CE: ConcurrentEffect[F]): F[ExitCode] = {
+
+    implicit val PS: AuthenticationServiceHandler[F] = new AuthenticationServiceHandler[F]
+
+    for {
+      service  <- AuthenticationService.bindService[F]
+      server   <- GrpcServer.default[F](config.port, List(AddService(service)))
+      _        <- L.info(s"${config.name} - Starting server at ${config.host}:${config.port}")
+      exitCode <- GrpcServer.server(server).as(ExitCode.Success)
+    } yield exitCode
+  }
+}
+
+object ServerApp extends ServerProgram[IO] with IOApp {
+  implicit val ce: ConcurrentEffect[IO] = IO.ioConcurrentEffect
+
+  def run(args: List[String]): IO[ExitCode] = program(args)
+}
 
 abstract class ServerBoot[F[_]: Effect] {
+
+  import com.adrianrafo.seed.config.ConfigService
+  import com.adrianrafo.seed.server.common.models._
 
   def program(args: List[String])(implicit CE: ConcurrentEffect[F]): F[ExitCode] =
     for {
