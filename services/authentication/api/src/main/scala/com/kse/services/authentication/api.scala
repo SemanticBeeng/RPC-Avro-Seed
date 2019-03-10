@@ -16,8 +16,6 @@
 
 package com.kse.services.authentication
 
-import higherkindness.mu.rpc.internal.encoders.avro.bigDecimalTagged._
-import higherkindness.mu.rpc.internal.encoders.avro.javatime._
 import higherkindness.mu.rpc.protocol.{service, _}
 
 object api {

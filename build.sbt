@@ -108,12 +108,16 @@ lazy val service_session_server = (project in file("services/session/server"))
   .settings(serverSettings ++ workflowSettings)
   .dependsOn(service_session_api, service_session_shared)
 
+lazy val service_session_app = (project in file("services/session/app"))
+  .settings(serverAppSettings ++ workflowSettings)
+  .dependsOn(service_session_server, service_session_shared)
+
 lazy val service_session_impl = (project in file("services/session/impl"))
   .settings(serverSettings ++ workflowSettings)
   .dependsOn(service_session_api, service_session_shared)
 
 lazy val service_session_client = (project in file("services/session/client"))
-  .settings(serverSettings ++ workflowSettings)
+  .settings(clientRPCSettings ++ workflowSettings)
   .dependsOn(service_session_api, service_session_shared)
 
 lazy val allModules_session: Seq[ProjectReference] = Seq(
@@ -121,6 +125,7 @@ lazy val allModules_session: Seq[ProjectReference] = Seq(
   service_session_shared,
   service_session_impl,
   service_session_server,
+  service_session_app,
   service_session_client
 )
 
@@ -144,12 +149,16 @@ lazy val service_authentication_server = (project in file("services/authenticati
   .settings(serverSettings ++ workflowSettings)
   .dependsOn(service_authentication_api, service_authentication_shared, service_session_api)
 
+lazy val service_authentication_app = (project in file("services/authentication/app"))
+  .settings(serverAppSettings ++ workflowSettings)
+  .dependsOn(service_authentication_server, service_authentication_shared)
+
 lazy val service_authentication_impl = (project in file("services/authentication/impl"))
   .settings(serverSettings ++ workflowSettings)
   .dependsOn(service_authentication_api, service_authentication_shared)
 
 lazy val service_authentication_client = (project in file("services/authentication/client"))
-  .settings(serverSettings ++ workflowSettings)
+  .settings(clientRPCSettings ++ workflowSettings)
   .dependsOn(service_authentication_api, service_authentication_shared)
 
 lazy val allModules_authentication: Seq[ProjectReference] = Seq(
@@ -157,6 +166,7 @@ lazy val allModules_authentication: Seq[ProjectReference] = Seq(
   service_authentication_shared,
   service_authentication_impl,
   service_authentication_server,
+  service_authentication_app,
   service_authentication_client
 )
 
