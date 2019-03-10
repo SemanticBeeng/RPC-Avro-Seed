@@ -27,10 +27,8 @@ package object server {
   class AuthenticationServiceHandler[F[_]: Sync](implicit L: Logger[F])
       extends AuthenticationService[F] {
 
-    override def authenticate(email: String): F[com.kse.services.session.api.Session] = {
-      implicitly[_root_.io.grpc.MethodDescriptor.Marshaller[String]]
-
+    override def authenticate(email: String): F[com.kse.services.session.api.Session] =
+      //implicitly[_root_.io.grpc.MethodDescriptor.Marshaller[String]]
       L.info(s"authenticate").as(Session("id", 1000L, 100L))
-    }
   }
 }

@@ -19,12 +19,9 @@ lazy val allSharedModules: Seq[ProjectReference] = Seq(
   workflow
 )
 
-lazy val allSharedModulesDeps: Seq[ClasspathDependency] =
-  allSharedModules.map(ClasspathDependency(_, None))
-
 lazy val shared = (project in file("shared"))
   .aggregate(allSharedModules: _*)
-  .dependsOn(allSharedModulesDeps: _*)
+  .dependsOn(allSharedModules.map(ClasspathDependency(_, None)): _*)
 
 //////////////////////////
 ////  Server Modules  ////
@@ -54,12 +51,9 @@ lazy val allServerModules: Seq[ProjectReference] = Seq(
   server_app
 )
 
-lazy val allServerModulesDeps: Seq[ClasspathDependency] =
-  allServerModules.map(ClasspathDependency(_, None))
-
 lazy val server = (project in file("server"))
   .aggregate(allServerModules: _*)
-  .dependsOn(allServerModulesDeps: _*)
+  .dependsOn(allServerModules.map(ClasspathDependency(_, None)): _*)
 
 addCommandAlias("runServer", "server_app/runMain com.adrianrafo.seed.server.app.ServerApp")
 
@@ -87,12 +81,9 @@ lazy val allClientModules: Seq[ProjectReference] = Seq(
   client_app
 )
 
-lazy val allClientModulesDeps: Seq[ClasspathDependency] =
-  allClientModules.map(ClasspathDependency(_, None))
-
 lazy val client = (project in file("client"))
   .aggregate(allClientModules: _*)
-  .dependsOn(allClientModulesDeps: _*)
+  .dependsOn(allClientModules.map(ClasspathDependency(_, None)): _*)
 
 addCommandAlias("runClient", "client_app/runMain com.adrianrafo.seed.client.app.ClientApp")
 
@@ -129,12 +120,9 @@ lazy val allModules_session: Seq[ProjectReference] = Seq(
   service_session_client
 )
 
-lazy val allModulesDeps_session: Seq[ClasspathDependency] =
-  allModules_session.map(ClasspathDependency(_, None))
-
 lazy val server_session = (project in file("services/session"))
   .aggregate(allModules_session: _*)
-  .dependsOn(allModulesDeps_session: _*)
+  .dependsOn(allModules_session.map(ClasspathDependency(_, None)): _*)
 
 /////////////////////////
 ////  Authentication ////
@@ -170,12 +158,9 @@ lazy val allModules_authentication: Seq[ProjectReference] = Seq(
   service_authentication_client
 )
 
-lazy val allModulesDeps_authentication: Seq[ClasspathDependency] =
-  allModules_authentication.map(ClasspathDependency(_, None))
-
 lazy val server_authentication = (project in file("services/authentication"))
   .aggregate(allModules_authentication: _*)
-  .dependsOn(allModulesDeps_authentication: _*)
+  .dependsOn(allModules_authentication.map(ClasspathDependency(_, None)): _*)
 
 /////////////////////////
 ////       Root       ////
@@ -189,10 +174,7 @@ lazy val allRootModules: Seq[ProjectReference] = Seq(
   server_authentication,
 )
 
-lazy val allRootModulesDeps: Seq[ClasspathDependency] =
-  allRootModules.map(ClasspathDependency(_, None))
-
 lazy val root = (project in file("."))
   .settings(name := "Avro-Seed")
   .aggregate(allRootModules: _*)
-  .dependsOn(allRootModulesDeps: _*)
+  .dependsOn(allRootModules.map(ClasspathDependency(_, None)): _*)

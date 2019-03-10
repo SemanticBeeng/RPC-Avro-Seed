@@ -16,18 +16,24 @@
 
 package com.kse.services.session
 
-//import higherkindness.mu.rpc.internal.encoders.avro.bigDecimalTagged._
-//import higherkindness.mu.rpc.internal.encoders.avro.javatime._
 import higherkindness.mu.rpc.protocol._
-//import higherkindness.mu.rpc.common._
+//import io.grpc._
 
+@outputName("SessionService")
+@outputPackage("com.kse.services.session.api")
+@option("java_multiple_files", true)
+@option("java_outer_classname", "SessionApiProto")
 object api {
 
-//  @message
-  final case class Session(id: String, createdAt: Long, expiresIn: Long)
+  @message
+  case class Session(id: String, createdAt: Long, expiresIn: Long)
 
-  @service(AvroWithSchema)
+  @service(Protobuf)
   trait SessionService[F[_]] {
     def hasExpired(sessionId: String): F[Boolean]
   }
 }
+
+//object Do {
+//  implicitly[_root_.io.grpc.MethodDescriptor.Marshaller[String]]
+//}

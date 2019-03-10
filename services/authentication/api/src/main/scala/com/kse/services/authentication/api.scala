@@ -20,7 +20,7 @@ import higherkindness.mu.rpc.protocol.{service, _}
 
 object api {
 
-  @service(AvroWithSchema)
+  @service(Protobuf)
   trait AuthenticationService[F[_]] {
     def authenticate(email: String): F[com.kse.services.session.api.Session]
 
