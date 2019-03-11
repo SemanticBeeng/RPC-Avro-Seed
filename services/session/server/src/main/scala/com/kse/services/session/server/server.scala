@@ -14,17 +14,18 @@
  * limitations under the License.
  */
 
-package com.kse.services.session.shared
+package com.kse.services.session
 
-object domain {
+import cats.effect.Sync
+import cats.syntax.functor._
 
-  type SessionId   = String
-  type TimestampMs = Long
-  type TimeMs      = Long
+import io.chrisdavenport.log4cats.Logger
+import com.kse.services.session.api._
 
-  trait Session {
-    def id: SessionId
-    def createdAt: TimestampMs
-    def expiresIn: TimeMs
+package object server {
+
+  class SessionServiceHandler[F[_]: Sync](implicit L: Logger[F]) extends SessionService[F] {
+    override def isExpired(sessionId: String): F[Boolean] =
+      L.info(s"hasExpired").as(true)
   }
 }

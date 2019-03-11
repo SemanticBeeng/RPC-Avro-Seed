@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package com.adrianrafo.seed.client
-package app
+package com.kse.services.client
 
 import cats.effect._
 import cats.syntax.functor._
-import com.adrianrafo.seed.client.common.models._
-import com.adrianrafo.seed.config.ConfigService
 import fs2.Stream
 import io.chrisdavenport.log4cats.Logger
 import io.chrisdavenport.log4cats.slf4j.Slf4jLogger
+//
+import com.adrianrafo.seed.config.domain._
+import com.adrianrafo.seed.config.ConfigService
 
 abstract class ClientBoot[F[_]: Effect] {
 
@@ -32,7 +32,7 @@ abstract class ClientBoot[F[_]: Effect] {
     def setupConfig =
       ConfigService[F]
         .serviceConfig[ClientConfig]
-        .map(client => SeedClientConfig(client, ClientParams.loadParams(client.name, args)))
+        .map(client => ClientAppConfig(client, ClientParams.loadParams(client.name, args)))
 
     for {
       config   <- Stream.eval(setupConfig)
@@ -41,7 +41,7 @@ abstract class ClientBoot[F[_]: Effect] {
     } yield exitCode
   }
 
-  def clientProgram(config: SeedClientConfig)(
+  def clientProgram(config: ClientAppConfig)(
       implicit L: Logger[F],
       TM: Timer[F],
       F: ConcurrentEffect[F]): Stream[F, ExitCode]

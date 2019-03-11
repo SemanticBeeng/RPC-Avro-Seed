@@ -27,10 +27,12 @@ object api {
   import com.kse.services.session.shared.domain
 
   @message
-  case class Session(id: domain.SessionId, createdAt: Long, expiresIn: Long) extends domain.Session
+  case class Session(id: domain.SessionId, createdAt: domain.TimestampMs, expiresIn: domain.TimeMs)
+      extends domain.Session
 
   @service(Protobuf)
   trait SessionService[F[_]] {
-    def hasExpired(sessionId: domain.SessionId): F[Boolean]
+
+    def isExpired(sessionId: domain.SessionId): F[Boolean]
   }
 }

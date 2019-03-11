@@ -18,8 +18,9 @@ package com.adrianrafo.seed.client
 package app
 
 import cats.effect._
-import com.adrianrafo.seed.client.common.models._
+import com.adrianrafo.seed.config.domain._
 import com.adrianrafo.seed.client.process.runtime.PeopleServiceClient
+import com.kse.services.client.ClientBoot
 import fs2.Stream
 import io.chrisdavenport.log4cats.Logger
 
@@ -40,7 +41,7 @@ class ClientProgram[F[_]: Effect] extends ClientBoot[F] {
       tryToRemoveUnusedEvery = 30 minutes,
       removeUnusedAfter = 1 hour)
 
-  def clientProgram(config: SeedClientConfig)(
+  def clientProgram(config: ClientAppConfig)(
       implicit L: Logger[F],
       TM: Timer[F],
       F: ConcurrentEffect[F]): Stream[F, ExitCode] = {

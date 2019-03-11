@@ -24,15 +24,6 @@ import io.chrisdavenport.log4cats.slf4j.Slf4jLogger
 
 object app {
 
-//  /**
-//   * Starts the service
-//   */
-//  object ServerApp extends ServerProgram[IO] with IOApp {
-//    implicit val ce: ConcurrentEffect[IO] = IO.ioConcurrentEffect
-//
-//    def run(args: List[String]): IO[ExitCode] = program(args)
-//  }
-
   abstract class ServerBoot[F[_]: Effect] {
 
     import com.adrianrafo.seed.config.ConfigService
@@ -48,10 +39,4 @@ object app {
     def serverProgram(
         config: ServerConfig)(implicit L: Logger[F], CE: ConcurrentEffect[F]): F[ExitCode]
   }
-
-//  abstract class ServerProgram[F[_]: Effect] extends ServerBoot[F] {
-//
-//    def serverProgram(
-//      config: ServerConfig)(implicit L: Logger[F], CE: ConcurrentEffect[F]): F[ExitCode]
-//  }
 }

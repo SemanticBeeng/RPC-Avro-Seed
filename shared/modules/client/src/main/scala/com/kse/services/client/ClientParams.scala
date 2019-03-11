@@ -14,18 +14,26 @@
  * limitations under the License.
  */
 
-package com.kse.services.session
+package com.kse.services.client
 
-import cats.effect.Sync
-import cats.syntax.functor._
+import com.adrianrafo.seed.config.domain._
+import scopt.OptionParser
 
-import io.chrisdavenport.log4cats.Logger
-import com.kse.services.session.api._
+object ClientParams {
 
-package object server {
+  val default = ParamsConfig("Foo")
 
-  class SessionServiceHandler[F[_]: Sync](implicit L: Logger[F]) extends SessionService[F] {
-    override def hasExpired(sessionId: String): F[Boolean] =
-      L.info(s"hasExpired").as(true)
-  }
+  def paramsConfig(name: String): OptionParser[ParamsConfig] =
+    new scopt.OptionParser[ParamsConfig](name) {
+
+      opt[String]("name")
+        .required()
+        .action((value, config) => config.copy(request = value))
+        .text("The name for the request")
+
+    }
+
+  def loadParams(name: String, args: List[String]): ParamsConfig =
+    paramsConfig(name).parse(args, default).getOrElse(default)
+
 }

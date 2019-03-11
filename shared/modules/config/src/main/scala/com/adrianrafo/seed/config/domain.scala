@@ -14,25 +14,14 @@
  * limitations under the License.
  */
 
-package com.adrianrafo.seed.client.app
-import com.adrianrafo.seed.client.common.models.ParamsConfig
-import scopt.OptionParser
+package com.adrianrafo.seed.config
 
-object ClientParams {
+object domain {
 
-  val default = ParamsConfig("Foo")
+  case class ClientConfig(name: String, host: String, port: Int)
 
-  def paramsConfig(name: String): OptionParser[ParamsConfig] =
-    new scopt.OptionParser[ParamsConfig](name) {
+  case class ParamsConfig(request: String)
 
-      opt[String]("name")
-        .required()
-        .action((value, config) => config.copy(request = value))
-        .text("The name for the request")
-
-    }
-
-  def loadParams(name: String, args: List[String]): ParamsConfig =
-    paramsConfig(name).parse(args, default).getOrElse(default)
+  case class ClientAppConfig(client: ClientConfig, params: ParamsConfig)
 
 }

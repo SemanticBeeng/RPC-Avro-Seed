@@ -20,12 +20,13 @@ package app
 import cats.effect._
 import cats.syntax.flatMap._
 import cats.syntax.functor._
-import com.adrianrafo.seed.config.ConfigService
-import com.adrianrafo.seed.server.common.models._
 import io.chrisdavenport.log4cats.Logger
 import io.chrisdavenport.log4cats.slf4j.Slf4jLogger
 
 abstract class ServerBoot[F[_]: Effect] {
+
+  import com.adrianrafo.seed.config.ConfigService
+  import com.adrianrafo.seed.server.common.models._
 
   def program(args: List[String])(implicit CE: ConcurrentEffect[F]): F[ExitCode] =
     for {
