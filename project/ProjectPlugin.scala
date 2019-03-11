@@ -80,7 +80,7 @@ object ProjectPlugin extends AutoPlugin {
     Seq("org.typelevel" %% "cats-effect").map(_ % V.catsEffect)
 
 
-  lazy val workflowSettings: Seq[Def.Setting[_]] = Seq(
+  lazy val coreLibsSettings: Seq[Def.Setting[_]] = Seq(
     libraryDependencies ++= catsLibs ++ freesLibs ++ monixLibs // commonDeps ++ freestyleCoreDeps()
   )
 
