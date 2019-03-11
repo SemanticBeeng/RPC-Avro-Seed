@@ -20,10 +20,24 @@ import cats.effect._
 import cats.syntax.flatMap._
 import cats.syntax.functor._
 import io.chrisdavenport.log4cats.Logger
-import io.chrisdavenport.log4cats.slf4j.Slf4jLogger
 import higherkindness.mu.rpc.server._
+//
+import com.kse.services.shared.app.ServerBoot
+//
 import scala.concurrent.ExecutionContext.Implicits.global
 
+/**
+ * Starts the service
+ */
+object ServerApp extends ServerProgram[IO] with IOApp {
+  implicit val ce: ConcurrentEffect[IO] = IO.ioConcurrentEffect
+
+  def run(args: List[String]): IO[ExitCode] = program(args)
+}
+
+/**
+ * Runs the service
+ */
 class ServerProgram[F[_]: Effect] extends ServerBoot[F] {
 
   import com.adrianrafo.seed.server.common.models._
@@ -43,26 +57,4 @@ class ServerProgram[F[_]: Effect] extends ServerBoot[F] {
       exitCode <- GrpcServer.server(server).as(ExitCode.Success)
     } yield exitCode
   }
-}
-
-object ServerApp extends ServerProgram[IO] with IOApp {
-  implicit val ce: ConcurrentEffect[IO] = IO.ioConcurrentEffect
-
-  def run(args: List[String]): IO[ExitCode] = program(args)
-}
-
-abstract class ServerBoot[F[_]: Effect] {
-
-  import com.adrianrafo.seed.config.ConfigService
-  import com.adrianrafo.seed.server.common.models._
-
-  def program(args: List[String])(implicit CE: ConcurrentEffect[F]): F[ExitCode] =
-    for {
-      config   <- ConfigService[F].serviceConfig[SeedServerConfig]
-      logger   <- Slf4jLogger.fromName[F](config.server.name)
-      exitCode <- serverProgram(config.server)(logger, CE)
-    } yield exitCode
-
-  def serverProgram(
-      config: ServerConfig)(implicit L: Logger[F], CE: ConcurrentEffect[F]): F[ExitCode]
 }

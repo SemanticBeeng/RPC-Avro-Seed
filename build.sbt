@@ -87,9 +87,14 @@ lazy val client = (project in file("client"))
 
 addCommandAlias("runClient", "client_app/runMain com.adrianrafo.seed.client.app.ClientApp")
 
-/////////////////////////
-////  Session ////
-/////////////////////////
+lazy val service_shared_app = (project in file("shared/modules/app"))
+  .settings(serverAppSettings ++ workflowSettings)
+  .dependsOn(server_common, config)
+
+//////////////////////////
+////  Session Service ////
+//////////////////////////
+
 lazy val service_session_api = (project in file("services/session/api"))
   .settings(serverProtocolSettings)
 
@@ -100,8 +105,7 @@ lazy val service_session_server = (project in file("services/session/server"))
   .dependsOn(service_session_api, service_session_shared)
 
 lazy val service_session_app = (project in file("services/session/app"))
-  .settings(serverAppSettings ++ workflowSettings)
-  .dependsOn(service_session_server, service_session_shared, config, server_common)
+  .dependsOn(service_session_server, service_session_shared, service_shared_app, config)
 
 lazy val service_session_impl = (project in file("services/session/impl"))
   .settings(serverSettings ++ workflowSettings)
@@ -124,9 +128,9 @@ lazy val server_session = (project in file("services/session"))
   .aggregate(allModules_session: _*)
   .dependsOn(allModules_session.map(ClasspathDependency(_, None)): _*)
 
-/////////////////////////
-////  Authentication ////
-/////////////////////////
+/////////////////////////////////
+////  Authentication Service ////
+/////////////////////////////////
 lazy val service_authentication_api = (project in file("services/authentication/api"))
   .settings(serverProtocolSettings)
   .dependsOn(service_session_api)
@@ -138,8 +142,7 @@ lazy val service_authentication_server = (project in file("services/authenticati
   .dependsOn(service_authentication_api, service_authentication_shared, service_session_api)
 
 lazy val service_authentication_app = (project in file("services/authentication/app"))
-  .settings(serverAppSettings ++ workflowSettings)
-  .dependsOn(service_authentication_server, service_authentication_shared, config, server_common)
+  .dependsOn(service_authentication_server, service_authentication_shared, service_shared_app, config)
 
 lazy val service_authentication_impl = (project in file("services/authentication/impl"))
   .settings(serverSettings ++ workflowSettings)
