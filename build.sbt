@@ -75,7 +75,7 @@ lazy val client_common = project
 lazy val client_process = project
   .in(file("client/modules/process"))
   .settings(clientRPCSettings)
-  .dependsOn(client_common, server_protocol)
+  .dependsOn(client_common, server_protocol, service_shared_client)
 
 lazy val client_app = project
   .in(file("client/modules/app"))
@@ -107,6 +107,11 @@ lazy val service_shared_app = project
   .in(file("shared/modules/app"))
   .settings(serverAppSettings ++ coreLibsSettings)
   .dependsOn(server_common, config)
+
+lazy val service_shared_client = project
+  .in(file("shared/modules/client"))
+  .settings(clientRPCSettings ++ clientAppSettings ++ coreLibsSettings)
+  .dependsOn(config)
 
 //////////////////////////
 ////  Session Service ////
