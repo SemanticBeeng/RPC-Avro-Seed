@@ -26,7 +26,7 @@ object api {
 
   @service(Protobuf)
   trait AuthenticationService[F[_]] {
-    def authenticate(email: String): F[com.kse.services.session.api.Session]
 
+    def authenticate(email: String): F[com.kse.services.session.api.Session]
   }
 }

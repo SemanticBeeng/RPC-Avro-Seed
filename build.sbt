@@ -120,6 +120,7 @@ lazy val service_shared_client = project
 lazy val service_session_api = project
   .in(file("services/session/api"))
   .settings(serverProtocolSettings)
+  .dependsOn(service_session_shared)
 
 lazy val service_session_shared = project
   .in(file("services/session/shared"))
@@ -127,7 +128,7 @@ lazy val service_session_shared = project
 lazy val service_session_server = project
   .in(file("services/session/server"))
   .settings(serverSettings ++ coreLibsSettings)
-  .dependsOn(service_session_api, service_session_shared)
+  .dependsOn(service_session_api)
 
 lazy val service_session_app = project
   .in(file("services/session/app"))
@@ -165,7 +166,7 @@ addCommandAlias("runServiceSession", "service_session_app/runMain com.kse.servic
 lazy val service_authentication_api = project
   .in(file("services/authentication/api"))
   .settings(serverProtocolSettings)
-  .dependsOn(service_session_api)
+  .dependsOn(service_authentication_shared, service_session_api, service_session_shared)
 
 lazy val service_authentication_shared = project
   .in(file("services/authentication/shared"))

@@ -17,7 +17,6 @@
 package com.kse.services.session
 
 import higherkindness.mu.rpc.protocol._
-//import io.grpc._
 
 //@outputName("SessionService")
 //@outputPackage("com.kse.services.session.api")
@@ -25,15 +24,13 @@ import higherkindness.mu.rpc.protocol._
 //@option("java_outer_classname", "SessionApiProto")
 object api {
 
+  import com.kse.services.session.shared.domain
+
   @message
-  case class Session(id: String, createdAt: Long, expiresIn: Long)
+  case class Session(id: domain.SessionId, createdAt: Long, expiresIn: Long) extends domain.Session
 
   @service(Protobuf)
   trait SessionService[F[_]] {
-    def hasExpired(sessionId: String): F[Boolean]
+    def hasExpired(sessionId: domain.SessionId): F[Boolean]
   }
 }
-
-//object Do {
-//  implicitly[_root_.io.grpc.MethodDescriptor.Marshaller[String]]
-//}

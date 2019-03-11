@@ -44,10 +44,9 @@ import io.grpc.ManagedChannel
 import scala.concurrent.ExecutionContext
 import scala.concurrent.duration.FiniteDuration
 
-
 /**
-  * Utility to manage (cache, release, etc) RPC "client" references.
-  */
+ * Utility to manage (cache, release, etc) RPC "client" references.
+ */
 object ClientRPC {
 
   def clientCache[F[_], Client[_[_]]](

@@ -14,20 +14,15 @@
  * limitations under the License.
  */
 
-package com.kse.services.authentication
+package com.kse.services.session.shared
 
-import cats.effect.Sync
-import cats.syntax.functor._
-import com.kse.services.authentication.api._
-import com.kse.services.session.api.Session
-import io.chrisdavenport.log4cats.Logger
+object domain {
 
-object server {
+  type SessionId = String
 
-  class AuthenticationServiceHandler[F[_]: Sync](implicit L: Logger[F])
-      extends AuthenticationService[F] {
-
-    def authenticate(email: String): F[com.kse.services.session.api.Session] =
-      L.info(s"authenticate").as(Session("id", 1000L, 100L))
+  trait Session {
+    def id: SessionId
+    def createdAt: Long
+    def expiresIn: Long
   }
 }

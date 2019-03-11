@@ -26,7 +26,6 @@ package object server {
 
   class SessionServiceHandler[F[_]: Sync](implicit L: Logger[F]) extends SessionService[F] {
     override def hasExpired(sessionId: String): F[Boolean] =
-      //implicitly[_root_.io.grpc.MethodDescriptor.Marshaller[String]]
       L.info(s"hasExpired").as(true)
   }
 }
