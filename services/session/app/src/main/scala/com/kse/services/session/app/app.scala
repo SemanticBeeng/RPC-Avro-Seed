@@ -36,21 +36,20 @@ object ServerApp extends ServerProgram[IO] with IOApp {
 }
 
 /**
- * Runs the `(service) session``
+ * Runs the `(service) session`
  */
 class ServerProgram[F[_]: Effect] extends ServerBoot[F] {
 
   import com.adrianrafo.seed.server.common.models._
-  import com.kse.services.session.api._
-  import com.kse.services.session.server.SessionServiceHandler
+  import com.kse.services.session._
 
   override def serverProgram(
       config: ServerConfig)(implicit L: Logger[F], CE: ConcurrentEffect[F]): F[ExitCode] = {
 
-    implicit val PS: SessionServiceHandler[F] = new SessionServiceHandler[F]
+    implicit val PS: server.SessionServiceHandler[F] = new server.SessionServiceHandler[F]
 
     for {
-      service  <- SessionService.bindService[F]
+      service  <- api.SessionService.bindService[F]
       server   <- GrpcServer.default[F](config.port, List(AddService(service)))
       _        <- L.info(s"${config.name} - Starting server at ${config.host}:${config.port}")
       exitCode <- GrpcServer.server(server).as(ExitCode.Success)

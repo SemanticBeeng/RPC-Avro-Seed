@@ -41,17 +41,16 @@ object ServerApp extends ServerProgram[IO] with IOApp {
 class ServerProgram[F[_]: Effect] extends ServerBoot[F] {
 
   import com.adrianrafo.seed.server.common.models._
-  import com.kse.services.authentication.server.AuthenticationServiceHandler
-  //
-  import com.kse.services.authentication.api._
+  import com.kse.services.authentication._
 
   override def serverProgram(
       config: ServerConfig)(implicit L: Logger[F], CE: ConcurrentEffect[F]): F[ExitCode] = {
 
-    implicit val PS: AuthenticationServiceHandler[F] = new AuthenticationServiceHandler[F]
+    implicit val PS: server.AuthenticationServiceHandler[F] =
+      new server.AuthenticationServiceHandler[F]
 
     for {
-      service  <- AuthenticationService.bindService[F]
+      service  <- api.AuthenticationService.bindService[F]
       server   <- GrpcServer.default[F](config.port, List(AddService(service)))
       _        <- L.info(s"${config.name} - Starting server at ${config.host}:${config.port}")
       exitCode <- GrpcServer.server(server).as(ExitCode.Success)
