@@ -36,7 +36,7 @@ object ServerApp extends ServerProgram[IO] with IOApp {
 }
 
 /**
- * Runs the service
+ * Runs the `(service) session``
  */
 class ServerProgram[F[_]: Effect] extends ServerBoot[F] {
 
