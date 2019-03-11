@@ -152,6 +152,8 @@ lazy val service_session = project
   .aggregate(allModules_session: _*)
   .dependsOn(allModules_session.map(ClasspathDependency(_, None)): _*)
 
+addCommandAlias("runServiceSession", "service_session_app/runMain com.kse.services.session.app.ServerApp")
+
 /////////////////////////////////
 ////  Authentication Service ////
 /////////////////////////////////
@@ -195,6 +197,8 @@ lazy val service_authentication = project
   .in(file("services/authentication"))
   .aggregate(allModules_authentication: _*)
   .dependsOn(allModules_authentication.map(ClasspathDependency(_, None)): _*)
+
+addCommandAlias("runServiceAuthentication", "service_authentication_app/runMain com.kse.services.authentication.app.ServerApp")
 
 /////////////////////////
 ////       Root       ////
