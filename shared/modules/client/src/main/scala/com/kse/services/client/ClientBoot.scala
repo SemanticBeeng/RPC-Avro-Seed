@@ -29,10 +29,11 @@ abstract class ClientBoot[F[_]: Effect] {
 
   def program(
       args: List[String])(implicit TM: Timer[F], CE: ConcurrentEffect[F]): Stream[F, ExitCode] = {
-    def setupConfig =
+
+    def setupConfig: F[ClientAppConfig] =
       ConfigService[F]
         .serviceConfig[ClientConfig]
-        .map(client => ClientAppConfig(client, ClientParams.loadParams(client.name, args)))
+        .map(config => ClientAppConfig(config, ClientParams.loadParams(config.name, args)))
 
     for {
       config   <- Stream.eval(setupConfig)
