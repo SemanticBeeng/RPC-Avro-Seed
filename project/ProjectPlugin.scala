@@ -79,8 +79,14 @@ object ProjectPlugin extends AutoPlugin {
         "org.typelevel" %% "cats-testkit").map(_ % V.cats) ++
     Seq("org.typelevel" %% "cats-effect").map(_ % V.catsEffect)
 
-
+  /**
+    * Core libraries but no "frees" reference in the "shared" code
+    */
   lazy val coreLibsSettings: Seq[Def.Setting[_]] = Seq(
+    libraryDependencies ++= catsLibs ++ monixLibs // commonDeps ++ freestyleCoreDeps()
+  )
+
+  lazy val coreSrvLibsSettings: Seq[Def.Setting[_]] = Seq(
     libraryDependencies ++= catsLibs ++ freesLibs ++ monixLibs // commonDeps ++ freestyleCoreDeps()
   )
 

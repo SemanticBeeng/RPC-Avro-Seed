@@ -10,7 +10,7 @@ lazy val config = project
 
 lazy val workflow = project
   .in(file("shared/modules/workflow"))
-  .settings(configSettings ++ coreLibsSettings)
+  .settings(configSettings ++ coreSrvLibsSettings)
 
 ////////////////////////
 ////     Shared     ////
@@ -39,7 +39,7 @@ lazy val server_protocol = project
 
 lazy val server_process = project
   .in(file("server/modules/process"))
-  .settings(serverSettings ++ coreLibsSettings)
+  .settings(serverSettings ++ coreSrvLibsSettings)
   .dependsOn(server_common, server_protocol)
 
 lazy val server_app = project
@@ -105,12 +105,12 @@ addCommandAlias("runClient", "client_app/runMain com.adrianrafo.seed.client.app.
 
 lazy val service_shared_app = project
   .in(file("shared/modules/app"))
-  .settings(serverAppSettings ++ coreLibsSettings)
+  .settings(serverAppSettings ++ coreSrvLibsSettings)
   .dependsOn(server_common, config)
 
 lazy val service_shared_client = project
   .in(file("shared/modules/client"))
-  .settings(clientRPCSettings ++ clientAppSettings ++ coreLibsSettings)
+  .settings(clientRPCSettings ++ clientAppSettings ++ coreSrvLibsSettings)
   .dependsOn(config)
 
 //////////////////////////
@@ -124,10 +124,11 @@ lazy val service_session_api = project
 
 lazy val service_session_shared = project
   .in(file("services/session/shared"))
+  .settings(serverSettings ++ coreLibsSettings)
 
 lazy val service_session_server = project
   .in(file("services/session/server"))
-  .settings(serverSettings ++ coreLibsSettings)
+  .settings(serverSettings ++ coreSrvLibsSettings)
   .dependsOn(service_session_api)
 
 lazy val service_session_app = project
@@ -136,12 +137,12 @@ lazy val service_session_app = project
 
 lazy val service_session_impl = project
   .in(file("services/session/impl"))
-  .settings(serverSettings ++ coreLibsSettings)
+  .settings(serverSettings ++ coreSrvLibsSettings)
   .dependsOn(service_session_api, service_session_shared)
 
 lazy val service_session_client = project
   .in(file("services/session/client"))
-  .settings(clientRPCSettings ++ coreLibsSettings)
+  .settings(clientRPCSettings ++ coreSrvLibsSettings)
   .dependsOn(service_session_api, service_session_shared)
 
 lazy val allModules_session: Seq[ProjectReference] = Seq(
@@ -170,10 +171,11 @@ lazy val service_authentication_api = project
 
 lazy val service_authentication_shared = project
   .in(file("services/authentication/shared"))
+  .settings(serverSettings ++ coreLibsSettings)
 
 lazy val service_authentication_server = project
   .in(file("services/authentication/server"))
-  .settings(serverSettings ++ coreLibsSettings)
+  .settings(serverSettings ++ coreSrvLibsSettings)
   .dependsOn(service_authentication_api, service_authentication_shared, service_session_api)
 
 lazy val service_authentication_app = project
@@ -182,12 +184,12 @@ lazy val service_authentication_app = project
 
 lazy val service_authentication_impl = project
   .in(file("services/authentication/impl"))
-  .settings(serverSettings ++ coreLibsSettings)
+  .settings(serverSettings ++ coreSrvLibsSettings)
   .dependsOn(service_authentication_api, service_authentication_shared)
 
 lazy val service_authentication_client = project
   .in(file("services/authentication/client"))
-  .settings(clientRPCSettings ++ coreLibsSettings)
+  .settings(clientRPCSettings ++ coreSrvLibsSettings)
   .dependsOn(service_authentication_api, service_authentication_shared)
 
 lazy val allModules_authentication: Seq[ProjectReference] = Seq(

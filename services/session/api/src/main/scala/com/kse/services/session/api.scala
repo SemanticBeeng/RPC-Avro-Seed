@@ -31,8 +31,11 @@ object api {
 
   sealed trait SessionR extends Product with Serializable
 
+  /**
+   * "duplicate" with [[domain.SessionNotFound]]
+   */
   @message
-  final case class SessionNotFound(id: domain.SessionId) extends SessionR
+  case class SessionNotFound(id: domain.SessionId) extends SessionR
 
   @message
   final case class Session(
@@ -42,8 +45,10 @@ object api {
       extends domain.Session
       with SessionR
 
+  type ResponseT = Session :+: SessionNotFound :+: CNil
+
   @message
-  final case class Response(response: Session :+: SessionNotFound :+: CNil) extends SessionR
+  final case class Response(response: ResponseT) extends SessionR
 
   @service(Protobuf)
   trait SessionService[F[_]]

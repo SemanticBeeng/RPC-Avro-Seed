@@ -24,12 +24,14 @@ import io.chrisdavenport.log4cats.Logger
 package object server {
 
   import com.kse.services.session.shared._
-  import shapeless.Coproduct
+  import shapeless.{Coproduct, _}
+  import syntax.typeable._
 
   /**
    * Transport protocol wrapper for the core implementation
    */
-  class SessionServiceHandler[F[_]: Sync](implicit L: Logger[F]) extends api.SessionService[F] {
+  class SessionServiceHandler[F[_]: Sync](implicit F: ConcurrentEffect[F], L: Logger[F])
+      extends api.SessionService[F] {
 
     /**
      *
@@ -37,10 +39,24 @@ package object server {
     def lookup(sessionId: domain.SessionId): F[api.Response] = {
 
       for {
-        session ← SessionService[F].lookup(sessionId)
-        r ← L
-          .info(s"$sessionId lookup")
-          .as(api.Response(Coproduct(session.asInstanceOf[api.Session])))
+        sessionOr ← SessionService[F].lookup(sessionId)
+
+        r ← sessionOr
+          .fold(
+            e ⇒ {
+              val r: api.SessionR = api.SessionNotFound(sessionId)
+              L.info(s"lookup($sessionId) error $e")
+                .as(api.Response(Coproduct[api.ResponseT](r)))
+            },
+            s ⇒
+              s.cast[api.Session]
+                .map(
+                  s1 ⇒
+                    L.info(s"lookup($sessionId)")
+                      .as(api.Response(Coproduct[api.ResponseT](s1))))
+          )
+        //s       ← Effect[F].pure(session.cast[api.Session])
+        //r       ← L.info(s"$sessionId lookup").as(api.Response(Coproduct(s)))
       } yield r
     }
 
@@ -71,14 +87,14 @@ package object server {
     /**
      *
      */
-    def lookup(sessionId: domain.SessionId): F[domain.Session] = {
+    def lookup(sessionId: domain.SessionId): F[Either[Error, domain.Session]] = {
 
       /**
        * Lookup event sourced entity
        */
       val session: domain.Session = null
 
-      L.info(s"$sessionId lookup").as(session)
+      L.info(s"$sessionId lookup").as(Right(session))
     }
 
     def expiresIn(sessionId: String): F[domain.TimeMs] = {

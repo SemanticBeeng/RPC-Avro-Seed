@@ -17,9 +17,9 @@
 package com.kse.services.session.shared
 
 /**
-  *
-  * @tparam R "response" coproduct
-  */
+ *
+ * @tparam R "response" coproduct
+ */
 trait SessionServiceBase[F[_], R] {
 
   /**
@@ -39,9 +39,9 @@ trait SessionServiceBase[F[_], R] {
 
 }
 
-abstract class SessionService[F[_]] extends SessionServiceBase[F, domain.Session] {
+abstract class SessionService[F[_]] extends SessionServiceBase[F, Either[Error, domain.Session]] {
 
-  def lookup(sessionId: domain.SessionId): F[domain.Session]
+  def lookup(sessionId: domain.SessionId): F[Either[Error, domain.Session]]
 
   def expiresIn(sessionId: domain.SessionId): F[domain.TimeMs]
 
