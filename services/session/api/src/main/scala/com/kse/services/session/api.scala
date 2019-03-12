@@ -19,7 +19,6 @@ package com.kse.services.session
 import higherkindness.mu.rpc.internal.encoders.avro.bigDecimalTagged._
 import higherkindness.mu.rpc.internal.encoders.avro.javatime._
 import higherkindness.mu.rpc.protocol._
-
 import shapeless.{:+:, CNil}
 
 //@outputName("SessionService")
@@ -47,21 +46,13 @@ object api {
   final case class Response(response: Session :+: SessionNotFound :+: CNil) extends SessionR
 
   @service(Protobuf)
-  trait SessionService[F[_]] {
+  trait SessionService[F[_]]
+      extends com.kse.services.session.shared.SessionServiceBase[F, api.Response] {
 
-    /**
-     *
-     */
-    def lookup(sessionId: domain.SessionId): F[Response]
+    def lookup(sessionId: domain.SessionId): F[api.Response]
 
-    /**
-     *
-     */
     def expiresIn(sessionId: domain.SessionId): F[domain.TimeMs]
 
-    /**
-     * @param sessionId After this call the session is guaranteed to not be usable anymore.
-     */
     def terminate(sessionId: domain.SessionId): F[Unit]
   }
 }
