@@ -27,7 +27,7 @@ package object server {
   import shapeless.Coproduct
 
   /**
-   * Transport protocol wrapper for the core service
+   * Transport protocol wrapper for the core implementation
    */
   class SessionServiceHandler[F[_]: Sync](implicit L: Logger[F]) extends api.SessionService[F] {
 
@@ -65,7 +65,7 @@ package object server {
    * Core implementation, free of transport protocol concerns (like protobuf, Avro)
    * Can be tested in isolation from remote execution / calls.
    */
-  class SessionServiceImpl[F[_]: Sync](implicit L: Logger[F])
+  private class SessionServiceImpl[F[_]: Sync](implicit L: Logger[F])
       extends com.kse.services.session.shared.SessionService[F] {
 
     /**

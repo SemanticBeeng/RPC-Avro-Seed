@@ -16,12 +16,16 @@
 
 package com.kse.services.session.shared
 
-trait SessionServiceBase[F[_], SR] {
+/**
+  *
+  * @tparam R "response" coproduct
+  */
+trait SessionServiceBase[F[_], R] {
 
   /**
    *
    */
-  def lookup(sessionId: domain.SessionId): F[SR]
+  def lookup(sessionId: domain.SessionId): F[R]
 
   /**
    *
