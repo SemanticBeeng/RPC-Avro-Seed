@@ -20,14 +20,14 @@ import cats.effect._
 import cats.syntax.applicative._
 import cats.syntax.flatMap._
 import cats.syntax.functor._
-import com.kse.session.domain
-import com.kse.session.services.api
 import io.grpc.{CallOptions, ManagedChannel}
 import io.chrisdavenport.log4cats.Logger
 //
-import com.kse.authentication.services.client.ClientRPC
-import com.kse.session.services._
+import com.kse.session.services.shared
+import com.kse.session.domain
 import domain.{SessionId, TimeMs}
+import com.kse.session.services.api
+import com.kse.authentication.services.client.ClientRPC
 //
 import scala.concurrent.ExecutionContext
 import scala.concurrent.duration.FiniteDuration
@@ -36,7 +36,7 @@ object SessionServiceClient {
 
   def apply[F[_]: Effect](clientF: F[api.SessionService[F]])(
       implicit L: Logger[F]): com.kse.session.services.shared.SessionService[F] =
-    new com.kse.session.services.shared.SessionService[F] {
+    new shared.SessionService[F] {
 
       override def lookup(sessionId: SessionId): F[Either[Error, domain.Session]] = ???
 
@@ -54,12 +54,12 @@ object SessionServiceClient {
       implicit L: Logger[F],
       F: ConcurrentEffect[F],
       TM: Timer[F],
-      EC: ExecutionContext): fs2.Stream[F, com.kse.session.services.shared.SessionService[F]] = {
+      EC: ExecutionContext): fs2.Stream[F, shared.SessionService[F]] = {
 
     def fromChannel(channel: F[ManagedChannel]): Resource[F, api.SessionService[F]] =
       api.SessionService.clientFromChannel(channel, CallOptions.DEFAULT)
 
-    def wrap(client: F[api.SessionService[F]]): com.kse.session.services.shared.SessionService[F] =
+    def wrap(client: F[api.SessionService[F]]): shared.SessionService[F] =
       SessionServiceClient(client)
 
     ClientRPC

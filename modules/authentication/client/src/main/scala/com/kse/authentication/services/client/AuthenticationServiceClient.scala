@@ -23,6 +23,7 @@ import io.grpc.{CallOptions, ManagedChannel}
 //
 import com.kse.session.domain
 import com.kse.authentication.services.api
+import com.kse.authentication.services.shared
 
 //
 import scala.concurrent.ExecutionContext
@@ -31,8 +32,8 @@ import scala.concurrent.duration.FiniteDuration
 object AuthenticationServiceClient {
 
   def apply[F[_]: Effect](clientF: F[api.AuthenticationService[F]])(
-      implicit L: Logger[F]): com.kse.authentication.services.shared.AuthenticationService[F] =
-    new com.kse.authentication.services.shared.AuthenticationService[F] {
+      implicit L: Logger[F]): shared.AuthenticationService[F] =
+    new shared.AuthenticationService[F] {
 
       override def authenticate(email: String): F[domain.Session] = ???
     }
@@ -46,17 +47,12 @@ object AuthenticationServiceClient {
       implicit L: Logger[F],
       F: ConcurrentEffect[F],
       TM: Timer[F],
-      EC: ExecutionContext): fs2.Stream[
-    F,
-    com.kse.authentication.services.shared.AuthenticationService[F]] = {
+      EC: ExecutionContext): fs2.Stream[F, shared.AuthenticationService[F]] = {
 
     def fromChannel(channel: F[ManagedChannel]): Resource[F, api.AuthenticationService[F]] =
-      api.AuthenticationService
-        .clientFromChannel(channel, CallOptions.DEFAULT)
+      api.AuthenticationService.clientFromChannel(channel, CallOptions.DEFAULT)
 
-    def wrap(
-        client: F[api.AuthenticationService[F]]): com.kse.authentication.services.shared.AuthenticationService[
-      F] =
+    def wrap(client: F[api.AuthenticationService[F]]): shared.AuthenticationService[F] =
       AuthenticationServiceClient(client)
 
     ClientRPC
