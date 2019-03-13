@@ -17,6 +17,7 @@
 package com.kse.session.services.shared
 
 import com.kse.session.domain
+import io.chrisdavenport.log4cats.Logger
 
 /**
  *
@@ -49,4 +50,10 @@ abstract class SessionService[F[_]] extends SessionServiceBase[F, Either[Error, 
 
   def terminate(sessionId: domain.SessionId): F[Unit]
 
+}
+
+import cats.effect.Sync
+
+object SessionService {
+  def apply[F[_]: Sync](implicit L: Logger[F]) = new SessionServiceImpl[F]
 }

@@ -35,10 +35,16 @@ import scala.concurrent.duration.FiniteDuration
 object SessionServiceClient {
 
   def apply[F[_]: Effect](clientF: F[api.SessionService[F]])(
-      implicit L: Logger[F]): com.kse.session.services.shared.SessionService[F] =
+      implicit L: Logger[F]): shared.SessionService[F] =
     new shared.SessionService[F] {
 
-      override def lookup(sessionId: SessionId): F[Either[Error, domain.Session]] = ???
+      override def lookup(sessionId: SessionId): F[Either[Error, domain.Session]] = {
+        for {
+          client ← clientF
+          response ← client.lookup(sessionId)
+
+        } yield response.result.map(some handler).unify
+      }
 
       override def expiresIn(sessionId: SessionId): F[TimeMs] = ???
 

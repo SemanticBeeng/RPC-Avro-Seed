@@ -22,7 +22,6 @@ import cats.syntax.flatMap._
 //import cats.syntax.apply._
 //
 import com.kse.session.domain
-import com.kse.session.services.api
 //
 import io.chrisdavenport.log4cats.Logger
 
@@ -75,50 +74,5 @@ package object server {
         _ ← L.info(s"$sessionId terminated ").as(r)
       } yield r
     }
-  }
-
-  /**
-   * Core implementation, free of transport protocol concerns (like protobuf, Avro)
-   * Can be tested in isolation from remote execution / calls.
-   */
-  private class SessionServiceImpl[F[_]: Sync](implicit L: Logger[F])
-      extends com.kse.session.services.shared.SessionService[F] {
-
-    /**
-     *
-     */
-    def lookup(sessionId: domain.SessionId): F[Either[Error, domain.Session]] = {
-
-      /**
-       * Lookup event sourced entity
-       */
-      val session: domain.Session = null
-
-      L.info(s"$sessionId lookup").as(Right(session))
-    }
-
-    def expiresIn(sessionId: String): F[domain.TimeMs] = {
-
-      /**
-       * Lookup event sourced entity
-       */
-      val session: domain.Session = null
-
-      L.info(s"$sessionId expiresIn").as(1000)
-    }
-
-    def terminate(sessionId: domain.SessionId): F[Unit] = {
-
-      /**
-       * Lookup event sourced entity
-       */
-      val session: domain.Session = null
-
-      L.info(s"$sessionId terminated").as(Unit)
-    }
-  }
-
-  object SessionService {
-    def apply[F[_]: Sync](implicit L: Logger[F]): SessionService[F] = new SessionServiceImpl[F]
   }
 }

@@ -49,7 +49,7 @@ object api {
   type ResponseT = Session :+: SessionNotFound :+: SystemError :+: CNil
 
   @message
-  final case class Response(response: ResponseT) extends SessionR
+  final case class Response(result: ResponseT) extends SessionR
 
   @service(Protobuf)
   trait SessionService[F[_]]
