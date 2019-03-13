@@ -28,8 +28,10 @@ object domain {
     def expiresIn: TimeMs
   }
 
-  sealed trait Error extends Product with Serializable
+  sealed trait Error extends Product with Serializable {
+    def msg: String
+  }
 
-  case class SessionNotFound(id: domain.SessionId) extends Error
+  case class SessionNotFound(id: domain.SessionId, msg: String) extends Error
 
 }

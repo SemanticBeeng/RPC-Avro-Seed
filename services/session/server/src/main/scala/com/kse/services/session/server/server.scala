@@ -19,6 +19,7 @@ package com.kse.services.session
 import cats.effect._
 import cats.syntax.functor._
 import cats.syntax.flatMap._
+//import cats.syntax.apply._
 import io.chrisdavenport.log4cats.Logger
 
 package object server {
@@ -41,9 +42,10 @@ package object server {
     def lookup(sessionId: domain.SessionId): F[api.Response] = {
 
       SessionService[F].lookup(sessionId).map {
-        case Left(e: domain.Error) ⇒ {
+        case Left(e /*: domain.Error*/ ) ⇒
+          //L.error(s"lookup($sessionId) error ${e.msg}") >>
           Coproduct[api.ResponseT](api.SessionNotFound(sessionId))
-        }
+
         case Right(s: domain.Session) ⇒
           s.cast[api.Session]
             .map(Coproduct[api.ResponseT](_))
