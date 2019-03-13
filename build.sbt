@@ -118,30 +118,30 @@ lazy val service_shared_client = project
 //////////////////////////
 
 lazy val service_session_api = project
-  .in(file("services/session/api"))
+  .in(file("session/services/api"))
   .settings(serverProtocolSettings)
   .dependsOn(service_session_shared)
 
 lazy val service_session_shared = project
-  .in(file("services/session/shared"))
+  .in(file("session/services/shared"))
   .settings(serverSettings ++ coreLibsSettings)
 
 lazy val service_session_server = project
-  .in(file("services/session/server"))
+  .in(file("session/services/server"))
   .settings(serverSettings ++ coreSrvLibsSettings)
   .dependsOn(service_session_api)
 
 lazy val service_session_app = project
-  .in(file("services/session/app"))
+  .in(file("session/services/app"))
   .dependsOn(service_session_server, service_session_shared, service_shared_app)
 
 lazy val service_session_impl = project
-  .in(file("services/session/impl"))
+  .in(file("session/services/impl"))
   .settings(serverSettings ++ coreSrvLibsSettings)
   .dependsOn(service_session_api, service_session_shared)
 
 lazy val service_session_client = project
-  .in(file("services/session/client"))
+  .in(file("session/services/client"))
   .settings(clientRPCSettings ++ coreSrvLibsSettings)
   .dependsOn(service_shared_client, service_session_api, service_session_shared)
 
@@ -155,42 +155,43 @@ lazy val allModules_session: Seq[ProjectReference] = Seq(
 )
 
 lazy val service_session = project
-  .in(file("services/session"))
+  .in(file("session/services"))
   .aggregate(allModules_session: _*)
   .dependsOn(allModules_session.map(ClasspathDependency(_, None)): _*)
 
-addCommandAlias("runServiceSession", "service_session_app/runMain com.kse.services.session.app.ServerApp")
+addCommandAlias("runServiceSession", "service_session_app/runMain com.kse.session.services.app.ServerApp")
 
 /////////////////////////////////
 ////  Authentication Service ////
 /////////////////////////////////
 lazy val service_authentication_api = project
-  .in(file("services/authentication/api"))
+  .in(file("authentication/services/api"))
   .settings(serverProtocolSettings)
   .dependsOn(service_authentication_shared, service_session_api, service_session_shared)
 
 lazy val service_authentication_shared = project
-  .in(file("services/authentication/shared"))
+  .in(file("authentication/services/shared"))
   .settings(serverSettings ++ coreLibsSettings)
+  .dependsOn(service_session_shared)
 
 lazy val service_authentication_server = project
-  .in(file("services/authentication/server"))
+  .in(file("authentication/services/server"))
   .settings(serverSettings ++ coreSrvLibsSettings)
   .dependsOn(service_authentication_api, service_authentication_shared, service_session_api)
 
 lazy val service_authentication_app = project
-  .in(file("services/authentication/app"))
+  .in(file("authentication/services/app"))
   .dependsOn(service_authentication_server, service_authentication_shared, service_shared_app)
 
 lazy val service_authentication_impl = project
-  .in(file("services/authentication/impl"))
+  .in(file("authentication/services/impl"))
   .settings(serverSettings ++ coreSrvLibsSettings)
   .dependsOn(service_authentication_api, service_authentication_shared)
 
 lazy val service_authentication_client = project
-  .in(file("services/authentication/client"))
+  .in(file("authentication/services/client"))
   .settings(clientRPCSettings ++ coreSrvLibsSettings)
-  .dependsOn(service_shared_client, service_authentication_api, service_authentication_shared)
+  .dependsOn(service_shared_client, service_authentication_api, service_authentication_shared, service_session_shared)
 
 lazy val allModules_authentication: Seq[ProjectReference] = Seq(
   service_authentication_api,
@@ -202,11 +203,11 @@ lazy val allModules_authentication: Seq[ProjectReference] = Seq(
 )
 
 lazy val service_authentication = project
-  .in(file("services/authentication"))
+  .in(file("authentication/services"))
   .aggregate(allModules_authentication: _*)
   .dependsOn(allModules_authentication.map(ClasspathDependency(_, None)): _*)
 
-addCommandAlias("runServiceAuthentication", "service_authentication_app/runMain com.kse.services.authentication.app.ServerApp")
+addCommandAlias("runServiceAuthentication", "service_authentication_app/runMain com.kse.authentication.services.app.ServerApp")
 
 /////////////////////////
 ////       Root       ////
