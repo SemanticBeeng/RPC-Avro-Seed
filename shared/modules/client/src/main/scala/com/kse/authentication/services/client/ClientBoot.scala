@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.kse.services.client
+package com.kse.authentication.services.client
 
 import cats.effect._
 import cats.syntax.functor._

@@ -21,19 +21,22 @@ import cats.syntax.applicative._
 import io.chrisdavenport.log4cats.Logger
 import io.grpc.{CallOptions, ManagedChannel}
 //
-import com.kse.services.client.ClientRPC
+import com.kse.authentication.services.client.ClientRPC
 import com.kse.session.domain
 import com.kse.session.services.api
 import com.kse.authentication.services.api
+import com.kse.authentication.services.{api ⇒ authapi}
+import com.kse.session.services.{api ⇒ sessapi}
+
 //
 import scala.concurrent.ExecutionContext
 import scala.concurrent.duration.FiniteDuration
 
 object AuthenticationServiceClient {
 
-  def apply[F[_]: Effect](clientF: F[com.kse.authentication.services.api.AuthenticationService[F]])(
-      implicit L: Logger[F]): com.kse.services.shared.AuthenticationService[F] =
-    new com.kse.services.shared.AuthenticationService[F] {
+  def apply[F[_]: Effect](clientF: F[authapi.AuthenticationService[F]])(
+      implicit L: Logger[F]): com.kse.authentication.services.shared.AuthenticationService[F] =
+    new com.kse.authentication.services.shared.AuthenticationService[F] {
 
       override def authenticate(email: String): F[domain.Session] = ???
     }
@@ -47,16 +50,16 @@ object AuthenticationServiceClient {
       implicit L: Logger[F],
       F: ConcurrentEffect[F],
       TM: Timer[F],
-      EC: ExecutionContext): fs2.Stream[F, com.kse.services.shared.AuthenticationService[F]] = {
+      EC: ExecutionContext): fs2.Stream[
+    F,
+    com.kse.authentication.services.shared.AuthenticationService[F]] = {
 
-    def fromChannel(channel: F[ManagedChannel]): Resource[
-      F,
-      com.kse.authentication.services.api.AuthenticationService[F]] =
-      com.kse.authentication.services.api.AuthenticationService
+    def fromChannel(channel: F[ManagedChannel]): Resource[F, authapi.AuthenticationService[F]] =
+      authapi.AuthenticationService
         .clientFromChannel(channel, CallOptions.DEFAULT)
 
     def wrap(
-        client: F[com.kse.authentication.services.api.AuthenticationService[F]]): com.kse.services.shared.AuthenticationService[
+        client: F[authapi.AuthenticationService[F]]): com.kse.authentication.services.shared.AuthenticationService[
       F] =
       AuthenticationServiceClient(client)
 

@@ -25,7 +25,7 @@ import com.kse.session.services.api
 import io.grpc.{CallOptions, ManagedChannel}
 import io.chrisdavenport.log4cats.Logger
 //
-import com.kse.services.client.ClientRPC
+import com.kse.authentication.services.client.ClientRPC
 import com.kse.session.services._
 import domain.{SessionId, TimeMs}
 //

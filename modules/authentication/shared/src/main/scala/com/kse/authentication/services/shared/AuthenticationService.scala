@@ -14,26 +14,26 @@
  * limitations under the License.
  */
 
-package com.kse.services.client
+package com.kse.authentication.services.shared
 
-import com.adrianrafo.seed.config.domain._
-import scopt.OptionParser
+import com.kse.authentication.domainA
+import com.kse.session.domain
 
-object ClientParams {
+/**
+ *
+ * @tparam R "response" coproduct
+ */
+trait AuthenticationServiceBase[F[_], R] {
 
-  val default = ParamsConfig("Foo")
+  /**
+   *
+   */
+  def authenticate(email: String): F[domain.Session]
 
-  def paramsConfig(name: String): OptionParser[ParamsConfig] =
-    new scopt.OptionParser[ParamsConfig](name) {
+}
 
-      opt[String]("name")
-        .required()
-        .action((value, config) => config.copy(request = value))
-        .text("The name for the request")
+abstract class AuthenticationService[F[_]]
+    extends AuthenticationServiceBase[F, Either[Error, domain.Session]] {
 
-    }
-
-  def loadParams(name: String, args: List[String]): ParamsConfig =
-    paramsConfig(name).parse(args, default).getOrElse(default)
-
+  def authenticate(email: String): F[domain.Session]
 }
