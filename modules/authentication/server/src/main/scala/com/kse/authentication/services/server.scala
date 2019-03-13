@@ -20,13 +20,12 @@ import cats.effect.Sync
 import cats.syntax.functor._
 import io.chrisdavenport.log4cats.Logger
 //
-import com.kse.authentication.services.{api ⇒ authapi}
 import com.kse.session.services.{api ⇒ sessapi}
 
 object server {
 
   class AuthenticationServiceHandler[F[_]: Sync](implicit L: Logger[F])
-      extends authapi.AuthenticationService[F] {
+      extends api.AuthenticationService[F] {
 
     def authenticate(email: String): F[sessapi.Session] =
       L.info(s"authenticate").as(sessapi.Session("id", 1000L, 100L))

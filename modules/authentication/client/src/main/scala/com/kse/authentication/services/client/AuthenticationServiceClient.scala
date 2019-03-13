@@ -21,12 +21,8 @@ import cats.syntax.applicative._
 import io.chrisdavenport.log4cats.Logger
 import io.grpc.{CallOptions, ManagedChannel}
 //
-import com.kse.authentication.services.client.ClientRPC
 import com.kse.session.domain
-import com.kse.session.services.api
 import com.kse.authentication.services.api
-import com.kse.authentication.services.{api ⇒ authapi}
-import com.kse.session.services.{api ⇒ sessapi}
 
 //
 import scala.concurrent.ExecutionContext
@@ -34,7 +30,7 @@ import scala.concurrent.duration.FiniteDuration
 
 object AuthenticationServiceClient {
 
-  def apply[F[_]: Effect](clientF: F[authapi.AuthenticationService[F]])(
+  def apply[F[_]: Effect](clientF: F[api.AuthenticationService[F]])(
       implicit L: Logger[F]): com.kse.authentication.services.shared.AuthenticationService[F] =
     new com.kse.authentication.services.shared.AuthenticationService[F] {
 
@@ -54,12 +50,12 @@ object AuthenticationServiceClient {
     F,
     com.kse.authentication.services.shared.AuthenticationService[F]] = {
 
-    def fromChannel(channel: F[ManagedChannel]): Resource[F, authapi.AuthenticationService[F]] =
-      authapi.AuthenticationService
+    def fromChannel(channel: F[ManagedChannel]): Resource[F, api.AuthenticationService[F]] =
+      api.AuthenticationService
         .clientFromChannel(channel, CallOptions.DEFAULT)
 
     def wrap(
-        client: F[authapi.AuthenticationService[F]]): com.kse.authentication.services.shared.AuthenticationService[
+        client: F[api.AuthenticationService[F]]): com.kse.authentication.services.shared.AuthenticationService[
       F] =
       AuthenticationServiceClient(client)
 
