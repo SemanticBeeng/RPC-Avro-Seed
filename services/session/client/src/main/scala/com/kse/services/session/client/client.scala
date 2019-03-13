@@ -71,3 +71,54 @@ object SessionServiceClient {
       .map(cache => wrap(cache.getClient))
   }
 }
+
+//=== WIP ==
+//class SessionServiceClient[F[_]: Effect] //(implicit F: ConcurrentEffect[F], EC: ExecutionContext)
+//    extends ClientApiUnwrapper[F, shared.SessionService, api.SessionService] {
+//
+//  def apply(clientF: F[api.SessionService[F]])(implicit L: Logger[F]): shared.SessionService[F] =
+//    new shared.SessionService[F] {
+//
+//      override def lookup(sessionId: SessionId): F[Either[Error, domain.Session]] = ???
+//
+//      override def expiresIn(sessionId: SessionId): F[TimeMs] = ???
+//
+//      override def terminate(sessionId: SessionId): F[Unit] = ???
+//    }
+//
+//  def fromChannel(channel: F[ManagedChannel]): Resource[F, api.SessionService[F]] =
+//    api.SessionService.clientFromChannel(channel, CallOptions.DEFAULT)
+//
+//  def wrap(client: F[api.SessionService[F]]): shared.SessionService[F] =
+//    new SessionServiceClient(client)
+//
+//}
+//
+//abstract class ClientApiUnwrapper[F[_]: Effect, SS[_[_]], AS[_[_]]] {
+//
+//  def fromChannel: F[ManagedChannel] ⇒ Resource[F, AS[F]]
+//
+//  def wrap: F[AS[F]] ⇒ SS[F]
+//
+//  def createClient(
+//      hostname: String,
+//      port: Int,
+//      sslEnabled: Boolean = true,
+//      tryToRemoveUnusedEvery: FiniteDuration,
+//      removeUnusedAfter: FiniteDuration)(
+//      implicit L: Logger[F],
+//      F: ConcurrentEffect[F],
+//      TM: Timer[F],
+//      EC: ExecutionContext): fs2.Stream[F, SS[F]] = {
+//
+//    ClientRPC
+//      .clientCache[F, AS](
+//        (hostname, port).pure[F],
+//        sslEnabled,
+//        tryToRemoveUnusedEvery,
+//        removeUnusedAfter,
+//        fromChannel)
+//      .map(cache => wrap(cache.getClient))
+//  }
+//
+//}
