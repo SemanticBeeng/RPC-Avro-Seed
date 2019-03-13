@@ -117,97 +117,97 @@ lazy val service_shared_client = project
 ////  Session Service ////
 //////////////////////////
 
-lazy val service_session_api = project
-  .in(file("session/services/api"))
+lazy val session_module_api = project
+  .in(file("modules/session/api"))
   .settings(serverProtocolSettings)
-  .dependsOn(service_session_shared)
+  .dependsOn(session_module_shared)
 
-lazy val service_session_shared = project
-  .in(file("session/services/shared"))
+lazy val session_module_shared = project
+  .in(file("modules/session/shared"))
   .settings(serverSettings ++ coreLibsSettings)
 
-lazy val service_session_server = project
-  .in(file("session/services/server"))
+lazy val session_module_server = project
+  .in(file("modules/session/server"))
   .settings(serverSettings ++ coreSrvLibsSettings)
-  .dependsOn(service_session_api)
+  .dependsOn(session_module_api)
 
-lazy val service_session_app = project
-  .in(file("session/services/app"))
-  .dependsOn(service_session_server, service_session_shared, service_shared_app)
+lazy val session_module_app = project
+  .in(file("modules/session/app"))
+  .dependsOn(session_module_server, session_module_shared, service_shared_app)
 
-lazy val service_session_impl = project
-  .in(file("session/services/impl"))
+lazy val session_module_impl = project
+  .in(file("modules/session/impl"))
   .settings(serverSettings ++ coreSrvLibsSettings)
-  .dependsOn(service_session_api, service_session_shared)
+  .dependsOn(session_module_api, session_module_shared)
 
-lazy val service_session_client = project
-  .in(file("session/services/client"))
+lazy val session_module_client = project
+  .in(file("modules/session/client"))
   .settings(clientRPCSettings ++ coreSrvLibsSettings)
-  .dependsOn(service_shared_client, service_session_api, service_session_shared)
+  .dependsOn(service_shared_client, session_module_api, session_module_shared)
 
 lazy val allModules_session: Seq[ProjectReference] = Seq(
-  service_session_api,
-  service_session_shared,
-  service_session_impl,
-  service_session_server,
-  service_session_app,
-  service_session_client
+  session_module_api,
+  session_module_shared,
+  session_module_impl,
+  session_module_server,
+  session_module_app,
+  session_module_client
 )
 
-lazy val service_session = project
-  .in(file("session/services"))
+lazy val session_module = project
+  .in(file("modules/session"))
   .aggregate(allModules_session: _*)
   .dependsOn(allModules_session.map(ClasspathDependency(_, None)): _*)
 
-addCommandAlias("runServiceSession", "service_session_app/runMain com.kse.session.services.app.ServerApp")
+addCommandAlias("runServiceSession", "session_module_app/runMain com.kse.session.services.app.ServerApp")
 
 /////////////////////////////////
 ////  Authentication Service ////
 /////////////////////////////////
-lazy val service_authentication_api = project
-  .in(file("authentication/services/api"))
+lazy val authentication_module_api = project
+  .in(file("modules/authentication/api"))
   .settings(serverProtocolSettings)
-  .dependsOn(service_authentication_shared, service_session_api, service_session_shared)
+  .dependsOn(authentication_module_shared, session_module_api, session_module_shared)
 
-lazy val service_authentication_shared = project
-  .in(file("authentication/services/shared"))
+lazy val authentication_module_shared = project
+  .in(file("modules/authentication/shared"))
   .settings(serverSettings ++ coreLibsSettings)
-  .dependsOn(service_session_shared)
+  .dependsOn(session_module_shared)
 
-lazy val service_authentication_server = project
-  .in(file("authentication/services/server"))
+lazy val authentication_module_server = project
+  .in(file("modules/authentication/server"))
   .settings(serverSettings ++ coreSrvLibsSettings)
-  .dependsOn(service_authentication_api, service_authentication_shared, service_session_api)
+  .dependsOn(authentication_module_api, authentication_module_shared, session_module_api)
 
-lazy val service_authentication_app = project
-  .in(file("authentication/services/app"))
-  .dependsOn(service_authentication_server, service_authentication_shared, service_shared_app)
+lazy val authentication_module_app = project
+  .in(file("modules/authentication/app"))
+  .dependsOn(authentication_module_server, authentication_module_shared, service_shared_app)
 
-lazy val service_authentication_impl = project
-  .in(file("authentication/services/impl"))
+lazy val authentication_module_impl = project
+  .in(file("modules/authentication/impl"))
   .settings(serverSettings ++ coreSrvLibsSettings)
-  .dependsOn(service_authentication_api, service_authentication_shared)
+  .dependsOn(authentication_module_api, authentication_module_shared)
 
-lazy val service_authentication_client = project
-  .in(file("authentication/services/client"))
+lazy val authentication_module_client = project
+  .in(file("modules/authentication/client"))
   .settings(clientRPCSettings ++ coreSrvLibsSettings)
-  .dependsOn(service_shared_client, service_authentication_api, service_authentication_shared, service_session_shared)
+  .dependsOn(service_shared_client, authentication_module_api, authentication_module_shared, session_module_shared)
 
 lazy val allModules_authentication: Seq[ProjectReference] = Seq(
-  service_authentication_api,
-  service_authentication_shared,
-  service_authentication_impl,
-  service_authentication_server,
-  service_authentication_app,
-  service_authentication_client
+  authentication_module_api,
+  authentication_module_shared,
+  authentication_module_impl,
+  authentication_module_server,
+  authentication_module_app,
+  authentication_module_client
 )
 
-lazy val service_authentication = project
-  .in(file("authentication/services"))
+lazy val authentication_module = project
+  .in(file("modules/authentication"))
   .aggregate(allModules_authentication: _*)
   .dependsOn(allModules_authentication.map(ClasspathDependency(_, None)): _*)
 
-addCommandAlias("runServiceAuthentication", "service_authentication_app/runMain com.kse.authentication.services.app.ServerApp")
+addCommandAlias("runServiceAuthentication", "authentication_module_app/runMain com.kse.authentication.services.app.ServerApp")
 
 /////////////////////////
 ////       Root       ////
@@ -217,8 +217,8 @@ lazy val allRootModules: Seq[ProjectReference] = Seq(
   shared,
   client,
   server,
-  service_session,
-  service_authentication,
+  session_module,
+  authentication_module
 )
 
 lazy val root = project
