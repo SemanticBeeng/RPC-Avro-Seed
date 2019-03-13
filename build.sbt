@@ -143,7 +143,7 @@ lazy val service_session_impl = project
 lazy val service_session_client = project
   .in(file("services/session/client"))
   .settings(clientRPCSettings ++ coreSrvLibsSettings)
-  .dependsOn(service_session_api, service_session_shared)
+  .dependsOn(service_shared_client, service_session_api, service_session_shared)
 
 lazy val allModules_session: Seq[ProjectReference] = Seq(
   service_session_api,
@@ -190,7 +190,7 @@ lazy val service_authentication_impl = project
 lazy val service_authentication_client = project
   .in(file("services/authentication/client"))
   .settings(clientRPCSettings ++ coreSrvLibsSettings)
-  .dependsOn(service_authentication_api, service_authentication_shared)
+  .dependsOn(service_shared_client, service_authentication_api, service_authentication_shared)
 
 lazy val allModules_authentication: Seq[ProjectReference] = Seq(
   service_authentication_api,
