@@ -38,6 +38,9 @@ object api {
   case class SessionNotFound(id: domain.SessionId) extends SessionR
 
   @message
+  case class SystemError(msg: String) extends SessionR
+
+  @message
   final case class Session(
       id: domain.SessionId,
       createdAt: domain.TimestampMs,
@@ -45,7 +48,7 @@ object api {
       extends domain.Session
       with SessionR
 
-  type ResponseT = Session :+: SessionNotFound :+: CNil
+  type ResponseT = Session :+: SessionNotFound :+: SystemError :+: CNil
 
   @message
   final case class Response(response: ResponseT) extends SessionR

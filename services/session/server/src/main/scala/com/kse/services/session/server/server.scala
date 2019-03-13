@@ -27,6 +27,8 @@ package object server {
   import shapeless.{Coproduct, _}
   import syntax.typeable._
 
+  //type ResponseT = api.Session :+: api.SessionNotFound :+: api.SystemError :+: CNil
+
   /**
    * Transport protocol wrapper for the core implementation
    */
@@ -38,26 +40,18 @@ package object server {
      */
     def lookup(sessionId: domain.SessionId): F[api.Response] = {
 
-      for {
-        sessionOr ← SessionService[F].lookup(sessionId)
+      SessionService[F].lookup(sessionId).map {
+        case Left(e: domain.Error) ⇒ {
+          Coproduct[api.ResponseT](api.SessionNotFound(sessionId))
+        }
+        case Right(s: domain.Session) ⇒
+          s.cast[api.Session]
+            .map(Coproduct[api.ResponseT](_))
+            .getOrElse(Coproduct[api.ResponseT](api.SystemError(s"Failed to cast")))
 
-        r ← sessionOr
-          .fold(
-            e ⇒ {
-              val r: api.SessionR = api.SessionNotFound(sessionId)
-              L.info(s"lookup($sessionId) error $e")
-                .as(api.Response(Coproduct[api.ResponseT](r)))
-            },
-            s ⇒
-              s.cast[api.Session]
-                .map(
-                  s1 ⇒
-                    L.info(s"lookup($sessionId)")
-                      .as(api.Response(Coproduct[api.ResponseT](s1))))
-          )
-        //s       ← Effect[F].pure(session.cast[api.Session])
-        //r       ← L.info(s"$sessionId lookup").as(api.Response(Coproduct(s)))
-      } yield r
+      } flatMap { r ⇒
+        L.info(s"lookup($sessionId) ").as(api.Response(r))
+      }
     }
 
     def expiresIn(sessionId: String): F[domain.TimeMs] = {
