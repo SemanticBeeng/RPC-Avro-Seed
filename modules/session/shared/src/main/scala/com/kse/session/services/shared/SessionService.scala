@@ -42,9 +42,10 @@ trait SessionServiceBase[F[_], R] {
 
 }
 
-abstract class SessionService[F[_]] extends SessionServiceBase[F, Either[Error, domain.Session]] {
+abstract class SessionService[F[_]]
+    extends SessionServiceBase[F, Either[domain.Error, domain.Session]] {
 
-  def lookup(sessionId: domain.SessionId): F[Either[Error, domain.Session]]
+  def lookup(sessionId: domain.SessionId): F[Either[domain.Error, domain.Session]]
 
   def expiresIn(sessionId: domain.SessionId): F[domain.TimeMs]
 

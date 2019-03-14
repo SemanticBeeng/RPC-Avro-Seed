@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.kse.authentication.services.client
+package com.kse.shared.services.client
 
 import com.adrianrafo.seed.config.domain._
 import scopt.OptionParser

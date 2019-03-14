@@ -14,27 +14,25 @@
  * limitations under the License.
  */
 
-package com.kse.session
+package com.kse.session.services.client
 
-object domain {
+import cats.syntax.either._
+import shapeless.Poly1
 
-  type SessionId   = String
-  type TimestampMs = Long
-  type TimeMs      = Long
+import com.kse.session.domain
+import com.kse.session.services.api
 
-  trait Session {
-    def id: SessionId
-    def createdAt: TimestampMs
-    def expiresIn: TimeMs
+
+/**
+  * Marshalls / maps `api` to `domain` types / language
+  */
+object ApiMarshaller {
+
+  object ResponseMarshaller extends Poly1 {
+    implicit val m1 =
+      at[api.SessionNotFound](e ⇒ domain.SessionNotFound(e.id, "").asLeft[domain.Session])
+    implicit val m2 = at[api.SystemError](e ⇒ domain.ErrorImpl("").asLeft[domain.Session])
+    implicit val m3 =
+      at[api.Session](s ⇒ domain.SessionProxy(s.id, s.createdAt, s.expiresIn).asRight[domain.Error])
   }
-
-  sealed trait Error extends Product with Serializable {
-    def msg: String
-  }
-
-  case class SessionNotFound(id: domain.SessionId, override val msg: String) extends Error
-
-  case class ErrorImpl(override val msg: String) extends Error
-
-  case class SessionProxy(id: String, createdAt: TimestampMs, expiresIn: TimeMs) extends Session
 }

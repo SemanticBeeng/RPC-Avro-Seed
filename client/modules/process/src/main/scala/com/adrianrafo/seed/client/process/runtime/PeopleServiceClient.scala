@@ -25,7 +25,7 @@ import cats.syntax.functor._
 import com.adrianrafo.seed.client.common.models.PeopleError
 import com.adrianrafo.seed.client.process.runtime.handlers._
 import com.adrianrafo.seed.server.protocol._
-import com.kse.authentication.services.client.ClientRPC
+import com.kse.shared.services.client.ClientRPC
 import io.grpc.{CallOptions, ManagedChannel}
 import io.chrisdavenport.log4cats.Logger
 

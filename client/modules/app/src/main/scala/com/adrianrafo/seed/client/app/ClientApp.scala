@@ -20,7 +20,7 @@ package app
 import cats.effect._
 import com.adrianrafo.seed.config.domain._
 import com.adrianrafo.seed.client.process.runtime.PeopleServiceClient
-import com.kse.authentication.services.client.ClientBoot
+import com.kse.shared.services.client.ClientBoot
 import fs2.Stream
 import io.chrisdavenport.log4cats.Logger
 

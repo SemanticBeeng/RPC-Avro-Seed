@@ -34,7 +34,7 @@ class SessionServiceImpl[F[_]: Sync](implicit L: Logger[F]) extends SessionServi
   /**
    *
    */
-  def lookup(sessionId: domain.SessionId): F[Either[Error, domain.Session]] = {
+  def lookup(sessionId: domain.SessionId): F[Either[domain.Error, domain.Session]] = {
 
     /**
      * Lookup event sourced entity

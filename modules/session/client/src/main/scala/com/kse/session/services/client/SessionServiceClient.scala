@@ -20,31 +20,32 @@ import cats.effect._
 import cats.syntax.applicative._
 import cats.syntax.flatMap._
 import cats.syntax.functor._
+import com.kse.shared.services.client.ClientRPC
 import io.grpc.{CallOptions, ManagedChannel}
 import io.chrisdavenport.log4cats.Logger
 //
-import com.kse.session.services.shared
 import com.kse.session.domain
 import domain.{SessionId, TimeMs}
+import com.kse.session.services.shared
 import com.kse.session.services.api
-import com.kse.authentication.services.client.ClientRPC
 //
 import scala.concurrent.ExecutionContext
 import scala.concurrent.duration.FiniteDuration
 
 object SessionServiceClient {
 
+  import com.kse.session.services.client.ApiMarshaller._
+
   def apply[F[_]: Effect](clientF: F[api.SessionService[F]])(
       implicit L: Logger[F]): shared.SessionService[F] =
     new shared.SessionService[F] {
 
-      override def lookup(sessionId: SessionId): F[Either[Error, domain.Session]] = {
+      override def lookup(sessionId: SessionId): F[Either[domain.Error, domain.Session]] =
         for {
-          client ← clientF
+          client   ← clientF
           response ← client.lookup(sessionId)
 
-        } yield response.result.map(some handler).unify
-      }
+        } yield response.result.map(ResponseMarshaller).unify
 
       override def expiresIn(sessionId: SessionId): F[TimeMs] = ???
 
