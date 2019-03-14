@@ -16,8 +16,8 @@
 
 package com.kse.authentication.services.shared
 
-import com.kse.authentication.domainA
-import com.kse.session.domain
+import com.kse.authentication.domain
+import com.kse.session.{domain ⇒ sesson_domain}
 
 /**
  *
@@ -28,12 +28,12 @@ trait AuthenticationServiceBase[F[_], R] {
   /**
    *
    */
-  def authenticate(email: String): F[domain.Session]
+  def authenticate(email: String): F[sesson_domain.Session]
 
 }
 
 abstract class AuthenticationService[F[_]]
-    extends AuthenticationServiceBase[F, Either[Error, domain.Session]] {
+    extends AuthenticationServiceBase[F, Either[domain.Error, sesson_domain.Session]] {
 
-  def authenticate(email: String): F[domain.Session]
+  def authenticate(email: String): F[sesson_domain.Session]
 }

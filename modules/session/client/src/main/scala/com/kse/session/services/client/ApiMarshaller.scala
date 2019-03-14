@@ -22,10 +22,9 @@ import shapeless.Poly1
 import com.kse.session.domain
 import com.kse.session.services.api
 
-
 /**
-  * Marshalls / maps `api` to `domain` types / language
-  */
+ * Marshals / maps `api` to `domain` types / language
+ */
 object ApiMarshaller {
 
   object ResponseMarshaller extends Poly1 {

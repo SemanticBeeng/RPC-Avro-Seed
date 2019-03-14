@@ -16,7 +16,12 @@
 
 package com.kse.authentication
 
-object domainA {
+object domain {
 
   type IDToken = String
+
+  sealed trait Error extends Product with Serializable {
+    def msg: String
+  }
+
 }

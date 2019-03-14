@@ -87,7 +87,7 @@ object SessionServiceClient {
 //  def apply(clientF: F[api.SessionService[F]])(implicit L: Logger[F]): shared.SessionService[F] =
 //    new shared.SessionService[F] {
 //
-//      override def lookup(sessionId: SessionId): F[Either[Error, domain.Session]] = ???
+//      override def lookup(sessionId: SessionId): F[Either[domain.Error, domain.Session]] = ???
 //
 //      override def expiresIn(sessionId: SessionId): F[TimeMs] = ???
 //
