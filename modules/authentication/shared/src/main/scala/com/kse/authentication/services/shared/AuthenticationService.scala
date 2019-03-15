@@ -21,8 +21,8 @@ import com.kse.session.{domain ⇒ sesson_domain}
 
 import io.chrisdavenport.log4cats.Logger
 
-import freestyle.free._
-import freestyle.tagless._
+//import freestyle.free._
+//import freestyle.tagless._
 
 object algebra {
 
@@ -30,21 +30,22 @@ object algebra {
    *
    * @tparam R "response" coproduct
    */
-  @free
-  trait AuthenticationService {
+  //@free
+  trait AuthenticationService[F[_], R] {
 
-    type F[_]
+    //  type F[_]
     //  type R
 
     /**
      *
      */
-    //def authenticate(email: String): F[R]
-    def authenticate[R](email: String): FS[R]
+    def authenticate(email: String): F[R]
+    //def authenticate(email: String): FS[R]
   }
 }
 
-abstract class AuthenticationService[F[_]] extends algebra.AuthenticationService[F] {
+abstract class AuthenticationService[F[_]]
+    extends algebra.AuthenticationService[F, Either[domain.Error, sesson_domain.Session]] {
 
   def authenticate(email: String): F[Either[domain.Error, sesson_domain.Session]]
 }
