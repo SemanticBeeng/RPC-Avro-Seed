@@ -16,18 +16,39 @@
 
 package com.kse.authentication.services
 
-import cats.effect.Sync
+import cats.effect._
 import cats.syntax.functor._
+import cats.syntax.flatMap._
+//
+import com.kse.authentication.services.shared.AuthenticationService
+import com.kse.session.services.{api ⇒ session_api}
+import com.kse.session.{domain ⇒ sesson_domain}
+
+//
 import io.chrisdavenport.log4cats.Logger
 //
-import com.kse.session.services.{api ⇒ sessapi}
-
 object server {
+
+  import shapeless.{Coproduct, _}
+  import syntax.typeable._
 
   class AuthenticationServiceHandler[F[_]: Sync](implicit L: Logger[F])
       extends api.AuthenticationService[F] {
 
-    def authenticate(email: String): F[sessapi.Session] =
-      L.info(s"authenticate").as(sessapi.Session("id", 1000L, 100L))
+    def authenticate(email: String): F[api.Response] =
+
+      AuthenticationService[F].authenticate(email).map {
+        case Left(e /*: domain.Error*/ ) ⇒
+          //L.error(s"lookup($sessionId) error ${e.msg}") >>
+          Coproduct[api.ResponseT](session_api.SystemError("#todo"))
+
+        case Right(s: sesson_domain.Session) ⇒
+          s.cast[session_api.Session]
+            .map(Coproduct[api.ResponseT](_))
+            .getOrElse(Coproduct[api.ResponseT](session_api.SystemError(s"Failed to cast")))
+
+      } flatMap { r ⇒
+        L.info(s"authenticate($email) ").as(api.Response(r))
+      }
   }
 }

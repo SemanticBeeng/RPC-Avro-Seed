@@ -17,7 +17,8 @@
 package com.kse.authentication.services
 
 import higherkindness.mu.rpc.protocol.{service, _}
-import com.kse.session.services.api.Session
+import higherkindness.mu.rpc.protocol._
+import shapeless.{:+:, CNil}
 
 //@outputName("AuthenticationService")
 //@outputPackage("com.kse.services.authentication.api")
@@ -25,9 +26,18 @@ import com.kse.session.services.api.Session
 //@option("java_outer_classname", "AuthenticationApiProto")
 object api {
 
+  import com.kse.session.services.api._
+
+  sealed trait AuthR extends Product with Serializable
+
+  type ResponseT = Session :+: SystemError :+: CNil
+
+  @message
+  final case class Response(result: ResponseT) extends AuthR
+
   @service(Protobuf)
   trait AuthenticationService[F[_]] {
 
-    def authenticate(email: String): F[Session]
+    def authenticate(email: String): F[api.Response]
   }
 }

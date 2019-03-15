@@ -22,7 +22,8 @@ import com.kse.shared.services.client.ClientRPC
 import io.chrisdavenport.log4cats.Logger
 import io.grpc.{CallOptions, ManagedChannel}
 //
-import com.kse.session.domain
+import com.kse.session.{domain ⇒ sess_domain}
+import com.kse.authentication.domain
 import com.kse.authentication.services.api
 import com.kse.authentication.services.shared
 
@@ -36,7 +37,7 @@ object AuthenticationServiceClient {
       implicit L: Logger[F]): shared.AuthenticationService[F] =
     new shared.AuthenticationService[F] {
 
-      override def authenticate(email: String): F[domain.Session] = ???
+      override def authenticate(email: String): F[Either[domain.Error, sess_domain.Session]] = ???
     }
 
   def createClient[F[_]: Effect](

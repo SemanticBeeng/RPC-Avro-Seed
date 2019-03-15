@@ -16,32 +16,23 @@
 
 package com.kse.authentication.services.shared
 
+import cats.effect._
+import cats.syntax.functor._
+import cats.syntax.flatMap._
+//import cats.syntax.apply._
+//
 import com.kse.authentication.domain
 import com.kse.session.{domain ⇒ sesson_domain}
 
+//
 import io.chrisdavenport.log4cats.Logger
 
 /**
- *
- * @tparam R "response" coproduct
+ * Core implementation, free of transport protocol concerns (like protobuf, Avro)
+ * Can be tested in isolation from remote execution / calls.
  */
-trait AuthenticationServiceBase[F[_], R] {
+class AuthenticationServiceImpl[F[_]: Sync](implicit L: Logger[F])
+    extends AuthenticationService[F] {
 
-  /**
-   *
-   */
-  def authenticate(email: String): F[R]
-
-}
-
-abstract class AuthenticationService[F[_]]
-    extends AuthenticationServiceBase[F, Either[domain.Error, sesson_domain.Session]] {
-
-  def authenticate(email: String): F[Either[domain.Error, sesson_domain.Session]]
-}
-
-import cats.effect.Sync
-
-object AuthenticationService {
-  def apply[F[_]: Sync](implicit L: Logger[F]) = new AuthenticationServiceImpl[F]
+  override def authenticate(email: String): F[Either[domain.Error, sesson_domain.Session]] = ???
 }
