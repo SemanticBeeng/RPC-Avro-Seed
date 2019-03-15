@@ -19,31 +19,34 @@ package com.kse.session.services.shared
 import com.kse.session.domain
 import io.chrisdavenport.log4cats.Logger
 
-/**
- *
- * @tparam R "response" coproduct
- */
-trait SessionServiceBase[F[_], R] {
+object algebra {
 
   /**
    *
+   * @tparam R "response" coproduct
    */
-  def lookup(sessionId: domain.SessionId): F[R]
+  trait SessionService[F[_], R] {
 
-  /**
-   *
-   */
-  def expiresIn(sessionId: domain.SessionId): F[domain.TimeMs]
+    /**
+     *
+     */
+    def lookup(sessionId: domain.SessionId): F[R]
 
-  /**
-   * @param sessionId After this call the session is guaranteed to not be usable anymore.
-   */
-  def terminate(sessionId: domain.SessionId): F[Unit]
+    /**
+     *
+     */
+    def expiresIn(sessionId: domain.SessionId): F[domain.TimeMs]
 
+    /**
+     * @param sessionId After this call the session is guaranteed to not be usable anymore.
+     */
+    def terminate(sessionId: domain.SessionId): F[Unit]
+
+  }
 }
 
 abstract class SessionService[F[_]]
-    extends SessionServiceBase[F, Either[domain.Error, domain.Session]] {
+    extends algebra.SessionService[F, Either[domain.Error, domain.Session]] {
 
   def lookup(sessionId: domain.SessionId): F[Either[domain.Error, domain.Session]]
 

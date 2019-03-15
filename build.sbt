@@ -124,7 +124,7 @@ lazy val session_module_api = project
 
 lazy val session_module_shared = project
   .in(file("modules/session/shared"))
-  .settings(serverSettings ++ coreLibsSettings)
+  .settings(serverSettings ++ coreSrvLibsSettings)
 
 lazy val session_module_server = project
   .in(file("modules/session/server"))
@@ -171,7 +171,7 @@ lazy val authentication_module_api = project
 
 lazy val authentication_module_shared = project
   .in(file("modules/authentication/shared"))
-  .settings(serverSettings ++ coreLibsSettings)
+  .settings(serverSettings ++ coreSrvLibsSettings)
   .dependsOn(session_module_shared)
 
 lazy val authentication_module_server = project

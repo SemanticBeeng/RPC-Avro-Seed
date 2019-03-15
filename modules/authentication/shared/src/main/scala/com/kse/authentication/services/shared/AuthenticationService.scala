@@ -21,21 +21,31 @@ import com.kse.session.{domain ⇒ sesson_domain}
 
 import io.chrisdavenport.log4cats.Logger
 
-/**
- *
- * @tparam R "response" coproduct
- */
-trait AuthenticationServiceBase[F[_], R] {
+//import freestyle.free._
+//import freestyle.tagless._
+
+object algebra {
 
   /**
    *
+   * @tparam R "response" coproduct
    */
-  def authenticate(email: String): F[R]
+  //@free
+  trait AuthenticationService[F[_], R] {
 
+    //  type F[_]
+    //  type R
+
+    /**
+     *
+     */
+    def authenticate(email: String): F[R]
+    //def authenticate(email: String): FS[R]
+  }
 }
 
 abstract class AuthenticationService[F[_]]
-    extends AuthenticationServiceBase[F, Either[domain.Error, sesson_domain.Session]] {
+    extends algebra.AuthenticationService[F, Either[domain.Error, sesson_domain.Session]] {
 
   def authenticate(email: String): F[Either[domain.Error, sesson_domain.Session]]
 }

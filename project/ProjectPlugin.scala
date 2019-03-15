@@ -11,6 +11,7 @@ object ProjectPlugin extends AutoPlugin {
     lazy val V = new {
       val cats           = "1.6.0"
       val catsEffect     = "1.2.0"
+      val catsTagless    = "0.2.0"
       val log4cats       = "0.2.0"
       val logbackClassic = "1.2.3"
       val muRPC          = "0.17.2"
@@ -77,14 +78,17 @@ object ProjectPlugin extends AutoPlugin {
         "org.typelevel" %% "cats-laws",
         "org.typelevel" %% "cats-free",
         "org.typelevel" %% "cats-testkit").map(_ % V.cats) ++
-    Seq("org.typelevel" %% "cats-effect").map(_ % V.catsEffect)
+    Seq("org.typelevel" %% "cats-effect").map(_ % V.catsEffect) ++
+    Seq("org.typelevel" %% "cats-tagless-core",
+        "org.typelevel" %% "cats-tagless-laws",
+        "org.typelevel" %% "cats-tagless-macros").map(_ % V.catsTagless)
 
-  /**
-    * Core libraries but no "frees" reference in the "shared" code
-    */
-  lazy val coreLibsSettings: Seq[Def.Setting[_]] = Seq(
-    libraryDependencies ++= catsLibs ++ monixLibs // commonDeps ++ freestyleCoreDeps()
-  )
+//  /**
+//    * Core libraries but no "frees" reference in the "shared" code
+//    */
+//  lazy val coreLibsSettings: Seq[Def.Setting[_]] = Seq(
+//    libraryDependencies ++= catsLibs ++ monixLibs // commonDeps ++ freestyleCoreDeps()
+//  )
 
   lazy val coreSrvLibsSettings: Seq[Def.Setting[_]] = Seq(
     libraryDependencies ++= catsLibs ++ freesLibs ++ monixLibs // commonDeps ++ freestyleCoreDeps()

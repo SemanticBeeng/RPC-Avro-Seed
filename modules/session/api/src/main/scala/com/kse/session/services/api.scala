@@ -53,7 +53,7 @@ object api {
 
   @service(Protobuf)
   trait SessionService[F[_]]
-      extends com.kse.session.services.shared.SessionServiceBase[F, api.Response] {
+      extends com.kse.session.services.shared.algebra.SessionService[F, api.Response] {
 
     def lookup(sessionId: domain.SessionId): F[api.Response]
 
