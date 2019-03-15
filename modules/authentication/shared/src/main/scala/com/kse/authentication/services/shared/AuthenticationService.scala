@@ -18,11 +18,7 @@ package com.kse.authentication.services.shared
 
 import com.kse.authentication.domain
 import com.kse.session.{domain ⇒ sesson_domain}
-
 import io.chrisdavenport.log4cats.Logger
-
-//import freestyle.free._
-//import freestyle.tagless._
 
 object algebra {
 
@@ -31,6 +27,7 @@ object algebra {
    * @tparam R "response" coproduct
    */
   //@free
+  //@finalAlg @autoFunctor
   trait AuthenticationService[F[_], R] {
 
     //  type F[_]
@@ -44,13 +41,21 @@ object algebra {
   }
 }
 
-abstract class AuthenticationService[F[_]]
+import cats.effect.Sync
+import cats.tagless._
+
+@finalAlg
+@autoFunctorK
+@autoSemigroupalK
+@autoProductNK
+//import freestyle.free._
+//import freestyle.tagless._
+//@free
+trait AuthenticationService[F[_]]
     extends algebra.AuthenticationService[F, Either[domain.Error, sesson_domain.Session]] {
 
   def authenticate(email: String): F[Either[domain.Error, sesson_domain.Session]]
 }
-
-import cats.effect.Sync
 
 object AuthenticationService {
   def apply[F[_]: Sync](implicit L: Logger[F]) = new AuthenticationServiceImpl[F]

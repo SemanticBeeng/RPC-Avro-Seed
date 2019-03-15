@@ -45,8 +45,7 @@ object algebra {
   }
 }
 
-abstract class SessionService[F[_]]
-    extends algebra.SessionService[F, Either[domain.Error, domain.Session]] {
+trait SessionService[F[_]] extends algebra.SessionService[F, Either[domain.Error, domain.Session]] {
 
   def lookup(sessionId: domain.SessionId): F[Either[domain.Error, domain.Session]]
 
