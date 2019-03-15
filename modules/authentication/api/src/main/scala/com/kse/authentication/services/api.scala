@@ -27,10 +27,17 @@ import shapeless.{:+:, CNil}
 object api {
 
   import com.kse.session.services.api._
+  import com.kse.authentication.domain
 
   sealed trait AuthR extends Product with Serializable
 
-  type ResponseT = Session :+: SystemError :+: CNil
+  /**
+   * "duplicate" with [[domain.AuthenticationError]]
+   */
+  @message
+  case class AuthenticationError(reason: String) extends AuthR
+
+  type ResponseT = Session :+: AuthenticationError :+: SystemError :+: CNil
 
   @message
   final case class Response(result: ResponseT) extends AuthR

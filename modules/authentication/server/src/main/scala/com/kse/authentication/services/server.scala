@@ -36,11 +36,10 @@ object server {
       extends api.AuthenticationService[F] {
 
     def authenticate(email: String): F[api.Response] =
-
       AuthenticationService[F].authenticate(email).map {
         case Left(e /*: domain.Error*/ ) ⇒
           //L.error(s"lookup($sessionId) error ${e.msg}") >>
-          Coproduct[api.ResponseT](session_api.SystemError("#todo"))
+          Coproduct[api.ResponseT](api.AuthenticationError("#todo"))
 
         case Right(s: sesson_domain.Session) ⇒
           s.cast[session_api.Session]

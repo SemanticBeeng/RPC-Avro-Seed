@@ -24,4 +24,6 @@ object domain {
     def msg: String
   }
 
+  case class AuthenticationError(reason: String)
+
 }
