@@ -1,5 +1,4 @@
 import ProjectPlugin._
-import dependencies._
 
 ////////////////////////
 //// Shared Modules ////

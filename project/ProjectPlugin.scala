@@ -25,30 +25,24 @@ object ProjectPlugin extends AutoPlugin {
     lazy val serverSettings: Seq[Def.Setting[_]] = logSettings
 
     lazy val serverAppSettings: Seq[Def.Setting[_]] = logSettings ++ Seq(
-      libraryDependencies ++= Seq("io.higherkindness" %% "mu-rpc-server" % V.muRPC))
+      libraryDependencies ++= muRPCSrvLibs)
 
   private lazy val logSettings: Seq[Def.Setting[_]] = Seq(
     libraryDependencies ++= logLibs)
 
   lazy val configSettings: Seq[Def.Setting[_]] = Seq(
-    libraryDependencies ++= Seq(
-      "org.typelevel"         %% "cats-effect" % V.catsEffect,
-      "com.github.pureconfig" %% "pureconfig"  % V.pureconfig))
+    libraryDependencies ++= configLibs
+    )
 
   lazy val serverProtocolSettings: Seq[Def.Setting[_]] = Seq(
     idlType := "avro",
     srcGenSerializationType := "AvroWithSchema",
     sourceGenerators in Compile += (srcGen in Compile).taskValue,
-    libraryDependencies ++= Seq(
-      "io.higherkindness" %% "mu-rpc-channel" % V.muRPC
-    )
+    libraryDependencies ++= muRPCProtocolLibs
   )
 
   lazy val clientRPCSettings: Seq[Def.Setting[_]] = logSettings ++ Seq(
-    libraryDependencies ++= Seq(
-      "io.higherkindness" %% "mu-rpc-netty"        % V.muRPC,
-      "io.higherkindness" %% "mu-rpc-client-cache" % V.muRPC
-    )
+    libraryDependencies ++= muRPCLbs
   )
 
   override def projectSettings: Seq[Def.Setting[_]] =

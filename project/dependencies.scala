@@ -53,15 +53,9 @@ object dependencies {
       //"io.chrisdavenport" %% "cats-par" % "0.2.0"
     )
 
-  lazy val freesLibs = Seq(
-        "io.frees" %% "frees-core" % V.frees,
-        "io.frees" %% "frees-effects" % V.frees,
-        "io.frees" %% "frees-cache" % V.frees,
-        "io.frees" %% "frees-config" % V.frees,
-        "io.frees" %% "frees-logging" % V.frees,
-        "io.frees" %% "frees-async" % V.frees,
-        "io.frees" %% "frees-async-cats-effect" % V.frees,
-        "io.frees" %% "frees-monix" % V.frees)
+    lazy val configLibs = Seq(
+      "org.typelevel"         %% "cats-effect" % V.catsEffect,
+      "com.github.pureconfig" %% "pureconfig"  % V.pureconfig)
 
    lazy val monixLibs = Seq(
       "io.monix" %% "monix-eval" % V.monix,
@@ -111,45 +105,25 @@ object dependencies {
       "io.circe" %% "circe-parser" % V.circe
     )
 
-//    lazy val coreSrvLibsSettings: Seq[Def.Setting[_]] = Seq(
-//      libraryDependencies ++= catsLibs ++ freesLibs ++ monixLibs ++ enumeratumLibs // commonDeps ++ freestyleCoreDeps()
-//    )
-//
-//    lazy val coreSrvEntitySettings: Seq[Def.Setting[_]] = coreSrvLibsSettings ++ Seq(
-//      libraryDependencies ++= doobieLibs ++ aecorLibs ++ circeLibs
-//    )
-//
-//   lazy val clientAppSettings: Seq[Def.Setting[_]] = logSettings ++ Seq(
-//      libraryDependencies ++= Seq(
-//        "com.github.scopt" %% "scopt" % V.scopt
-//      ))
-//
-//    lazy val serverSettings: Seq[Def.Setting[_]] = logSettings
-//
-//    lazy val serverAppSettings: Seq[Def.Setting[_]] = logSettings ++ Seq(
-//      libraryDependencies ++= Seq("io.higherkindness" %% "mu-rpc-server" % V.muRPC))
-//
-//  private lazy val logSettings: Seq[Def.Setting[_]] = Seq(
-//    libraryDependencies ++= logLibs)
-//
-//  lazy val configSettings: Seq[Def.Setting[_]] = Seq(
-//    libraryDependencies ++= Seq(
-//      "org.typelevel"         %% "cats-effect" % V.catsEffect,
-//      "com.github.pureconfig" %% "pureconfig"  % V.pureconfig))
-//
-//  lazy val serverProtocolSettings: Seq[Def.Setting[_]] = Seq(
-//    idlType := "avro",
-//    srcGenSerializationType := "AvroWithSchema",
-//    sourceGenerators in Compile += (srcGen in Compile).taskValue,
-//    libraryDependencies ++= Seq(
-//      "io.higherkindness" %% "mu-rpc-channel" % V.muRPC
-//    )
-//  )
-//
-//  lazy val clientRPCSettings: Seq[Def.Setting[_]] = logSettings ++ Seq(
-//    libraryDependencies ++= Seq(
-//      "io.higherkindness" %% "mu-rpc-netty"        % V.muRPC,
-//      "io.higherkindness" %% "mu-rpc-client-cache" % V.muRPC
-//    )
-//  )
+  lazy val freesLibs = Seq(
+        "io.frees" %% "frees-core" % V.frees,
+        "io.frees" %% "frees-effects" % V.frees,
+        "io.frees" %% "frees-cache" % V.frees,
+        "io.frees" %% "frees-config" % V.frees,
+        "io.frees" %% "frees-logging" % V.frees,
+        "io.frees" %% "frees-async" % V.frees,
+        "io.frees" %% "frees-async-cats-effect" % V.frees,
+        "io.frees" %% "frees-monix" % V.frees)
+
+    lazy val muRPCLbs = Seq(
+      "io.higherkindness" %% "mu-rpc-netty"        % V.muRPC,
+      "io.higherkindness" %% "mu-rpc-client-cache" % V.muRPC
+    )
+
+    lazy val muRPCSrvLibs = Seq(
+      "io.higherkindness" %% "mu-rpc-server" % V.muRPC)
+
+    lazy val muRPCProtocolLibs = Seq(
+      "io.higherkindness" %% "mu-rpc-channel" % V.muRPC
+    )
 }
