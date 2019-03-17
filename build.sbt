@@ -170,6 +170,7 @@ lazy val session_module = project
   .in(file("modules/session"))
   .aggregate(allModules_session: _*)
   .dependsOn(allModules_session.map(ClasspathDependency(_, None)): _*)
+  .enablePlugins(DockerPlugin, JavaAppPackaging)  //#todo not used yet
 
 addCommandAlias("runServiceSession", "session_module_app/runMain com.kse.session.services.app.ServerApp")
 
@@ -218,6 +219,7 @@ lazy val authentication_module = project
   .in(file("modules/authentication"))
   .aggregate(allModules_authentication: _*)
   .dependsOn(allModules_authentication.map(ClasspathDependency(_, None)): _*)
+  .enablePlugins(DockerPlugin, JavaAppPackaging)  //#todo not used yet
 
 addCommandAlias("runServiceAuthentication", "authentication_module_app/runMain com.kse.authentication.services.app.ServerApp")
 
