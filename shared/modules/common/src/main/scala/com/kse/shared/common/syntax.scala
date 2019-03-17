@@ -14,21 +14,14 @@
  * limitations under the License.
  */
 
-//package com.kse.authentication.services.shared
-//
-//import cats.effect.Sync
-//import cats.tagless._
-////import monix.eval.Task
-//import io.chrisdavenport.log4cats.Logger
-////
-////import com.kse.authentication.domain
-////import com.kse.session.{domain ⇒ session_domain}
-//
-//object Interpreters {
-//
-//  import com.kse.authentication.services.shared.algebra._
-//  import AuthenticationService.autoderive._
-//
-//  implicit def authenticationService[F[_]: Sync](implicit L: Logger[F]) =
-//    AuthenticationService[F]
-//}
+package com.kse.shared.common
+
+import cats.Applicative
+import cats.effect.Resource
+
+object syntax {
+
+  implicit class ResourceListOption[F[_], A](val fa: F[A]) extends AnyVal {
+    def resource(implicit F: Applicative[F]): Resource[F, A] = Resource.liftF(fa)
+  }
+}

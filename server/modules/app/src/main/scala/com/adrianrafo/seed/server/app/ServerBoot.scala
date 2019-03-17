@@ -20,6 +20,8 @@ package app
 import cats.effect._
 import cats.syntax.flatMap._
 import cats.syntax.functor._
+import pureconfig.generic.auto._
+
 import io.chrisdavenport.log4cats.Logger
 import io.chrisdavenport.log4cats.slf4j.Slf4jLogger
 

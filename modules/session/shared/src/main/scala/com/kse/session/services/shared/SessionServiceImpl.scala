@@ -50,7 +50,6 @@ class SessionServiceImpl[F[_]: Sync](implicit L: Logger[F]) extends SessionServi
      * Lookup event sourced entity
      */
     val session: domain.Session = null
-
     L.info(s"$sessionId expiresIn").as(1000)
   }
 
@@ -60,7 +59,6 @@ class SessionServiceImpl[F[_]: Sync](implicit L: Logger[F]) extends SessionServi
      * Lookup event sourced entity
      */
     val session: domain.Session = null
-
     L.info(s"$sessionId terminated").as(Unit)
   }
 }

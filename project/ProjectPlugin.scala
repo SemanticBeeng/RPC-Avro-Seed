@@ -40,24 +40,24 @@ object ProjectPlugin extends AutoPlugin {
       val scalaTest = "3.0.5"
 
       //val simulacrumPlugin = "com.github.mpilquist" %% "simulacrum" % simulacrum
-      lazy val kindProjectorPlugin    =    compilerPlugin("org.spire-math" %% "kind-projector" % kindProjector)
-      //lazy val kindProjectorPluginAdd = addCompilerPlugin("org.spire-math" %% "kind-projector" % kindProjector cross CrossVersion.binary)
+      //lazy val kindProjectorPlugin    =    compilerPlugin("org.spire-math" %% "kind-projector" % kindProjector)
+      lazy val kindProjectorPluginAdd = addCompilerPlugin("org.spire-math" %% "kind-projector" % kindProjector cross CrossVersion.binary)
 
-      lazy val scalametaParadisePlugin    =    compilerPlugin("org.scalameta" % "paradise" % scalameta_paradise cross CrossVersion.full)
-      //lazy val scalametaParadisePluginAdd = addCompilerPlugin("org.scalameta" % "paradise" % scalameta_paradise cross CrossVersion.full)
+      //lazy val scalametaParadisePlugin    =    compilerPlugin("org.scalameta" % "paradise" % scalameta_paradise cross CrossVersion.full)
+      lazy val scalametaParadisePluginAdd = addCompilerPlugin("org.scalameta" % "paradise" % scalameta_paradise cross CrossVersion.full)
 
       lazy val betterMonadicForPluginAdd = addCompilerPlugin("com.olegpy" %% "better-monadic-for" % betterMonadicFor)
 
-      lazy val scalapbRuntime = "com.thesamet.scalapb" %% "scalapb-runtime" % scalapb.compiler.Version.scalapbVersion % "protobuf"
+      //lazy val scalapbRuntime = "com.thesamet.scalapb" %% "scalapb-runtime" % scalapb.compiler.Version.scalapbVersion % "protobuf"
     }
   }
 
   import autoImport._
 
   lazy val logLibs = Seq(
-      "ch.qos.logback"    % "logback-classic" % V.logbackClassic,
-      "io.chrisdavenport" %% "log4cats-core"  % V.log4cats,
-      "io.chrisdavenport" %% "log4cats-slf4j" % V.log4cats,
+      "ch.qos.logback"     % "logback-classic" % V.logbackClassic,
+      "io.chrisdavenport" %% "log4cats-core"   % V.log4cats,
+      "io.chrisdavenport" %% "log4cats-slf4j"  % V.log4cats,
       "com.typesafe.akka" %% "akka-slf4j" % V.akka
       //"io.chrisdavenport" %% "cats-par" % "0.2.0"
     )
@@ -174,19 +174,19 @@ object ProjectPlugin extends AutoPlugin {
       organizationName := "KSE",
       scalaVersion := "2.12.7",
       scalacOptions := commonScalacOptions ++ Seq("-Xmax-classfile-name", "128"),
-      scalacOptions in(Compile, console) ~= {
-        _.filterNot(unusedWarnings.toSet + "-Ywarn-value-discard")
-      },
+//      scalacOptions in(Compile, console) ~= {
+//        _.filterNot(unusedWarnings.toSet + "-Ywarn-value-discard")
+//      },
 
       fork := true,
 
-      libraryDependencies := Seq(
-        V.kindProjectorPlugin,
-        V.scalametaParadisePlugin,
-        V.scalapbRuntime
-      ),
-      //V.kindProjectorPluginAdd,
-      //V.scalametaParadisePluginAdd,
+//      libraryDependencies := Seq(
+//        //V.kindProjectorPlugin,
+//        //V.scalametaParadisePlugin,
+//        V.scalapbRuntime
+//      ),
+      V.scalametaParadisePluginAdd,
+      V.kindProjectorPluginAdd,
       //addCompilerPlugin("org.scalamacros" % "paradise" % V.scalamacros_paradise cross CrossVersion.full),
       V.betterMonadicForPluginAdd,
 
@@ -214,19 +214,18 @@ object ProjectPlugin extends AutoPlugin {
         "-Xfuture",
         //"-Ylog-classpath",
         "-Ywarn-unused-import",
-        "-Xfatal-warnings",
-        "-Xlint",
-        "-Yno-adapted-args",
+        //"-Xfatal-warnings",
         "-Ypartial-unification",
-        "-Xplugin-require:macroparadise"
-      ) ++ unusedWarnings
+        "-Xmacro-settings:materialize-derivations" // https://pureconfig.github.io/docs/faq.html
+        //"-Xplugin-require:macroparadise"
+      ) //++ unusedWarnings
 
   lazy val unusedWarnings = Seq("-Ywarn-unused", "-Ywarn-unused-import")
 
   lazy val resolvers : Seq[Def.Setting[_]] =
     Seq(
-      updateOptions := updateOptions.value.withCachedResolution(true) //++
-                       //updateOptions.value.withLatestSnapshots(false)
+      updateOptions := //updateOptions.value.withCachedResolution(true) +
+                       updateOptions.value.withLatestSnapshots(false)
     ) ++ {
       sbt.Keys.resolvers ++=
       Seq(

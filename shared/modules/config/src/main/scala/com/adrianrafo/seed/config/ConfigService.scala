@@ -17,9 +17,12 @@
 package com.adrianrafo.seed
 package config
 
-import cats.effect.Effect
+import com.typesafe.config.ConfigFactory
+import cats.effect._
+import cats.implicits._
 import cats.syntax.either._
-import pureconfig.{ConfigReader, Derivation}
+import pureconfig._
+//import com.kse.shared.common.syntax._
 
 trait ConfigService[F[_]] {
 
@@ -32,10 +35,12 @@ object ConfigService {
 
     override def serviceConfig[Config](
         implicit reader: Derivation[ConfigReader[Config]]): F[Config] =
-      Effect[F].fromEither(
-        pureconfig
-          .loadConfig[Config]
-          .leftMap(e => new IllegalStateException(s"Error loading configuration: $e")))
+      for {
+        config <- Effect[F].delay(ConfigFactory.load()) //.resource #todo
+        r ← Effect[F].fromEither(pureconfig
+          .loadConfig[Config](config)
+          .leftMap(e => new IllegalStateException(s"Error loading configuration: $e"))) //.resource
+      } yield r
 
   }
 }

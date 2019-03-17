@@ -19,6 +19,8 @@ package com.kse.shared.services.client
 import cats.effect._
 import cats.syntax.functor._
 import fs2.Stream
+import pureconfig.generic.auto._
+
 import io.chrisdavenport.log4cats.Logger
 import io.chrisdavenport.log4cats.slf4j.Slf4jLogger
 //

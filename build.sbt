@@ -7,6 +7,7 @@ import ProjectPlugin._
 lazy val config = project
   .in(file("shared/modules/config"))
   .settings(configSettings)
+  .dependsOn(service_shared_common)
 
 lazy val workflow = project
   .in(file("shared/modules/workflow"))
@@ -32,6 +33,7 @@ lazy val shared = project
 
 lazy val server_common = project
   .in(file("server/modules/common"))
+  .dependsOn(service_shared_common)
 
 lazy val server_protocol = project
   .in(file("server/modules/protocol"))
@@ -103,6 +105,10 @@ addCommandAlias("runClient", "client_app/runMain com.adrianrafo.seed.client.app.
 ////  Shared `app`    ////
 //////////////////////////
 
+lazy val service_shared_common = project
+  .in(file("shared/modules/common"))
+  .settings(serverAppSettings ++ coreSrvLibsSettings)
+
 lazy val service_shared_app = project
   .in(file("shared/modules/app"))
   .settings(serverAppSettings ++ coreSrvLibsSettings)
@@ -153,8 +159,9 @@ lazy val session_module_client = project
 lazy val allModules_session: Seq[ProjectReference] = Seq(
   session_module_api,
   session_module_shared,
-  session_module_impl,
+  session_module_entity,
   session_module_server,
+  session_module_impl,
   session_module_app,
   session_module_client
 )

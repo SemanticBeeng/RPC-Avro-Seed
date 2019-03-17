@@ -30,7 +30,7 @@ object modules {
   val st = state[List[String]]
   import st.implicits._
 
-  @debug
+  //@debug
   @module
   trait FreeApp {
 
