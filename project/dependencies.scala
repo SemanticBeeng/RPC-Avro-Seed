@@ -1,14 +1,7 @@
-
-import higherkindness.mu.rpc.idlgen.IdlGenPlugin.autoImport._
-import sbt.Keys._
-import sbt.{CrossVersion, Def, addCompilerPlugin, _}
-//import sbt.{AutoPlugin, PluginTrigger, Resolver, _}
-
+import sbt.{CrossVersion, addCompilerPlugin, _}
 
 object dependencies {
 
-//  object autoImport {
-//
     lazy val V = new {
       val cats           = "1.6.0"
       val catsEffect     = "1.2.0"
@@ -51,76 +44,73 @@ object dependencies {
 
       lazy val scalapbRuntime = "com.thesamet.scalapb" %% "scalapb-runtime" % scalapb.compiler.Version.scalapbVersion % "protobuf"
     }
-//  }
-//
-//  import autoImport._
-//
-//  lazy val logLibs = Seq(
-//      "ch.qos.logback"     % "logback-classic" % V.logbackClassic,
-//      "io.chrisdavenport" %% "log4cats-core"   % V.log4cats,
-//      "io.chrisdavenport" %% "log4cats-slf4j"  % V.log4cats,
-//      "com.typesafe.akka" %% "akka-slf4j" % V.akka
-//      //"io.chrisdavenport" %% "cats-par" % "0.2.0"
-//    )
-//
-//  lazy val freesLibs = Seq(
-//        "io.frees" %% "frees-core" % V.frees,
-//        "io.frees" %% "frees-effects" % V.frees,
-//        "io.frees" %% "frees-cache" % V.frees,
-//        "io.frees" %% "frees-config" % V.frees,
-//        "io.frees" %% "frees-logging" % V.frees,
-//        "io.frees" %% "frees-async" % V.frees,
-//        "io.frees" %% "frees-async-cats-effect" % V.frees,
-//        "io.frees" %% "frees-monix" % V.frees)
-//
-//   lazy val monixLibs = Seq(
-//      "io.monix" %% "monix-eval" % V.monix,
-//      "io.monix" %% "monix-execution" % V.monix,
-//      "io.monix" %% "monix-reactive" % V.monix)
-//
-//   lazy val catsLibs =
-//    Seq("org.typelevel" %% "cats-kernel",
-//        "org.typelevel" %% "cats-macros",
-//        "org.typelevel" %% "cats-core",
-//        "org.typelevel" %% "cats-laws",
-//        "org.typelevel" %% "cats-free",
-//        "org.typelevel" %% "cats-testkit").map(_ % V.cats) ++
-//    Seq("org.typelevel" %% "cats-effect").map(_ % V.catsEffect) ++
-//    Seq("org.typelevel" %% "cats-tagless-core",
-//        "org.typelevel" %% "cats-tagless-laws",
-//        "org.typelevel" %% "cats-tagless-macros").map(_ % V.catsTagless)
-//
-//    lazy val enumeratumLibs = Seq(
-//      "com.beachape" %% "enumeratum" % V.enumeratum,
-//      "com.beachape" %% "enumeratum-circe" % V.enumeratum
-//    )
-//
-//    lazy val aecorLibs = Seq(
-//      "io.aecor" %% "core" % V.aecor,
-//      "io.aecor" %% "schedule" % V.aecor,
-//      "io.aecor" %% "akka-cluster-runtime" % V.aecor,
-//      "io.aecor" %% "distributed-processing" % V.aecor,
-//      "io.aecor" %% "boopickle-wire-protocol" % V.aecor,
-//      "io.aecor" %% "aecor-postgres-journal" % V.aecorPostgres,
-//      "com.ovoenergy" %% "fs2-kafka" % "0.16.4",
-//      "io.suzaku" %% "boopickle-shapeless" % V.boopickle,
-//      "io.aecor" %% "test-kit" % V.aecor % Test
-//    )
-//
-//    lazy val doobieLibs = Seq(
-//      "org.tpolecat" %% "doobie-core" % V.doobie,
-//      "org.tpolecat" %% "doobie-postgres" % V.doobie,
-//      "org.tpolecat" %% "doobie-hikari" % V.doobie
-//    )
-//
-//    lazy val circeLibs = Seq(
-//      "io.circe" %% "circe-core" % V.circe,
-//      "io.circe" %% "circe-derivation" % V.circeDerivation,
-//      "io.circe" %% "circe-generic" % V.circe,
-//      "io.circe" %% "circe-java8" % V.circe,
-//      "io.circe" %% "circe-parser" % V.circe
-//    )
-//
+
+  lazy val logLibs = Seq(
+      "ch.qos.logback"     % "logback-classic" % V.logbackClassic,
+      "io.chrisdavenport" %% "log4cats-core"   % V.log4cats,
+      "io.chrisdavenport" %% "log4cats-slf4j"  % V.log4cats,
+      "com.typesafe.akka" %% "akka-slf4j" % V.akka
+      //"io.chrisdavenport" %% "cats-par" % "0.2.0"
+    )
+
+  lazy val freesLibs = Seq(
+        "io.frees" %% "frees-core" % V.frees,
+        "io.frees" %% "frees-effects" % V.frees,
+        "io.frees" %% "frees-cache" % V.frees,
+        "io.frees" %% "frees-config" % V.frees,
+        "io.frees" %% "frees-logging" % V.frees,
+        "io.frees" %% "frees-async" % V.frees,
+        "io.frees" %% "frees-async-cats-effect" % V.frees,
+        "io.frees" %% "frees-monix" % V.frees)
+
+   lazy val monixLibs = Seq(
+      "io.monix" %% "monix-eval" % V.monix,
+      "io.monix" %% "monix-execution" % V.monix,
+      "io.monix" %% "monix-reactive" % V.monix)
+
+   lazy val catsLibs =
+    Seq("org.typelevel" %% "cats-kernel",
+        "org.typelevel" %% "cats-macros",
+        "org.typelevel" %% "cats-core",
+        "org.typelevel" %% "cats-laws",
+        "org.typelevel" %% "cats-free",
+        "org.typelevel" %% "cats-testkit").map(_ % V.cats) ++
+    Seq("org.typelevel" %% "cats-effect").map(_ % V.catsEffect) ++
+    Seq("org.typelevel" %% "cats-tagless-core",
+        "org.typelevel" %% "cats-tagless-laws",
+        "org.typelevel" %% "cats-tagless-macros").map(_ % V.catsTagless)
+
+    lazy val enumeratumLibs = Seq(
+      "com.beachape" %% "enumeratum" % V.enumeratum,
+      "com.beachape" %% "enumeratum-circe" % V.enumeratum
+    )
+
+    lazy val aecorLibs = Seq(
+      "io.aecor" %% "core" % V.aecor,
+      "io.aecor" %% "schedule" % V.aecor,
+      "io.aecor" %% "akka-cluster-runtime" % V.aecor,
+      "io.aecor" %% "distributed-processing" % V.aecor,
+      "io.aecor" %% "boopickle-wire-protocol" % V.aecor,
+      "io.aecor" %% "aecor-postgres-journal" % V.aecorPostgres,
+      "com.ovoenergy" %% "fs2-kafka" % "0.16.4",
+      "io.suzaku" %% "boopickle-shapeless" % V.boopickle,
+      "io.aecor" %% "test-kit" % V.aecor % Test
+    )
+
+    lazy val doobieLibs = Seq(
+      "org.tpolecat" %% "doobie-core" % V.doobie,
+      "org.tpolecat" %% "doobie-postgres" % V.doobie,
+      "org.tpolecat" %% "doobie-hikari" % V.doobie
+    )
+
+    lazy val circeLibs = Seq(
+      "io.circe" %% "circe-core" % V.circe,
+      "io.circe" %% "circe-derivation" % V.circeDerivation,
+      "io.circe" %% "circe-generic" % V.circe,
+      "io.circe" %% "circe-java8" % V.circe,
+      "io.circe" %% "circe-parser" % V.circe
+    )
+
 //    lazy val coreSrvLibsSettings: Seq[Def.Setting[_]] = Seq(
 //      libraryDependencies ++= catsLibs ++ freesLibs ++ monixLibs ++ enumeratumLibs // commonDeps ++ freestyleCoreDeps()
 //    )
