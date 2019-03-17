@@ -43,7 +43,8 @@ object api {
   final case class Response(result: ResponseT) extends AuthR
 
   @service(Protobuf)
-  trait AuthenticationService[F[_]] {
+  trait AuthenticationService[F[_]]
+      extends shared.algebra.AuthenticationServiceBase[F, api.Response] {
 
     def authenticate(email: String): F[api.Response]
   }

@@ -126,6 +126,11 @@ lazy val session_module_shared = project
   .in(file("modules/session/shared"))
   .settings(serverSettings ++ coreSrvLibsSettings)
 
+lazy val session_module_entity = project
+  .in(file("modules/session/entity"))
+  .dependsOn(session_module_shared)
+  .settings(serverSettings ++ coreSrvEntitySettings)
+
 lazy val session_module_server = project
   .in(file("modules/session/server"))
   .settings(serverSettings ++ coreSrvLibsSettings)

@@ -34,8 +34,8 @@ import scala.concurrent.duration.FiniteDuration
 object AuthenticationServiceClient {
 
   def apply[F[_]: Effect](clientF: F[api.AuthenticationService[F]])(
-      implicit L: Logger[F]): shared.AuthenticationService[F] =
-    new shared.AuthenticationService[F] {
+      implicit L: Logger[F]): shared.algebra.AuthenticationService[F] =
+    new shared.algebra.AuthenticationService[F] {
 
       override def authenticate(email: String): F[Either[domain.Error, sess_domain.Session]] = ???
     }
@@ -49,12 +49,12 @@ object AuthenticationServiceClient {
       implicit L: Logger[F],
       F: ConcurrentEffect[F],
       TM: Timer[F],
-      EC: ExecutionContext): fs2.Stream[F, shared.AuthenticationService[F]] = {
+      EC: ExecutionContext): fs2.Stream[F, shared.algebra.AuthenticationService[F]] = {
 
     def fromChannel(channel: F[ManagedChannel]): Resource[F, api.AuthenticationService[F]] =
       api.AuthenticationService.clientFromChannel(channel, CallOptions.DEFAULT)
 
-    def wrap(client: F[api.AuthenticationService[F]]): shared.AuthenticationService[F] =
+    def wrap(client: F[api.AuthenticationService[F]]): shared.algebra.AuthenticationService[F] =
       AuthenticationServiceClient(client)
 
     ClientRPC

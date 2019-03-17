@@ -24,7 +24,10 @@ import io.chrisdavenport.log4cats.Logger
 //import com.kse.authentication.domain
 //import com.kse.session.{domain ⇒ session_domain}
 
-object interpreters {
+object Interpreters {
+
+  import com.kse.authentication.services.shared.algebra._
+  import AuthenticationService.autoderive._
 
   implicit def authenticationService[F[_]: Sync](implicit L: Logger[F]) =
     AuthenticationService[F]

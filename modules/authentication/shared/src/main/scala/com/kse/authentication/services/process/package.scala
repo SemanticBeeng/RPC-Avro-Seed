@@ -16,20 +16,25 @@
 
 package com.kse.authentication.services
 
-import cats.effect._
-import cats.syntax.flatMap._
-import cats.syntax.functor._
-import io.chrisdavenport.log4cats.Logger
-
-package object process {
-
-  import shared.interpreters._
-
-  def program[F[_]: Sync](implicit L: Logger[F]): Unit = {
-
-    for {
-      //logger <- Slf4jLogger.fromName[F]("some name")
-      _ ← authenticationService[F].authenticate("joe@gail.com")
-    } yield ()
-  }
-}
+//import cats.effect._
+//import cats.syntax.flatMap._
+//import cats.syntax.functor._
+//import io.chrisdavenport.log4cats.Logger
+//
+//package object process {
+//
+//  import shared.Interpreters._
+//
+//  def program[F[_]: Sync](implicit L: Logger[F]): Unit = {
+//
+//    import cats.tagless.implicits._
+//    import cats.implicits._
+//    import cats._
+//    import AuthenticationService.autoderive._
+//
+//    for {
+//      //logger <- Slf4jLogger.fromName[F]("some name")
+//      _ ← AuthenticationService[F].authenticate("joe@gail.com")
+//    } yield ()
+//  }
+//}

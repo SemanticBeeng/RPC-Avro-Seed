@@ -16,6 +16,11 @@
 
 package com.kse.authentication.services.shared
 
+import cats.effect.Sync
+import cats.tagless._
+//import freestyle.free._
+//import freestyle.tagless._
+//
 import com.kse.authentication.domain
 import com.kse.session.{domain ⇒ sesson_domain}
 import io.chrisdavenport.log4cats.Logger
@@ -28,7 +33,7 @@ object algebra {
    */
   //@free
   //@finalAlg @autoFunctor
-  trait AuthenticationService[F[_], R] {
+  trait AuthenticationServiceBase[F[_], R] {
 
     //  type F[_]
     //  type R
@@ -39,22 +44,17 @@ object algebra {
     def authenticate(email: String): F[R]
     //def authenticate(email: String): FS[R]
   }
-}
 
-import cats.effect.Sync
-import cats.tagless._
+  //@free
+  @finalAlg
+  @autoFunctorK
+  @autoSemigroupalK
+  @autoProductNK
+  trait AuthenticationService[F[_]]
+      extends AuthenticationServiceBase[F, Either[domain.Error, sesson_domain.Session]] {
 
-@finalAlg
-@autoFunctorK
-@autoSemigroupalK
-@autoProductNK
-//import freestyle.free._
-//import freestyle.tagless._
-//@free
-trait AuthenticationService[F[_]]
-    extends algebra.AuthenticationService[F, Either[domain.Error, sesson_domain.Session]] {
-
-  def authenticate(email: String): F[Either[domain.Error, sesson_domain.Session]]
+    def authenticate(email: String): F[Either[domain.Error, sesson_domain.Session]]
+  }
 }
 
 object AuthenticationService {
