@@ -34,7 +34,7 @@ object tech {
 
 object domain {
 
-  case class EndUerId(id: String)
+  case class EndUserId(id: String)
 
   type Nonce         = sun.security.krb5.internal.crypto.Nonce
   type NonceReadable = String

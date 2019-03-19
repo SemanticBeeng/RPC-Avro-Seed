@@ -20,7 +20,7 @@ import com.ing.baker.recipe.scaladsl._
 
 object IngredientTypes {
 
-  val endUserId = Ingredient[domain.EndUerId]("endUserId")
+  val endUserId = Ingredient[domain.EndUserId]("endUserId")
 
   val assetPossessionChallenge = Ingredient[domain.AssetPossessionChallenge]
 

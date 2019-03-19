@@ -24,7 +24,7 @@ object Interactions {
   trait GenerateAssetPossessionChallenge {
     val name = InteractionTypes.names.generateAssetPossessionChallenge
 
-    def apply(in: domain.EndUerId): domain.AssetPossessionChallengeResult = {
+    def apply(in: domain.EndUserId): domain.AssetPossessionChallengeResult = {
       if (in.id != null)
         domain.AssetPossessionChallengeProof(null, null, "")
       else
