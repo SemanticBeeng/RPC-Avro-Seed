@@ -23,11 +23,11 @@ import com.kse.authentication.process.defs.domain
 object Interactions {
 
   trait GenerateAssetPossessionChallenge
-      extends interactions.Impl[domain.AssetPossessionChallengeResult] {
+      extends interactions.Impl[domain.AssetPossessionChallengeOutcome] {
 
     val name = InteractionTypes.names.generateAssetPossessionChallenge
 
-    def apply(in: domain.EndUserId): domain.AssetPossessionChallengeResult = {
+    def apply(in: domain.EndUserId): domain.AssetPossessionChallengeOutcome = {
       if (in.id != null)
         domain.AssetPossessionChallengeProof(null, null, "")
       else

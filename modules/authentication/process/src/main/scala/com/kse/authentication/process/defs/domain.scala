@@ -60,14 +60,16 @@ object domain {
       with AuthWithNonce
       with tech.ubiqu.Call
 
-  trait AssetPossessionChallengeResult
+  import com.kse.process.interactions
+
+  trait AssetPossessionChallengeOutcome extends interactions.Outcome
 
   case class AssetPossessionChallengeProof(
       handle: tech.ubiqu.InvocationHandle,
       nonce: Nonce,
       assetId: AuthenticationAssetIdentifier)
       extends AuthWithNonce
-      with AssetPossessionChallengeResult
+      with AssetPossessionChallengeOutcome
       with tech.ubiqu.Call
 
   case class AssetPossessionChallengeExpiration(
@@ -75,6 +77,6 @@ object domain {
       nonce: Nonce,
       expired: Instant)
       extends AuthWithNonce
-      with AssetPossessionChallengeResult
+      with AssetPossessionChallengeOutcome
       with tech.ubiqu.Call
 }
