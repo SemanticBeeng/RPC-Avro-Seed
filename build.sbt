@@ -192,6 +192,11 @@ lazy val authentication_module_server = project
   .settings(serverSettings ++ coreSrvLibsSettings)
   .dependsOn(authentication_module_api, authentication_module_shared, session_module_api)
 
+lazy val authentication_module_process = project
+  .in(file("modules/authentication/process"))
+  .settings(serverSettings ++ coreSrvProcessSettings)
+  .dependsOn(authentication_module_shared, session_module_api)
+
 lazy val authentication_module_app = project
   .in(file("modules/authentication/app"))
   .dependsOn(authentication_module_server, authentication_module_shared, service_shared_app)
@@ -211,6 +216,7 @@ lazy val allModules_authentication: Seq[ProjectReference] = Seq(
   authentication_module_shared,
   authentication_module_impl,
   authentication_module_server,
+  authentication_module_process,
   authentication_module_app,
   authentication_module_client
 )

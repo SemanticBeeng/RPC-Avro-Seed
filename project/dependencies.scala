@@ -28,6 +28,7 @@ object dependencies {
       val circe = "0.10.1"
       val doobie = "0.6.0"
       val enumeratum = "1.5.13"
+      val baker = "2.0.3"
 
       // Test
       val scalaCheck = "1.14.0"
@@ -125,5 +126,11 @@ object dependencies {
 
     lazy val muRPCProtocolLibs = Seq(
       "io.higherkindness" %% "mu-rpc-channel" % V.muRPC
+    )
+
+    lazy val bakerLibs = Seq(
+      "com.ing.baker" %% "baker-recipe-dsl" % V.baker,
+      "com.ing.baker" %% "baker-compiler" % V.baker,
+      "com.ing.baker" %% "baker-runtime" % V.baker
     )
 }

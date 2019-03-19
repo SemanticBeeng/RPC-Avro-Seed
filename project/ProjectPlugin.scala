@@ -17,6 +17,10 @@ object ProjectPlugin extends AutoPlugin {
       libraryDependencies ++= doobieLibs ++ aecorLibs ++ circeLibs
     )
 
+    lazy val coreSrvProcessSettings: Seq[Def.Setting[_]] = coreSrvLibsSettings ++ Seq(
+      libraryDependencies ++= doobieLibs ++ aecorLibs ++ circeLibs ++ bakerLibs
+    )
+
    lazy val clientAppSettings: Seq[Def.Setting[_]] = logSettings ++ Seq(
       libraryDependencies ++= Seq(
         "com.github.scopt" %% "scopt" % V.scopt
