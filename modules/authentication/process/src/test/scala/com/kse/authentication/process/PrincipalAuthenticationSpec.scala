@@ -21,6 +21,7 @@ import akka.testkit.TestKit
 import com.ing.baker.il.CompiledRecipe
 import com.ing.baker.runtime.core.{Baker, RuntimeEvent}
 import com.ing.baker.types.{Converters, Value}
+import com.kse.process.BakerRuntimeTestBase
 import com.typesafe.config.{Config, ConfigFactory}
 import org.mockito.Matchers._
 import org.mockito.Mockito._

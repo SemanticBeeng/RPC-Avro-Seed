@@ -14,22 +14,12 @@
  * limitations under the License.
  */
 
-package com.kse.authentication.process.impls
+package com.kse.process
 
-import com.kse.authentication.process.defs.InteractionTypes
-import com.kse.authentication.process.defs.domain
+object interactions {
 
-object Interactions {
-
-  trait GenerateAssetPossessionChallenge extends com.kse.process.interactions.Impl {
-
-    val name = InteractionTypes.names.generateAssetPossessionChallenge
-
-    def apply(in: domain.EndUserId): domain.AssetPossessionChallengeResult = {
-      if (in.id != null)
-        domain.AssetPossessionChallengeProof(null, null, "")
-      else
-        domain.AssetPossessionChallengeExpiration(null, null, null)
-    }
-  }
+  /**
+   * Marker trait for [[com.ing.baker.recipe.scaladsl.Interaction]] implementations
+   */
+  trait Impl
 }

@@ -14,17 +14,14 @@
  * limitations under the License.
  */
 
-package com.kse.authentication.process
+package com.kse.process
 
 import java.nio.file.Paths
 
 import akka.actor.ActorSystem
 import akka.testkit.TestKit
-import cats.effect.IO
-import cats.implicits._
 import com.ing.baker.il.CompiledRecipe
 import com.typesafe.config.{Config, ConfigFactory}
-import org.scalatest.concurrent.ScalaFutures
 import org.scalatest._
 import org.scalatest.mockito.MockitoSugar
 
