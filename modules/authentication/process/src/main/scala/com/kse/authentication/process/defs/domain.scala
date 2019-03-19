@@ -60,11 +60,14 @@ object domain {
       with AuthWithNonce
       with tech.ubiqu.Call
 
+  trait AssetPossessionChallengeResult
+
   case class AssetPossessionChallengeProof(
       handle: tech.ubiqu.InvocationHandle,
       nonce: Nonce,
       assetId: AuthenticationAssetIdentifier)
       extends AuthWithNonce
+      with AssetPossessionChallengeResult
       with tech.ubiqu.Call
 
   case class AssetPossessionChallengeExpiration(
@@ -72,5 +75,6 @@ object domain {
       nonce: Nonce,
       expired: Instant)
       extends AuthWithNonce
+      with AssetPossessionChallengeResult
       with tech.ubiqu.Call
 }
