@@ -20,6 +20,11 @@ object interactions {
 
   /**
    * Marker trait for [[com.ing.baker.recipe.scaladsl.Interaction]] implementations
+   *
+   * @tparam O there can only be a single output / outcome type but more than one [[com.ing.baker.recipe.scaladsl.Ingredient]] type
    */
-  trait Impl
+  trait Impl[O] {
+
+    val name: String
+  }
 }

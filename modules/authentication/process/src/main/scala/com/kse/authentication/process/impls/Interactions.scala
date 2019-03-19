@@ -16,12 +16,14 @@
 
 package com.kse.authentication.process.impls
 
+import com.kse.process._
 import com.kse.authentication.process.defs.InteractionTypes
 import com.kse.authentication.process.defs.domain
 
 object Interactions {
 
-  trait GenerateAssetPossessionChallenge extends com.kse.process.interactions.Impl {
+  trait GenerateAssetPossessionChallenge
+      extends interactions.Impl[domain.AssetPossessionChallengeResult] {
 
     val name = InteractionTypes.names.generateAssetPossessionChallenge
 
