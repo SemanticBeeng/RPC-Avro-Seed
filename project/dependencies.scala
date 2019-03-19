@@ -33,6 +33,7 @@ object dependencies {
       // Test
       val scalaCheck = "1.14.0"
       val scalaTest = "3.0.5"
+      val mockito = "1.10.19"
 
       //val simulacrumPlugin = "com.github.mpilquist" %% "simulacrum" % simulacrum
       //lazy val kindProjectorPlugin    =    compilerPlugin("org.spire-math" %% "kind-projector" % kindProjector)
@@ -130,7 +131,20 @@ object dependencies {
 
     lazy val bakerLibs = Seq(
       "com.ing.baker" %% "baker-recipe-dsl" % V.baker,
-      "com.ing.baker" %% "baker-compiler" % V.baker,
-      "com.ing.baker" %% "baker-runtime" % V.baker
+      "com.ing.baker" %% "baker-compiler"   % V.baker,
+      "com.ing.baker" %% "baker-runtime"    % V.baker % Test
+    ) ++ graphLibs
+
+    lazy val graphLibs = Seq(
+      "org.scala-graph"  %% "graph-core"     % "1.11.5",
+      "org.scala-graph"  %% "graph-dot"      % "1.11.5",
+      "guru.nidi"         % "graphviz-java"  % "0.8.0"
+    )
+
+    lazy val testLibs = Seq(
+        "org.scalatest"  %% "scalatest"   % V.scalaTest  % Test,
+        "org.scalacheck" %% "scalacheck"  % V.scalaCheck % Test,
+         "org.mockito"    % "mockito-all" % V.mockito    % Test,
+         "com.typesafe.akka" %% "akka-testkit" % V.akka  % Test
     )
 }

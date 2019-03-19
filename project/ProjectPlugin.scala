@@ -10,15 +10,15 @@ object ProjectPlugin extends AutoPlugin {
   import dependencies._
 
     lazy val coreSrvLibsSettings: Seq[Def.Setting[_]] = Seq(
-      libraryDependencies ++= catsLibs ++ freesLibs ++ monixLibs ++ enumeratumLibs // commonDeps ++ freestyleCoreDeps()
+      libraryDependencies ++= catsLibs ++ freesLibs ++ monixLibs ++ enumeratumLibs ++ testLibs// commonDeps ++ freestyleCoreDeps()
     )
 
     lazy val coreSrvEntitySettings: Seq[Def.Setting[_]] = coreSrvLibsSettings ++ Seq(
-      libraryDependencies ++= doobieLibs ++ aecorLibs ++ circeLibs
+      libraryDependencies ++= doobieLibs ++ aecorLibs ++ circeLibs ++ testLibs
     )
 
     lazy val coreSrvProcessSettings: Seq[Def.Setting[_]] = coreSrvLibsSettings ++ Seq(
-      libraryDependencies ++= doobieLibs ++ aecorLibs ++ circeLibs ++ bakerLibs
+      libraryDependencies ++= doobieLibs ++ aecorLibs ++ circeLibs ++ bakerLibs ++ testLibs
     )
 
    lazy val clientAppSettings: Seq[Def.Setting[_]] = logSettings ++ Seq(

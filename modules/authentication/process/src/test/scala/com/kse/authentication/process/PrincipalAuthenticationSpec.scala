@@ -14,29 +14,23 @@
  * limitations under the License.
  */
 
-package com.kse.authentication.process.defs
+package com.kse.authentication.process
 
-import com.ing.baker.recipe.scaladsl._
+import akka.actor.ActorSystem
+import akka.testkit.TestKit
+import com.ing.baker.il.CompiledRecipe
+import com.ing.baker.runtime.core.{Baker, RuntimeEvent}
+import com.ing.baker.types.{Converters, Value}
+import com.typesafe.config.{Config, ConfigFactory}
+import org.mockito.Matchers._
+import org.mockito.Mockito._
+import org.scalatest._
+import org.scalatest.mockito.MockitoSugar
 
-object EventTypes {
+import scala.concurrent.duration._
+import scala.language.postfixOps
 
-  /**
-   * `authentication request`
-   */
-  val authRequested = Event(IngredientTypes.endUserId)
+class PrincipalAuthenticationSpec extends BakerRuntimeTestBase {
 
-  /**
-   *
-   */
-  val assetPossessionChallengeCreated = Event(IngredientTypes.assetPossessionChallenge)
-
-  /**
-   *
-   */
-  val assetPossessionChallengeProven = Event(IngredientTypes.assetPossessionChallengeProof)
-
-  /**
-   *
-   */
-  val assetPossessionChallengeExpired = Event(IngredientTypes.assetPossessionChallengeExpiration)
+  override def actorSystemName: String = "principalAuthentication"
 }

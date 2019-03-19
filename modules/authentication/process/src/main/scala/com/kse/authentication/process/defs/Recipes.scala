@@ -16,27 +16,12 @@
 
 package com.kse.authentication.process.defs
 
-import com.ing.baker.recipe.scaladsl._
+import com.ing.baker.recipe.scaladsl.Recipe
 
-object EventTypes {
+object Recipes {
 
-  /**
-   * `authentication request`
-   */
-  val authRequested = Event(IngredientTypes.endUserId)
+  val recipe_AuthenticationByAssetPossession = Recipe()
+    .withSensoryEvent(EventTypes.authRequested)
+    .withInteractions(InteractionTypes.generateAssetPossessionChallenge)
 
-  /**
-   *
-   */
-  val assetPossessionChallengeCreated = Event(IngredientTypes.assetPossessionChallenge)
-
-  /**
-   *
-   */
-  val assetPossessionChallengeProven = Event(IngredientTypes.assetPossessionChallengeProof)
-
-  /**
-   *
-   */
-  val assetPossessionChallengeExpired = Event(IngredientTypes.assetPossessionChallengeExpiration)
 }
