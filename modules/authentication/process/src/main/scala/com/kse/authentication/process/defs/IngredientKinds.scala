@@ -18,7 +18,7 @@ package com.kse.authentication.process.defs
 
 import com.ing.baker.recipe.scaladsl._
 
-object IngredientTypes {
+object IngredientKinds {
 
   val endUserId = Ingredient[domain.EndUserId]("endUserId")
 

@@ -17,7 +17,7 @@
 package com.kse.authentication.process.impls
 
 import com.kse.process._
-import com.kse.authentication.process.defs.InteractionTypes
+import com.kse.authentication.process.defs.InteractionKinds
 import com.kse.authentication.process.defs.domain
 
 object Interactions {
@@ -25,7 +25,10 @@ object Interactions {
   trait GenerateAssetPossessionChallenge
       extends interactions.Impl[domain.AssetPossessionChallengeOutcome] {
 
-    val name = InteractionTypes.names.generateAssetPossessionChallenge
+    /**
+      * #todo could also use [[InteractionKinds.generateAssetPossessionChallenge.name]] but refactoring would break running processes
+      */
+    val name = InteractionKinds.names.generateAssetPossessionChallenge
 
     def apply(in: domain.EndUserId): domain.AssetPossessionChallengeOutcome = {
       if (in.id != null)

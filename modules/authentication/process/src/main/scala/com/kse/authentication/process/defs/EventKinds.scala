@@ -18,25 +18,25 @@ package com.kse.authentication.process.defs
 
 import com.ing.baker.recipe.scaladsl._
 
-object EventTypes {
+object EventKinds {
 
   /**
    * `authentication request`
    */
-  val authRequested = Event(IngredientTypes.endUserId)
+  val authRequested = Event(IngredientKinds.endUserId)
 
   /**
    *
    */
-  val assetPossessionChallengeCreated = Event(IngredientTypes.assetPossessionChallenge)
+  val assetPossessionChallengeCreated = Event(IngredientKinds.assetPossessionChallenge)
 
   /**
    *
    */
-  val assetPossessionChallengeProven = Event(IngredientTypes.assetPossessionChallengeProof)
+  val assetPossessionChallengeProven = Event(IngredientKinds.assetPossessionChallengeProof)
 
   /**
    *
    */
-  val assetPossessionChallengeExpired = Event(IngredientTypes.assetPossessionChallengeExpiration)
+  val assetPossessionChallengeExpired = Event(IngredientKinds.assetPossessionChallengeExpiration)
 }

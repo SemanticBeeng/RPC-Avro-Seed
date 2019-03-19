@@ -18,7 +18,7 @@ package com.kse.authentication.process.defs
 
 import com.ing.baker.recipe.scaladsl.Interaction
 
-object InteractionTypes {
+object InteractionKinds {
 
   object names {
     val generateAssetPossessionChallenge = "generateAssetPossessionChallenge"
@@ -27,9 +27,9 @@ object InteractionTypes {
   val generateAssetPossessionChallenge =
     Interaction(
       name = names.generateAssetPossessionChallenge,
-      inputIngredients = Seq(IngredientTypes.endUserId),
+      inputIngredients = Seq(IngredientKinds.endUserId),
       output =
-        Seq(EventTypes.assetPossessionChallengeProven, EventTypes.assetPossessionChallengeExpired)
+        Seq(EventKinds.assetPossessionChallengeProven, EventKinds.assetPossessionChallengeExpired)
     )
 
 }
