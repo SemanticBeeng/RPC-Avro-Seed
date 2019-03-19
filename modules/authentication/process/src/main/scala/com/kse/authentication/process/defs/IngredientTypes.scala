@@ -16,7 +16,6 @@
 
 package com.kse.authentication.process.defs
 
-import com.ing.baker.recipe.common._
 import com.ing.baker.recipe.scaladsl._
 
 object IngredientTypes {
@@ -29,5 +28,5 @@ object IngredientTypes {
 
   val assetPossessionChallengeProof = Ingredient[AssetPossessionChallengeProof]
 
-  val assetPossessionChallengeExpired = Ingredient[AssetPossessionChallengeExpired]
+  val assetPossessionChallengeExpiration = Ingredient[AssetPossessionChallengeExpiration]
 }

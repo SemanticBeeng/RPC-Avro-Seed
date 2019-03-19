@@ -18,8 +18,11 @@ package com.kse.authentication.process.defs
 
 import java.time.{Duration, Instant}
 
-object domain {
+object tech {
 
+  /**
+   * The `Ubiq` `technical domain` `bounded context`
+   */
   object ubiqu {
 
     case class InvocationHandle(value: String)
@@ -27,6 +30,9 @@ object domain {
       def handle: InvocationHandle
     }
   }
+}
+
+object domain {
 
   case class EndUerId(id: String)
 
@@ -35,23 +41,36 @@ object domain {
 
   type AuthenticationAssetIdentifier = String
 
+  trait AuthenticationChallenge {
+    def created: Instant
+    def expiry: Duration
+  }
+
+  trait AuthWithNonce {
+    def nonce: Nonce
+  }
+
   case class AssetPossessionChallenge(
-      handle: domain.ubiqu.InvocationHandle,
+      handle: tech.ubiqu.InvocationHandle,
       nonce: Nonce,
       nonceReadable: NonceReadable,
       created: Instant,
       expiry: Duration)
-      extends domain.ubiqu.Call
+      extends AuthenticationChallenge
+      with AuthWithNonce
+      with tech.ubiqu.Call
 
   case class AssetPossessionChallengeProof(
-      handle: domain.ubiqu.InvocationHandle,
+      handle: tech.ubiqu.InvocationHandle,
       nonce: Nonce,
       assetId: AuthenticationAssetIdentifier)
-      extends domain.ubiqu.Call
+      extends AuthWithNonce
+      with tech.ubiqu.Call
 
-  case class AssetPossessionChallengeExpired(
-      handle: domain.ubiqu.InvocationHandle,
+  case class AssetPossessionChallengeExpiration(
+      handle: tech.ubiqu.InvocationHandle,
       nonce: Nonce,
       expired: Instant)
-      extends domain.ubiqu.Call
+      extends AuthWithNonce
+      with tech.ubiqu.Call
 }

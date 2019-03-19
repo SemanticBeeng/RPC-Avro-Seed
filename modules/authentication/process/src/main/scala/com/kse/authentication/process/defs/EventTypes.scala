@@ -16,7 +16,6 @@
 
 package com.kse.authentication.process.defs
 
-import com.ing.baker.recipe.common._
 import com.ing.baker.recipe.scaladsl._
 
 object EventTypes {
@@ -38,5 +37,5 @@ object EventTypes {
   /**
    *
    */
-  val authChallengeExpired = Event(assetPossessionChallengeExpired)
+  val authChallengeExpired = Event(assetPossessionChallengeExpiration)
 }
