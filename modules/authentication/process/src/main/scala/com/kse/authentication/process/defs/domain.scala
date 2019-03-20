@@ -27,6 +27,11 @@ object domain {
     def nonce: shared.domain.Nonce
   }
 
+  import com.kse.process.interactions
+
+  trait AssetPossessionChallengeOutcome extends interactions.Outcome
+  //trait NoOutcome                       extends Unit with AssetPossessionChallengeOutcome
+
   case class AssetPossessionChallenge(
       handle: tech.ubiqu.InvocationHandle,
       nonce: shared.domain.Nonce,
@@ -35,11 +40,8 @@ object domain {
       expiry: Duration)
       extends shared.domain.AuthenticationChallenge
       with AuthWithNonce
+      with AssetPossessionChallengeOutcome
       with tech.ubiqu.Call
-
-  import com.kse.process.interactions
-
-  trait AssetPossessionChallengeOutcome extends interactions.Outcome
 
   case class AssetPossessionChallengeProof(
       handle: tech.ubiqu.InvocationHandle,

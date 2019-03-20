@@ -22,6 +22,10 @@ object InteractionKinds {
 
   object names {
     val generateAssetPossessionChallenge = "generateAssetPossessionChallenge"
+
+    val handlePossessionChallengeProven = "handlePossessionChallengeProven"
+
+    val handlePossessionChallengeExpired = "handlePossessionChallengeExpired"
   }
 
   val generateAssetPossessionChallenge =
@@ -32,4 +36,17 @@ object InteractionKinds {
         Seq(EventKinds.assetPossessionChallengeProven, EventKinds.assetPossessionChallengeExpired)
     )
 
+  val handlePossessionChallengeProven =
+    Interaction(
+      name = names.handlePossessionChallengeProven,
+      inputIngredients = Seq(IngredientKinds.assetPossessionChallengeProof),
+      output = Seq.empty
+    )
+
+  val handlePossessionChallengeExpired =
+    Interaction(
+      name = names.handlePossessionChallengeExpired,
+      inputIngredients = Seq(IngredientKinds.assetPossessionChallengeExpiration),
+      output = Seq.empty
+    )
 }

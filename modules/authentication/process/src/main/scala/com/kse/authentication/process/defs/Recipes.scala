@@ -21,7 +21,15 @@ import com.ing.baker.recipe.scaladsl.Recipe
 object Recipes {
 
   val recipe_AuthenticationByAssetPossession = Recipe()
-    .withSensoryEvent(EventKinds.authRequested)
-    .withInteractions(InteractionKinds.generateAssetPossessionChallenge)
+    .withSensoryEvents(
+      EventKinds.authRequested,
+      EventKinds.assetPossessionChallengeCreated,
+      EventKinds.assetPossessionChallengeProven,
+      EventKinds.assetPossessionChallengeExpired
+    )
+    .withInteractions(
+      InteractionKinds.generateAssetPossessionChallenge,
+      InteractionKinds.handlePossessionChallengeProven,
+      InteractionKinds.handlePossessionChallengeExpired)
 
 }

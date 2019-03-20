@@ -26,15 +26,33 @@ object Interactions {
       extends interactions.Impl[defs.domain.AssetPossessionChallengeOutcome] {
 
     /**
-     * #todo could also use [[defs.InteractionKinds.generateAssetPossessionChallenge.name]] but refactoring would break running processes
+     * #todo could also use [[defs.InteractionKinds.generateAssetPossessionChallenge.name]] but refactoring
+     * would break running processes
      */
     val name = defs.InteractionKinds.names.generateAssetPossessionChallenge
 
-    def apply(in: shared.domain.EndUserId): defs.domain.AssetPossessionChallengeOutcome = {
-      if (in.id != null)
-        defs.domain.AssetPossessionChallengeProof(null, null, "")
-      else
-        defs.domain.AssetPossessionChallengeExpiration(null, null, null)
-    }
+    def apply(in: shared.domain.EndUserId): defs.domain.AssetPossessionChallengeOutcome =
+      defs.domain.AssetPossessionChallenge(null, null, "", null, null)
+//      if (in.id != null)
+//        defs.domain.AssetPossessionChallengeProof(null, null, "")
+//      else
+//        defs.domain.AssetPossessionChallengeExpiration(null, null, null)
+  }
+
+  trait HandlePossessionChallengeProven extends interactions.Impl[ /*defs.domain.NoOutcome*/ Unit] {
+
+    val name = defs.InteractionKinds.names.handlePossessionChallengeProven
+
+    def apply(in: defs.domain.AssetPossessionChallengeProof): Unit =
+      ()
+  }
+
+  trait HandlePossessionChallengeExpired
+      extends interactions.Impl[ /*defs.domain.NoOutcome*/ Unit] {
+
+    val name = defs.InteractionKinds.names.handlePossessionChallengeExpired
+
+    def apply(in: defs.domain.AssetPossessionChallengeExpiration): Unit =
+      ()
   }
 }
