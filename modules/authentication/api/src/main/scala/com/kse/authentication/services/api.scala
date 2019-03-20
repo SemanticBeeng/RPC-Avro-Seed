@@ -26,8 +26,8 @@ import shapeless.{:+:, CNil}
 //@option("java_outer_classname", "AuthenticationApiProto")
 object api {
 
+  import com.kse.authentication.shared.domain
   import com.kse.session.services.api._
-  import com.kse.authentication.domain
 
   sealed trait AuthR extends Product with Serializable
 

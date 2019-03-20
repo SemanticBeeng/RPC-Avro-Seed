@@ -16,11 +16,13 @@
 
 package com.kse.authentication.process.defs
 
+import com.kse.authentication.shared
+
 import com.ing.baker.recipe.scaladsl._
 
 object IngredientKinds {
 
-  val endUserId = Ingredient[domain.EndUserId]("endUserId")
+  val endUserId = Ingredient[shared.domain.EndUserId]("endUserId")
 
   val assetPossessionChallenge = Ingredient[domain.AssetPossessionChallenge]
 

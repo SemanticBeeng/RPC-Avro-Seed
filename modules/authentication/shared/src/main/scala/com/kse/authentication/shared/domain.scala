@@ -14,11 +14,25 @@
  * limitations under the License.
  */
 
-package com.kse.authentication
+package com.kse.authentication.shared
+
+import java.time.{Duration, Instant}
 
 object domain {
 
   type IDToken = String
+
+  case class EndUserId(id: String)
+
+  type Nonce         = sun.security.krb5.internal.crypto.Nonce
+  type NonceReadable = String
+
+  type AuthenticationAssetIdentifier = String
+
+  trait AuthenticationChallenge {
+    def created: Instant
+    def expiry: Duration
+  }
 
   sealed trait Error extends Product with Serializable {
     def msg: String
@@ -26,4 +40,18 @@ object domain {
 
   case class AuthenticationError(reason: String)
 
+}
+
+object tech {
+
+  /**
+   * The `Ubiq` `technical domain` `bounded context`
+   */
+  object ubiqu {
+
+    case class InvocationHandle(value: String)
+    trait Call {
+      def handle: InvocationHandle
+    }
+  }
 }

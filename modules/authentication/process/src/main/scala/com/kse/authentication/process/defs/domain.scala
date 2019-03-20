@@ -18,45 +18,22 @@ package com.kse.authentication.process.defs
 
 import java.time.{Duration, Instant}
 
-object tech {
-
-  /**
-   * The `Ubiq` `technical domain` `bounded context`
-   */
-  object ubiqu {
-
-    case class InvocationHandle(value: String)
-    trait Call {
-      def handle: InvocationHandle
-    }
-  }
-}
-
 object domain {
 
-  case class EndUserId(id: String)
-
-  type Nonce         = sun.security.krb5.internal.crypto.Nonce
-  type NonceReadable = String
-
-  type AuthenticationAssetIdentifier = String
-
-  trait AuthenticationChallenge {
-    def created: Instant
-    def expiry: Duration
-  }
+  import com.kse.authentication._
+  import com.kse.authentication.shared.tech
 
   trait AuthWithNonce {
-    def nonce: Nonce
+    def nonce: shared.domain.Nonce
   }
 
   case class AssetPossessionChallenge(
       handle: tech.ubiqu.InvocationHandle,
-      nonce: Nonce,
-      nonceReadable: NonceReadable,
+      nonce: shared.domain.Nonce,
+      nonceReadable: shared.domain.NonceReadable,
       created: Instant,
       expiry: Duration)
-      extends AuthenticationChallenge
+      extends shared.domain.AuthenticationChallenge
       with AuthWithNonce
       with tech.ubiqu.Call
 
@@ -66,15 +43,15 @@ object domain {
 
   case class AssetPossessionChallengeProof(
       handle: tech.ubiqu.InvocationHandle,
-      nonce: Nonce,
-      assetId: AuthenticationAssetIdentifier)
+      nonce: shared.domain.Nonce,
+      assetId: shared.domain.AuthenticationAssetIdentifier)
       extends AuthWithNonce
       with AssetPossessionChallengeOutcome
       with tech.ubiqu.Call
 
   case class AssetPossessionChallengeExpiration(
       handle: tech.ubiqu.InvocationHandle,
-      nonce: Nonce,
+      nonce: shared.domain.Nonce,
       expired: Instant)
       extends AuthWithNonce
       with AssetPossessionChallengeOutcome

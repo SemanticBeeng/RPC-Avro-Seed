@@ -18,10 +18,10 @@ package com.kse.authentication.services.shared
 
 import cats.effect.Sync
 import cats.tagless._
+import com.kse.authentication.shared.domain
 //import freestyle.free._
 //import freestyle.tagless._
 //
-import com.kse.authentication.domain
 import com.kse.session.{domain ⇒ sesson_domain}
 import io.chrisdavenport.log4cats.Logger
 

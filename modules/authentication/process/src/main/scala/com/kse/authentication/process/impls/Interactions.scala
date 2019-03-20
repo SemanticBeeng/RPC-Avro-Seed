@@ -17,24 +17,24 @@
 package com.kse.authentication.process.impls
 
 import com.kse.process._
-import com.kse.authentication.process.defs.InteractionKinds
-import com.kse.authentication.process.defs.domain
+import com.kse.authentication.process.defs
+import com.kse.authentication.shared
 
 object Interactions {
 
   trait GenerateAssetPossessionChallenge
-      extends interactions.Impl[domain.AssetPossessionChallengeOutcome] {
+      extends interactions.Impl[defs.domain.AssetPossessionChallengeOutcome] {
 
     /**
-      * #todo could also use [[InteractionKinds.generateAssetPossessionChallenge.name]] but refactoring would break running processes
-      */
-    val name = InteractionKinds.names.generateAssetPossessionChallenge
+     * #todo could also use [[defs.InteractionKinds.generateAssetPossessionChallenge.name]] but refactoring would break running processes
+     */
+    val name = defs.InteractionKinds.names.generateAssetPossessionChallenge
 
-    def apply(in: domain.EndUserId): domain.AssetPossessionChallengeOutcome = {
+    def apply(in: shared.domain.EndUserId): defs.domain.AssetPossessionChallengeOutcome = {
       if (in.id != null)
-        domain.AssetPossessionChallengeProof(null, null, "")
+        defs.domain.AssetPossessionChallengeProof(null, null, "")
       else
-        domain.AssetPossessionChallengeExpiration(null, null, null)
+        defs.domain.AssetPossessionChallengeExpiration(null, null, null)
     }
   }
 }

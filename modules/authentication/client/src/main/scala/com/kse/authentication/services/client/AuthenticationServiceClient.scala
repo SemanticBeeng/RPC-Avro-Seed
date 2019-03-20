@@ -18,12 +18,12 @@ package com.kse.authentication.services.client
 
 import cats.effect._
 import cats.syntax.applicative._
+import com.kse.authentication.shared.domain
 import com.kse.shared.services.client.ClientRPC
 import io.chrisdavenport.log4cats.Logger
 import io.grpc.{CallOptions, ManagedChannel}
 //
 import com.kse.session.{domain ⇒ sess_domain}
-import com.kse.authentication.domain
 import com.kse.authentication.services.api
 import com.kse.authentication.services.shared
 

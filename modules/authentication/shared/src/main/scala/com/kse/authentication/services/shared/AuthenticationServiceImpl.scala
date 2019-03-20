@@ -35,9 +35,9 @@ package com.kse.authentication.services.shared
 import cats.effect._
 import cats.syntax.functor._
 import cats.syntax.flatMap._
+import com.kse.authentication.shared.domain
 //import cats.syntax.apply._
 //
-import com.kse.authentication.domain
 import com.kse.session.{domain ⇒ sesson_domain}
 
 //
