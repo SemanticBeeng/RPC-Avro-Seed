@@ -27,7 +27,7 @@ lazy val server_common = project in file("server/modules/common")
 
 lazy val server_protocol = project in file("server/modules/protocol") settings serverProtocolSettings
 
-lazy val server_process = project in file("server/modules/process") settings serverSettings dependsOn (server_common, server_protocol)
+lazy val server_process = project in file("server/modules/process") settings serverProcessSettings dependsOn (server_common, server_protocol)
 
 lazy val server_app = project in file("server/modules/app") settings serverAppSettings dependsOn (server_process, config)
 
@@ -81,7 +81,7 @@ addCommandAlias("runClient", "client_app/runMain com.adrianrafo.seed.client.app.
 lazy val allRootModules: Seq[ProjectReference] = Seq(
   shared,
   client,
-  server,
+  server
 )
 
 lazy val allRootModulesDeps: Seq[ClasspathDependency] =
