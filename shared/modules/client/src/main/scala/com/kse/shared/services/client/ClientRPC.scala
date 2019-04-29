@@ -57,7 +57,8 @@ object ClientRPC {
       fromChannel: F[ManagedChannel] => Resource[F, Client[F]])(
       implicit F: ConcurrentEffect[F],
       TM: Timer[F],
-      EC: ExecutionContext): fs2.Stream[F, ClientCache[Client, F]] = {
+      EC: ExecutionContext
+  ): fs2.Stream[F, ClientCache[Client, F]] = {
 
     def serviceClient(hostname: String, port: Int): Resource[F, Client[F]] = {
 

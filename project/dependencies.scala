@@ -10,7 +10,7 @@ object dependencies {
       val betterMonadicFor = "0.2.4"
       val log4cats       = "0.2.0"
       val logbackClassic = "1.2.3"
-      val muRPC          = "0.17.2"
+      val muRPC          = "0.18.1-SNAPSHOT"
       val frees          = "0.8.3-SNAPSHOT"
       val monix          = "3.0.0-RC2"
       val scopt          = "3.7.0"
