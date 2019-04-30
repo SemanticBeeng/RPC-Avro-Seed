@@ -52,7 +52,7 @@ object ProjectPlugin extends AutoPlugin {
   override def projectSettings: Seq[Def.Setting[_]] =
     Seq(
       organizationName := "KSE",
-      scalaVersion := "2.12.7",
+      scalaVersion := "2.12.8",
       scalacOptions := commonScalacOptions ++ Seq("-Xmax-classfile-name", "128"),
 //      scalacOptions in(Compile, console) ~= {
 //        _.filterNot(unusedWarnings.toSet + "-Ywarn-value-discard")
@@ -97,6 +97,7 @@ object ProjectPlugin extends AutoPlugin {
         "-Ypartial-unification",
         "-Xmacro-settings:materialize-derivations" // https://pureconfig.github.io/docs/faq.html
         //"-Xplugin-require:macroparadise"
+        ,"-Xlog-implicits"
       ) //++ unusedWarnings
 
   lazy val unusedWarnings = Seq("-Ywarn-unused", "-Ywarn-unused-import")

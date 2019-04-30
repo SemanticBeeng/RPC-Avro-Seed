@@ -55,13 +55,13 @@ object PeopleServiceClient {
 
     }
 
-  def createClient[F[_]: Effect](
+  def createClient[F[_]: ContextShift: Logger](
       hostname: String,
       port: Int,
       sslEnabled: Boolean = true,
       tryToRemoveUnusedEvery: FiniteDuration,
       removeUnusedAfter: FiniteDuration)(
-      implicit L: Logger[F],
+      implicit //L: Logger[F],
       F: ConcurrentEffect[F],
       TM: Timer[F],
       EC: ExecutionContext): fs2.Stream[F, PeopleServiceClient[F]] = {

@@ -40,14 +40,13 @@ object AuthenticationServiceClient {
       override def authenticate(email: String): F[Either[domain.Error, sess_domain.Session]] = ???
     }
 
-  def createClient[F[_]: Effect](
+  def createClient[F[_]: ContextShift: Logger](
       hostname: String,
       port: Int,
       sslEnabled: Boolean = true,
       tryToRemoveUnusedEvery: FiniteDuration,
       removeUnusedAfter: FiniteDuration)(
-      implicit L: Logger[F],
-      F: ConcurrentEffect[F],
+      implicit /*L: Logger[F],*/ F: ConcurrentEffect[F],
       TM: Timer[F],
       EC: ExecutionContext): fs2.Stream[F, shared.algebra.AuthenticationService[F]] = {
 

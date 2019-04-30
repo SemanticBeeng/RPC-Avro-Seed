@@ -49,7 +49,7 @@ import scala.concurrent.duration.FiniteDuration
  */
 object ClientRPC {
 
-  def clientCache[F[_], Client[_[_]]](
+  def clientCache[F[_]: ContextShift, Client[_[_]]](
       hostAndPort: F[HostPort],
       sslEnabled: Boolean,
       tryToRemoveUnusedEvery: FiniteDuration,
