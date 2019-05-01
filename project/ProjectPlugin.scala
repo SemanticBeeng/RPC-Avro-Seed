@@ -97,7 +97,7 @@ object ProjectPlugin extends AutoPlugin {
         "-Ypartial-unification",
         "-Xmacro-settings:materialize-derivations" // https://pureconfig.github.io/docs/faq.html
         //"-Xplugin-require:macroparadise"
-        ,"-Xlog-implicits"
+        //,"-Xlog-implicits"
       ) //++ unusedWarnings
 
   lazy val unusedWarnings = Seq("-Ywarn-unused", "-Ywarn-unused-import")
