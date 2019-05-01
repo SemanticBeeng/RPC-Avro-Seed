@@ -28,10 +28,12 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration._
 import scala.language.postfixOps
 
-class ClientProgram[F[_]: ConcurrentEffect: ContextShift] extends ClientBoot[F] {
+class ClientProgram[F[_]: /*ConcurrentEffect: */ ContextShift] extends ClientBoot[F] {
 
-  def peopleServiceClient(host: String, port: Int)(implicit L: Logger[F], TM: Timer[F] /*,
-      F: ConcurrentEffect[F]*/ ): Stream[F, PeopleServiceClient[F]] =
+  def peopleServiceClient(host: String, port: Int)(
+      implicit L: Logger[F],
+      TM: Timer[F],
+      F: ConcurrentEffect[F]): Stream[F, PeopleServiceClient[F]] =
     PeopleServiceClient.createClient(
       host,
       port,
