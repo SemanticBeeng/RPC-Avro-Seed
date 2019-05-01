@@ -27,10 +27,10 @@ import io.chrisdavenport.log4cats.slf4j.Slf4jLogger
 import com.adrianrafo.seed.config.domain._
 import com.adrianrafo.seed.config.ConfigService
 
-abstract class ClientBoot[F[_]: Effect] {
+abstract class ClientBoot[F[_]: ContextShift] {
 
   def program(
-      args: List[String])(implicit TM: Timer[F], CE: ConcurrentEffect[F]): Stream[F, ExitCode] = {
+      args: List[String])(implicit TM: Timer[F], F: ConcurrentEffect[F]): Stream[F, ExitCode] = {
 
     def setupConfig: F[ClientAppConfig] =
       ConfigService[F]
@@ -40,7 +40,7 @@ abstract class ClientBoot[F[_]: Effect] {
     for {
       config   <- Stream.eval(setupConfig)
       logger   <- Stream.eval(Slf4jLogger.fromName[F](config.client.name))
-      exitCode <- clientProgram(config)(logger, TM, CE)
+      exitCode <- clientProgram(config)(logger, TM, F)
     } yield exitCode
   }
 
